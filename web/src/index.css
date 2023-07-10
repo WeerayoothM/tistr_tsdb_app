@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@font-face {
+  font-family: "srb_100";
+  src: local("Sarabun_100"),
+    url("./assets/font/Sarabun_100.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_200";
+  src: local("Sarabun_200"),
+    url("./assets/font/Sarabun_200.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_300";
+  src: local("Sarabun_300"),
+    url("./assets/font/Sarabun_300.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_400";
+  src: local("Sarabun_400"),
+    url("./assets/font/Sarabun_400.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_500";
+  src: local("Sarabun_500"),
+    url("./assets/font/Sarabun_500.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_600";
+  src: local("Sarabun_600"),
+    url("./assets/font/Sarabun_600.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_700";
+  src: local("Sarabun_700"),
+    url("./assets/font/Sarabun_700.ttf") format("truetype");
+}
+@font-face {
+  font-family: "srb_800";
+  src: local("Sarabun_800"),
+    url("./assets/font/Sarabun_800.ttf") format("truetype");
+}
+
+@tailwind base;
+@layer base {
+  html {
+    @apply font-inter;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  /* font-family: 'LINESeedSansTH_Bd'; */
+}
+
+body {
+  margin: 0;
+}
+
+-webkit-scrollbar {
+  display: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.link-box {
+  box-shadow: 1px -20px 74px 19px rgba(255, 255, 255, 0.74);
+  -webkit-box-shadow: 1px -20px 74px 19px rgba(255, 255, 255, 0.74);
+  -moz-box-shadow: 1px -20px 74px 19px rgba(255, 255, 255, 0.74);
+}
+
+.image-blurred-edge {
+  box-shadow: 0px -20px 40px 19px white inset;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: lightcoral;
+}
+.sidebar {
+  position: absolute;
+  left: -100vw;
+  height: 100%;
+  width: 100vw;
+  transition: left 0.3s ease-in-out;
+  background-color: #222255;
+  z-index: 1;
+}
+.content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 100%;
+  transition: left 0.3s ease-in-out;
+  background-color: #222255;
+}
+.sidebar.open {
+  left: 0;
+}
+.content.open {
+  left: 15vw;
+}
+.MuiTabPanel-root {
+  height: 100%;
+}

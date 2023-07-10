@@ -1,0 +1,43 @@
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const Header: React.FC = () => {
+  const [sidebarOpen, setSideBarOpen] = useState(false);
+  const navigate = useNavigate();
+  const [toggleLogout, setToggleLogout] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  useEffect(() => {}, []);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div className="z-[3] bsd h-[107px]">
+      {/* desktop nav */}
+      <div className="bg-[#ffffff] font-srb-700 font-lineRg left-0 flex justify-between items-center px-[1.5em] py-[1em] text-[24px]">
+        <div className="flex justify-center text-[35px] items-center text-[#1265DC]">
+          แดชบอร์ด
+        </div>
+        <div className="flex items-center gap-[1em]">
+          <div className="w-[59px] h-[59px] bg-[#D9D9D9] rounded-[20px]"></div>
+          <div className="text-[15px] font-srb-600 text-[#666666]">
+            <div>แก้วตา ดวงใจ</div>
+            <div>แอดมิน</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default observer(Header);
