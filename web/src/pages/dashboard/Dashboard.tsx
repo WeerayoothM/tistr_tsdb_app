@@ -123,6 +123,30 @@ const Dashboard = () => {
               alignDirection="center"
             />
           </div>
+          <div className="mt-[1rem]">
+            <CardWithHeader
+              headerColor={"#E76F2D"}
+              headerTitle={"สถานะโครงการรวมทั้งหมด"}
+              data={data4}
+              direction="vertical"
+              unit="บาท"
+              alignDirection="center"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 mt-[1rem] gap-[1rem]">
+        <div className="col-span-2">
+          <CardWithHeader
+            headerColor={"#35796C"}
+            headerTitle={"สัญญาโครงการทั้งหมด"}
+          />
+        </div>
+        <div className="col-span-1">
+          <CardWithHeader
+            headerColor={"#E38C33"}
+            headerTitle={"ผลผลิต / ผลลัพธ์โครงการภายในรวม"}
+          />
         </div>
       </div>
     </motion.div>

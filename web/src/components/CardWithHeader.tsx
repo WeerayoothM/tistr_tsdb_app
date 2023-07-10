@@ -28,7 +28,9 @@ const CardWithHeader: React.FC<Props> = ({
     <div className={`bg-white rounded-[8px] w-full h-full bsd`}>
       {headerTitle && (
         <div
-          className={`font-srb-700 text-[17px] text-white rounded-t-[8px] px-[1rem] py-[0.5rem]`}
+          className={`font-srb-700 text-[17px] text-white rounded-t-[8px] ${
+            isEmpty(data) ? "rounded-b-[8px]" : ""
+          } px-[1rem] py-[0.5rem]`}
           style={{ backgroundColor: `${headerColor}` }}
         >
           {headerTitle}
