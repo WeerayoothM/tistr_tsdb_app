@@ -4,6 +4,6 @@ import camelcaseKeys from "camelcase-keys";
 const apiEndPoint = import.meta.env.VITE_API_ENDPOINT;
 
 export const userLogin = async (payload: any) => {
-  const response = await axios.post(`${apiEndPoint}/api/user/login`, payload);
+  const response = await axios.post(`${apiEndPoint}/login`, payload);
   return camelcaseKeys(response, { deep: true });
 };

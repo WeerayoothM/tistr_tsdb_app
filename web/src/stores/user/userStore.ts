@@ -7,6 +7,7 @@ import {
 } from "mobx";
 import { userLogin } from "./APIS/index";
 import { getToken, removeToken, setToken } from "../../utils/localStorage";
+import { isEmpty } from "lodash";
 
 export interface IUserStore {
   role: string;
@@ -28,12 +29,14 @@ export class UserStore implements IUserStore {
   async login(payload: LoginPayload) {
     try {
       const resp = await userLogin(payload);
-      if (!resp?.data.token) return;
-      setToken(resp?.data.token);
+      // if (!resp?.data.token) return;
+      // setToken(resp?.data.token);
+      // this.role = resp?.data.role.name;
 
-      this.role = resp?.data.role.name;
+      if (isEmpty(resp.data)) return { success: false };
+      return { success: true };
     } catch (e: any) {
-      return e;
+      return { success: false };
       // console.log("login error:", e);
     }
   }

@@ -4,11 +4,18 @@ import { motion } from "framer-motion";
 import { scrollTop } from "../../utils/helper";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { useStore } from "../../stores/stores";
+import { get } from "lodash";
 
 const Login = () => {
   const [formData, setFormData] = useState<{
     [key: string]: string;
   }>({});
+
+  const [isPerform, setIsPerform] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const userStore = useStore("userStore");
 
   const navigate = useNavigate();
 
@@ -30,15 +37,42 @@ const Login = () => {
   }, []);
 
   const handleChangeInput = (e: any) => {
+    setErrorMessage("");
     const value = e.target.value;
     const name = e.target.name;
 
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    navigate("/dashboard");
+  const handleSubmit = async (e: any) => {
+    try {
+      e.preventDefault();
+      setIsPerform(false);
+      if (!formData.username || !formData.password) {
+        setErrorMessage("Username or password is invalid");
+        return;
+      }
+      const payload = {
+        username: formData.username,
+        password: formData.password,
+      };
+
+      const resp = await userStore.login(payload);
+      console.log("res", resp);
+
+      if (!resp?.success) {
+        setIsPerform(false);
+        setErrorMessage("Username or password is invalid");
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
+        return;
+      }
+      navigate("/dashboard");
+    } catch (e) {
+      console.log(e);
+      setErrorMessage("Something went wrong");
+    }
   };
 
   return (
@@ -66,7 +100,7 @@ const Login = () => {
               </div>
             </div>
           ))}
-
+          {errorMessage && <div className="text-[#FF5757]">{errorMessage}</div>}
           <div className="text-white mb-[2rem] flex justify-end cursor-pointer">
             ลืมรหัสผ่าน?
           </div>
