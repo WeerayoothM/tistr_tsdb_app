@@ -7,12 +7,13 @@ import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { FontAwesome } from "@expo/vector-icons";
 import { formatDate } from "@/utils/date";
+import { StatusBar } from "expo-status-bar";
 
 export default function TabDashboardScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View>
+        <View style={{ backgroundColor: COLOR.OFFWHITE }}>
           <ImageBackground
             source={require("../../assets/images/header_bg.png")}
             style={{

@@ -34,7 +34,7 @@ export default function Accout() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ flex: 1 }}>
           <ImageBackground

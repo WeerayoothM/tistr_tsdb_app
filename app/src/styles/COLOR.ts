@@ -28,7 +28,7 @@ export const COLOR = {
 
   ORANGE: "#FFB347",
 
-  TRANSPARENT: "transparent",
+  TRANSPARENT: "rgba(255,255,255,0)",
 };
 
 export const SHADOW = {

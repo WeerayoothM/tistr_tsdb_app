@@ -8,6 +8,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { AuthProvider } from "../src/context/AuthProvider";
+import { StatusBar } from "expo-status-bar";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,6 +50,8 @@ function RootLayoutNav() {
 
   return (
     <>
+      <StatusBar style={"auto"} />
+
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <AuthProvider>
           <Stack screenOptions={{ headerShown: false }}>

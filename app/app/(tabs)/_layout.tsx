@@ -37,7 +37,12 @@ export default function TabLayout() {
         tabBarActiveTintColor: COLOR.DARKBLUE,
         tabBarInactiveTintColor: COLOR.LIGHTGRAY,
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: COLOR.WHITE,
+          borderTopWidth: 0,
+        },
       }}
+      // tabBar={tab}
     >
       <Tabs.Screen
         name="dashboard"
@@ -47,6 +52,15 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <XIconDashboard color={color} width="20px" height="20px" />
           ),
+          headerShadowVisible: false, // applied here
+
+          // tabBarStyle: {
+          //   borderWidth: 2,
+          // },
+          // headerBackgroundContainerStyle: {
+          //   backgroundColor: COLOR.RED,
+          // },
+          // headerBackTitleVisible: false,
           // headerRight: () => (
           //   <Link href="/modal" asChild>
           //     <Pressable>

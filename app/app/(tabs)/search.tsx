@@ -8,9 +8,9 @@ import { TEXT } from "@/styles/TEXT";
 
 export default function Accout() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View>
+        <View style={{ backgroundColor: COLOR.OFFWHITE }}>
           <ImageBackground
             source={require("../../assets/images/header_search_bg.png")}
             style={{
@@ -24,7 +24,7 @@ export default function Accout() {
           <LinearGradient
             // Background Linear Gradient
             pointerEvents="none"
-            colors={[COLOR.TRANSPARENT, COLOR.WHITE]}
+            colors={[COLOR.TRANSPARENT, COLOR.OFFWHITE]}
             locations={[0, 1]}
             style={{
               position: "absolute",
