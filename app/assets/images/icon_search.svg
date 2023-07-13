@@ -1,0 +1,34 @@
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="26" height="26" fill="#F5F5F5"/>
+<rect id="Rectangle 180" x="-1073" y="-2618" width="6658" height="3753" rx="24" stroke="#BBBBBB" stroke-width="8"/>
+<g id="2.1 Dashboard &#224;&#184;&#160;&#224;&#184;&#178;&#224;&#184;&#162;&#224;&#185;&#131;&#224;&#184;&#153;" clip-path="url(#clip0_0_1)">
+<rect width="390" height="2462" transform="translate(-182 -2361)" fill="#F1F3F5"/>
+<g id="Menu">
+<g id="Rectangle 85" filter="url(#filter0_d_0_1)">
+<rect x="-182" y="-17" width="390" height="70" fill="white"/>
+</g>
+<g id="Group 362">
+<rect id="Rectangle 87" x="-52" y="-17" width="130" height="70" fill="white"/>
+<g id="Group 181">
+<circle id="Ellipse 28" cx="10.5" cy="10.5" r="9.75" stroke="#ADB5BD" stroke-width="1.5"/>
+<path id="Line 20" d="M20 20L25 25" stroke="#ADB5BD" stroke-width="1.5" stroke-linecap="round"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_1" x="-186" y="-22" width="398" height="78" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="-1"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
+</filter>
+<clipPath id="clip0_0_1">
+<rect width="390" height="2462" fill="white" transform="translate(-182 -2361)"/>
+</clipPath>
+</defs>
+</svg>
