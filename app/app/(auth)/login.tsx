@@ -26,14 +26,14 @@ export default function Login() {
       setErrorMessage("");
       setLoading(true);
 
-      // if (!username || !password) {
-      //   setErrorMessage("Username or password is invalid");
-      //   return;
-      // }
+      if (!username || !password) {
+        setErrorMessage("Username or password is invalid");
+        return;
+      }
 
       const payload = {
-        username: "user2",
-        password: "St4Ea0Sc",
+        username,
+        password,
       };
       const resp = await axios.post(
         "https://tsdb.duckdns.org:3022/login",
