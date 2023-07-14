@@ -26,7 +26,7 @@ export const COLOR = {
   BLUE: "#1265DC",
   DARKBLUE: "#13007D",
 
-  ORANGE: "#FFB347",
+  ORANGE: "#FFA500",
 
   TRANSPARENT: "rgba(255,255,255,0)",
 };

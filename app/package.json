@@ -2,16 +2,18 @@
   "name": "app",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "build:android": "eas build -p android"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/config-plugins": "~6.0.0",
     "@react-navigation/native": "^6.0.2",
     "axios": "^1.4.0",
     "expo": "~48.0.18",
@@ -34,7 +36,9 @@
     "react-native-screens": "~3.20.0",
     "react-native-svg": "13.4.0",
     "react-native-svg-transformer": "^1.0.0",
-    "react-native-web": "~0.18.10"
+    "react-native-web": "~0.18.10",
+    "expo-constants": "~14.2.1",
+    "expo-device": "~5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -18,7 +18,7 @@ export default function Accout() {
         <Text style={{ ...TEXT.label2Thin, color: COLOR.DARKGRAY }}>
           {label}
         </Text>
-        <Text style={{ ...TEXT.body2, color: COLOR.BLUE }}>
+        <Text style={{ ...TEXT.body2, color: COLOR.BLUE, lineHeight: 28 }}>
           {info.toString().trim()}
         </Text>
       </View>
@@ -110,7 +110,14 @@ export default function Accout() {
                     borderBottomWidth: 1,
                   }}
                 />
-                <InfoComponent label={"หน่วยงาน"} info={user.Position} />
+                <InfoComponent label={"หน่วยงาน"} info={user.Division} />
+                <View
+                  style={{
+                    borderBottomColor: COLOR.LIGHTGRAY2,
+                    borderBottomWidth: 1,
+                  }}
+                />
+                <InfoComponent label={"ตำแหน่งงาน"} info={user.Position} />
                 <View
                   style={{
                     borderBottomColor: COLOR.LIGHTGRAY2,
@@ -127,11 +134,12 @@ export default function Accout() {
                 <InfoComponent label={"ชื่อผู้ใช้งาน"} info={user.Username} />
               </View>
             </View>
+            <View style={{ height: 20 }} />
 
             <TouchableOpacity
               onPress={logout}
               style={{
-                backgroundColor: "#FFA500",
+                backgroundColor: COLOR.ORANGE,
                 alignSelf: "center",
                 padding: 10,
                 borderRadius: 8,
