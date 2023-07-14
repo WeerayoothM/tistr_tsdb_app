@@ -18,7 +18,7 @@ export default function Accout() {
         <Text style={{ ...TEXT.label2Thin, color: COLOR.DARKGRAY }}>
           {label}
         </Text>
-        <Text style={{ ...TEXT.body2, color: COLOR.BLUE, lineHeight: 28 }}>
+        <Text style={{ ...TEXT.body2, color: COLOR.BLUE, lineHeight: 30 }}>
           {info.toString().trim()}
         </Text>
       </View>
