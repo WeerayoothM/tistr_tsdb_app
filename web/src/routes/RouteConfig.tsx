@@ -5,6 +5,8 @@ import Default from "../layouts/Default/Default";
 import { AnimatePresence } from "framer-motion";
 import Login from "../pages/login/Login";
 import Dashboard from "../pages/dashboard/Dashboard";
+import Project from "../pages/project/Project";
+import ProjectSearch from "../pages/project/ProjectSearch";
 
 const RouteConfig: React.FC = () => {
   const location = useLocation();
@@ -25,7 +27,17 @@ const RouteConfig: React.FC = () => {
 
                 <Route path="/" element={<Default />}>
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/project" element={<Dashboard />} />
+
+                  <Route path="/project" element={<Project />} />
+                  <Route
+                    path="/project/outbdg-search"
+                    element={<ProjectSearch />}
+                  />
+                  <Route
+                    path="/project/inbdg-search"
+                    element={<ProjectSearch />}
+                  />
+
                   <Route path="/import" element={<Dashboard />} />
                   <Route path="/authorization" element={<Dashboard />} />
                   <Route path="/admin" element={<Dashboard />} />

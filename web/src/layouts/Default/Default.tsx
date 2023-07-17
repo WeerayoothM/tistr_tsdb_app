@@ -16,7 +16,7 @@ const Default = () => {
           </div>
         ) : null}
         <VerticalNav />
-        <div className="flex-1 shrink-0">
+        <div className="flex-1 shrink-0 bg-[#F2F2F8]">
           <Header />
           <Outlet />
         </div>

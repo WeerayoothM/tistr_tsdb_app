@@ -68,6 +68,17 @@ const Dashboard = () => {
       exit={{ opacity: 0 }}
       className="overflow-y-scroll h-[calc(100%-107px)] px-[50px] py-[30px]"
     >
+      <div className="flex justify-between mb-[2rem]">
+        <div className="font-srb-500">
+          <div className="text-[32px] text-[#666666] mb-[10px]">
+            วันจันทร์ 10 เม.ย. 2565
+          </div>
+          <div className="text-[16px] text-[#ADB5BD]">
+            อัพเดตล่าสุด 13:11 น. 17 เม.ษ. 2565
+          </div>
+        </div>
+        <div></div>
+      </div>
       <div>
         <CardWithHeader
           headerColor={"#E76F2D"}
