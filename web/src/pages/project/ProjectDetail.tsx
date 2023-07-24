@@ -295,7 +295,7 @@ const ProjectList = () => {
       </div>
 
       <div className="w-full mt-[1rem]">
-        <GantChart />
+        <GantChart projectData={projectData} />
       </div>
 
       <div className="grid grid-cols-2 gap-[1rem]">

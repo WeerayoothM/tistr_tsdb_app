@@ -1,47 +1,63 @@
 import { observer } from "mobx-react-lite";
 import { ViewMode, Gantt } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { initTasks } from "../../../utils/helper";
+import { get, isEmpty } from "lodash";
 
-interface Props {}
+interface Props {
+  projectData: any;
+}
 
-const GantChart: React.FC<Props> = ({}) => {
+const GantChart: React.FC<Props> = ({ projectData }) => {
   const view = ViewMode.Week;
-  const [tasks, setTasks] = useState<any>(initTasks());
+  const [tasks, setTasks] = useState<any>([]);
+
+  useEffect(() => {
+    if (isEmpty(projectData)) return;
+
+    const newTasks = (initTasks(projectData) || []).filter((item: any) => {
+      return get(item, "start") && get(item, "end");
+    });
+
+    setTasks(newTasks);
+  }, [projectData]);
+
   return (
     <div className={`w-full`}>
-      <Gantt
-        tasks={tasks}
-        viewMode={view}
-        columnWidth={140}
-        barBackgroundColor="#1265DC"
-        rowHeight={70}
-        fontSize={"12"}
-        TaskListHeader={({ headerHeight }) => (
-          <div
-            style={{
-              height: headerHeight,
-              fontFamily: "sans-serif",
-              fontWeight: "bold",
-              margin: 0,
-              marginBottom: -1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "white",
-              border: "1px solid #e8ecfd",
-            }}
-          >
-            รายการ
-          </div>
-        )}
-        TaskListTable={(props) => <TaskListTable {...props} />}
-        TooltipContent={() => <></>}
-        todayColor={"transparent"}
-        barBackgroundSelectedColor={"#1265DC"}
-        barCornerRadius={8}
-      />
+      {!isEmpty(tasks) && (
+        <Gantt
+          tasks={tasks}
+          viewMode={view}
+          columnWidth={140}
+          barBackgroundColor="#1265DC"
+          rowHeight={70}
+          fontSize={"12"}
+          TaskListHeader={({ headerHeight }) => (
+            <div
+              style={{
+                height: headerHeight,
+                fontFamily: "sans-serif",
+                fontWeight: "bold",
+                margin: 0,
+                marginBottom: -1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
+                border: "1px solid #e8ecfd",
+              }}
+            >
+              รายการ
+            </div>
+          )}
+          TaskListTable={(props) => <TaskListTable {...props} />}
+          TooltipContent={() => <></>}
+          todayColor={"transparent"}
+          barBackgroundSelectedColor={"#1265DC"}
+          barCornerRadius={8}
+        />
+      )}
     </div>
   );
 };

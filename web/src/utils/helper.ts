@@ -30,28 +30,43 @@ export const handleChangeInput = (
   setFormData({ ...formData, [name]: value });
 };
 
-export const initTasks = () => {
+export const initTasks = (projectData: any) => {
   const currentDate = new Date();
+  const actualStart = get(projectData, "actualStartDate")
+    ? new Date(get(projectData, "actualStartDate"))
+    : "";
+  const actualEnd = get(projectData, "actualEndDate")
+    ? new Date(get(projectData, "actualEndDate"))
+    : "";
+  const start = get(projectData, "startDate")
+    ? new Date(get(projectData, "startDate"))
+    : "";
+  const end = get(projectData, "endDate")
+    ? new Date(get(projectData, "endDate"))
+    : "";
+  const approveDate = get(projectData, "approveDate")
+    ? new Date(get(projectData, "approveDate"))
+    : "";
   const tasks = [
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 2),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4, 0, 0),
+      start: start,
+      end: end,
       name: "ร่างโครงการ",
       id: "Task 1",
       type: "task",
       project: "ProjectSample",
     },
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8, 0, 0),
+      start: approveDate,
+      end: approveDate,
       name: "อนุมัติโครงการ",
       id: "Task 2",
       type: "task",
       project: "ProjectSample",
     },
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 9, 0, 0),
+      start: actualStart,
+      end: actualEnd,
       name: "ดำเนินการตามแผนโครงการ",
       id: "Task 3",
       type: "task",
