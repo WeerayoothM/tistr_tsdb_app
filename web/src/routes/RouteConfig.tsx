@@ -7,6 +7,11 @@ import Login from "../pages/login/Login";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Project from "../pages/project/Project";
 import ProjectSearch from "../pages/project/ProjectSearch";
+import ProjectList from "../pages/project/ProjectList";
+import ProjectDetail from "../pages/project/ProjectDetail";
+import AuthorizationSearch from "../pages/Authorization/AuthorizationSearch";
+import AuthorizationList from "../pages/Authorization/AuthorizationList";
+import AdminList from "../pages/Admin/AdminList";
 
 const RouteConfig: React.FC = () => {
   const location = useLocation();
@@ -37,10 +42,21 @@ const RouteConfig: React.FC = () => {
                     path="/project/inbdg-search"
                     element={<ProjectSearch />}
                   />
+                  <Route path="/project/list" element={<ProjectList />} />
+                  <Route path="/project/:id" element={<ProjectDetail />} />
 
                   <Route path="/import" element={<Dashboard />} />
-                  <Route path="/authorization" element={<Dashboard />} />
-                  <Route path="/admin" element={<Dashboard />} />
+
+                  <Route
+                    path="/authorization"
+                    element={<AuthorizationSearch />}
+                  />
+                  <Route
+                    path="/authorization/list"
+                    element={<AuthorizationList />}
+                  />
+
+                  <Route path="/admin" element={<AdminList />} />
 
                   {/* <Route element={<FarmerProtectedRoute user={authorize} />}> */}
                   {/* <Route path="/bwrf01-1" element={<BWRF01_1 />} /> */}

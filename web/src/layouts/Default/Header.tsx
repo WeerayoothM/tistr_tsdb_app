@@ -1,18 +1,34 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
   const navigate = useNavigate();
   const [toggleLogout, setToggleLogout] = useState(false);
+  const [title, setTitle] = useState("แดชบอร์ด");
+  const location = useLocation();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  useEffect(() => {}, []);
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (location.pathname.includes("dashboard")) {
+      setTitle("แดชบอร์ด");
+    } else if (location.pathname.includes("project")) {
+      setTitle("รายงานผลโครงการ");
+    } else if (location.pathname.includes("import")) {
+      setTitle("การนำเข้าข้อมูล");
+    } else if (location.pathname.includes("authorization")) {
+      setTitle("จัดการสิทธิ์ผู้ใช้งาน");
+    } else if (location.pathname.includes("admin")) {
+      setTitle("ส่วนผู้ดูแลระบบ");
+    }
+  }, [location.pathname]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,7 +43,7 @@ const Header: React.FC = () => {
       {/* desktop nav */}
       <div className="bg-[#ffffff] font-srb-700 font-lineRg left-0 flex justify-between items-center px-[1.5em] py-[1em] text-[24px]">
         <div className="flex justify-center text-[35px] items-center text-[#1265DC]">
-          แดชบอร์ด
+          {title}
         </div>
         <div className="flex items-center gap-[1em]">
           <div className="w-[59px] h-[59px] bg-[#D9D9D9] rounded-[20px]"></div>

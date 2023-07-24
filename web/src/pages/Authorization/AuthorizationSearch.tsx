@@ -8,7 +8,7 @@ import { get, isObject } from "lodash";
 import FormRenderer from "../../components/FormRenderer";
 import { formTemplate } from "./Data/data";
 
-const ProjectSearch = () => {
+const AuthorizationSearch = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
 
@@ -57,23 +57,12 @@ const ProjectSearch = () => {
       className="overflow-y-scroll h-[calc(100%-107px)] px-[50px] py-[30px] flex flex-col"
     >
       <div
-        className="flex items-center gap-[10px] font-srb-500 mb-[2rem] cursor-pointer"
-        onClick={() => navigate("/project")}
-      >
-        <div>
-          <img src="/images/project-left-arrow.png" alt="" />
-        </div>
-        <div className="text-[#ADB5BD] text-[17px]">ย้อนกลับ</div>
-      </div>
-      <div
         className={`flex shrink-0 items-center justify-between bg-[url('/images/project-bg-1.png')] rounded-[8px] h-[170px] px-[2rem] bg-no-repeat bg-cover w-full`}
       >
         <div className="flex flex-col gap-[10px] text-white">
-          <div className="text-[31px] font-srb-700">
-            สืบค้นโครงการนอกงบประมาณ
-          </div>
+          <div className="text-[31px] font-srb-700">ค้นหาผู้ใช้งาน</div>
           <div className="text-[22px] font-srb-400">
-            กรอกข้อมูลโครงการวิจัยที่ดำเนินโครงการนอกงบประมาณ
+            ข้อมูลจัดการสิทธิ์ผู้ใช้งานภายในหน่วยงาน
           </div>
         </div>
         <div>
@@ -99,12 +88,12 @@ const ProjectSearch = () => {
           />
         ))}
       </div>
-      <div className="font-srb-500 flex items-center justify-end gap-[2rem] mt-[2rem]">
+      <div className="font-srb-500 flex items-center justify-between gap-[2rem] mt-[2rem]">
         <div
           className="text-[#FFA500] text-[16px] cursor-pointer"
-          onClick={() => navigate("/project/list")}
+          onClick={() => navigate("/authorization/list")}
         >
-          {"ดูโครงการทั้งหมด >"}
+          {"ผู้ใช้งานทั้งหมด >"}
         </div>
         <div
           className="text-white text-[20px] py-[1rem] px-[3rem] cursor-pointer rounded-[8px]"
@@ -121,7 +110,7 @@ const ProjectSearch = () => {
             );
             if (!canSearch) return;
 
-            navigate("/project/list", { state: formData });
+            navigate("/authorization/list", { state: formData });
           }}
         >
           ค้นหา
@@ -131,4 +120,4 @@ const ProjectSearch = () => {
   );
 };
 
-export default observer(ProjectSearch);
+export default observer(AuthorizationSearch);

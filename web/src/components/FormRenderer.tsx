@@ -1,6 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import Select from "./Select";
+import "react-datepicker/dist/react-datepicker.css";
+import { WatDatePicker } from "../components/CustomDatePicker";
+import dayjs from "dayjs";
 
 interface Props {
   options?: any[];
@@ -8,9 +11,10 @@ interface Props {
   name: string;
   type: string;
   value: any;
-  handleChangeInput: any;
+  handleChangeInput?: any;
   placeholder: string;
-  col: number;
+  col: string;
+  handleDatePickerChange?: any;
 }
 
 const FormRenderer: React.FC<Props> = ({
@@ -22,6 +26,7 @@ const FormRenderer: React.FC<Props> = ({
   handleChangeInput,
   placeholder,
   col,
+  handleDatePickerChange,
 }) => {
   return (
     <div className={`w-full col-span-${col}`}>
@@ -51,6 +56,23 @@ const FormRenderer: React.FC<Props> = ({
             option={options}
             onChange={handleChangeInput}
             name={name}
+          />
+        )}
+
+        {type === "date" && (
+          <WatDatePicker
+            value={value || ""}
+            onChange={handleDatePickerChange}
+            dateFormat={"yyyy-MM-dd"}
+            displayFormat={"DD/MM/YYYY"}
+            clearable={true}
+            minDate={"2022-01-01"}
+            maxDate={dayjs().add(10, "year")}
+            disabled={false}
+            readOnly={false}
+            yearBoundary={99}
+            name={name}
+            key={name}
           />
         )}
       </div>
