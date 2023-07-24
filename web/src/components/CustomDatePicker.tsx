@@ -78,7 +78,7 @@ const headerStyle = {
 };
 
 export const range = (startVal = 0, endVal = 0, increment = 0) => {
-  let list: any = [];
+  let list: any[] = [];
   if (increment <= 0) {
     return list;
   }

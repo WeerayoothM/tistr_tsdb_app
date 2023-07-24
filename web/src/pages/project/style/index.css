@@ -24,3 +24,19 @@ thead[class*="ant-table-thead"] th {
 .ant-table-tbody > tr:hover > td {
   cursor: pointer;
 }
+
+.card-wrapper > hr {
+  border: 1px solid #e8ecfd;
+}
+
+._2dZTy:nth-child(even) {
+  fill: #f8f9ff !important;
+}
+
+._CZjuD {
+  /* border-radius: 0 8px 8px 0; */
+}
+
+._2B2zv {
+  /* border-radius: 0 0 0 8px; */
+}
