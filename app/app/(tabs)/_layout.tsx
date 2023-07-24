@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { useColorScheme } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -6,6 +6,8 @@ import { COLOR } from "@/styles/COLOR";
 import XIconDashboard from "@/components/svg/XIconDashboard";
 import XIconSearch from "@/components/svg/XIconSearch";
 import XIconProfile from "@/components/svg/XIconProfile";
+import { useEffect } from "react";
+import { createNavigationContainerRef } from "@react-navigation/native";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -25,12 +27,34 @@ function TabBarIcon({
   );
 }
 
+export const navigationRef = createNavigationContainerRef();
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
+
+  if (navigationRef.isReady()) {
+    console.log("ready");
+  } else {
+    // You can decide what to do if react navigation is not ready
+    // You can ignore this, or add these actions to a queue you can call later
+  }
+
+  useEffect(() => {
+    // router.push("/search/offBudget");
+    if (navigationRef.isReady()) {
+      // Perform navigation if the react navigation is ready to handle actions
+      // navigationRef.
+      // navigationRef.navigate(        "/search/offBudget"      );
+    } else {
+      // You can decide what to do if react navigation is not ready
+      // You can ignore this, or add these actions to a queue you can call later
+    }
+  }, []);
 
   return (
     <Tabs
-      initialRouteName="dashboard"
+      initialRouteName="search"
       // tabBar={null}
 
       screenOptions={{
@@ -47,7 +71,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="dashboard"
         options={{
-          href: "/dashboard",
+          // href: "/dashboard",
           title: "แดชบอร์ด",
           tabBarIcon: ({ color }) => (
             <XIconDashboard color={color} width="20px" height="20px" />
@@ -84,6 +108,8 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <XIconSearch color={color} width="20px" height="20px" />
           ),
+          headerShown: false,
+          headerShadowVisible: false, // applied here
         }}
       />
       <Tabs.Screen
@@ -93,6 +119,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <XIconProfile color={color} width="20px" height="20px" />
           ),
+          headerShown: false,
         }}
       />
     </Tabs>

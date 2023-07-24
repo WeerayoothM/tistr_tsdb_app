@@ -56,6 +56,11 @@ export const TEXT = {
     fontFamily: BaiJamjureeMedium,
     fontSize: 16,
   },
+  caption1SemiBold: {
+    ...commonTextStyle,
+    fontFamily: BaiJamjureeSemiBold,
+    fontSize: 16,
+  },
   caption2: {
     ...commonTextStyle,
     fontFamily: BaiJamjureeMedium,

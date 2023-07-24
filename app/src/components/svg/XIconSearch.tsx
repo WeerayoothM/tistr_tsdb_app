@@ -1,7 +1,12 @@
 import React from "react";
+import { Platform } from "react-native";
 import { SvgXml } from "react-native-svg";
+import { View } from "../Themed";
 
 const XIconSearch = ({ color, ...props }) => {
+  if (Platform.OS === "web") {
+    return <></>;
+  }
   return (
     <SvgXml
       xml={`<svg width="26" height="26" viewBox="0 0 26 26" fill="none"
