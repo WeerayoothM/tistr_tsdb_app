@@ -8,22 +8,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import Info from "@/components/layout/Info";
 
-export default function Accout() {
+export default function TabProfile() {
   const { user, setUser } = useAuth();
-
-  const InfoComponent = ({ label, info = "-" }) => {
-    return (
-      <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
-        <Text style={{ ...TEXT.label2Thin, color: COLOR.DARKGRAY }}>
-          {label}
-        </Text>
-        <Text style={{ ...TEXT.body2, color: COLOR.BLUE, lineHeight: 30 }}>
-          {info.toString().trim()}
-        </Text>
-      </View>
-    );
-  };
 
   const logout = () => {
     setUser(null);
@@ -99,7 +87,7 @@ export default function Accout() {
                   // paddingVertical: 20,
                 }}
               >
-                <InfoComponent
+                <Info
                   label={"ชื่อ-สกุล"}
                   info={`${user.FName} ${user.LName}`}
                 />
@@ -110,28 +98,28 @@ export default function Accout() {
                     borderBottomWidth: 1,
                   }}
                 />
-                <InfoComponent label={"หน่วยงาน"} info={user.Division} />
+                <Info label={"หน่วยงาน"} info={user.SubDivision} />
                 <View
                   style={{
                     borderBottomColor: COLOR.LIGHTGRAY2,
                     borderBottomWidth: 1,
                   }}
                 />
-                <InfoComponent label={"ตำแหน่งงาน"} info={user.Position} />
+                <Info label={"ตำแหน่งงาน"} info={user.Position} />
                 <View
                   style={{
                     borderBottomColor: COLOR.LIGHTGRAY2,
                     borderBottomWidth: 1,
                   }}
                 />
-                <InfoComponent label={"รหัสประจำตัว"} info={user.EmpId} />
+                <Info label={"รหัสประจำตัว"} info={user.EmpId} />
                 <View
                   style={{
                     borderBottomColor: COLOR.LIGHTGRAY2,
                     borderBottomWidth: 1,
                   }}
                 />
-                <InfoComponent label={"ชื่อผู้ใช้งาน"} info={user.Username} />
+                <Info label={"ชื่อผู้ใช้งาน"} info={user.Username} />
               </View>
             </View>
             <View style={{ height: 20 }} />

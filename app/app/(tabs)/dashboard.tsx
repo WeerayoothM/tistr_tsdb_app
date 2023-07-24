@@ -6,7 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { FontAwesome } from "@expo/vector-icons";
-import { formatDate } from "@/utils/date";
+import { formatDateToThaiDate } from "@/utils/format";
 import { StatusBar } from "expo-status-bar";
 
 export default function TabDashboardScreen() {
@@ -83,7 +83,7 @@ export default function TabDashboardScreen() {
               </TouchableOpacity>
             </View>
             <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
-              วัน{formatDate()}
+              วัน{formatDateToThaiDate()}
             </Text>
             <View
               style={{ height: 1000, backgroundColor: COLOR.TRANSPARENT }}

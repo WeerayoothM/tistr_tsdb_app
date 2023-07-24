@@ -30,7 +30,7 @@ interface Props {
   errorTrigger?: boolean;
 }
 
-const XInput = (props: Props) => {
+const XInputBk = (props: Props) => {
   const {
     title = null,
     titleStyle = { ...TEXT.body1 },
@@ -123,7 +123,7 @@ const XInput = (props: Props) => {
   );
 };
 
-export default XInput;
+export default XInputBk;
 
 const styles = StyleSheet.create({
   inputContainer: {

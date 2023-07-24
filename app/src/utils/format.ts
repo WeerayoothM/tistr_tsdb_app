@@ -1,6 +1,8 @@
-export const formatDate = (
+export const formatDateToThaiDate = (
   _date: string | Date = new Date(),
-  withComma: boolean = false
+  withComma: boolean = false,
+  withWeekDay: boolean = true,
+  withYearUnit: boolean = false
 ) => {
   var month = new Array();
   month[0] = "ม.ค.";
@@ -33,7 +35,13 @@ export const formatDate = (
     date = new Date(_date);
   }
   date.getDay;
-  return `${weekDay[date.getDay()]} ${("0" + date.getDate()).slice(-2)}${
-    withComma ? "," : ""
-  } ${month[date.getMonth()]} ${date.getFullYear() + 543}`;
+  return `${withWeekDay ? weekDay[date.getDay()] : ""} ${(
+    "0" + date.getDate()
+  ).slice(-2)}${withComma ? "," : ""} ${month[date.getMonth()]}${
+    withYearUnit ? " พ.ศ. " : " "
+  }${date.getFullYear()}`.trim();
 };
+
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
