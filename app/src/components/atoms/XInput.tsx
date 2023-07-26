@@ -12,6 +12,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 interface Props {
   labelText?: string;
@@ -27,12 +28,31 @@ interface Props {
   errorMessage?: string | null;
   checkTrigger?: boolean;
   errorTrigger?: boolean;
+  rightIcon?: boolean;
+  rightIconType?: string;
+  rightIconPress?: () => void;
+  rightIconName?: any;
+  rightIconColor?: string;
+  enabled?: boolean;
 }
 
-const XInput = ({ labelText, containerStyle, textProps }: Props) => {
+const XInput = ({
+  labelText,
+  containerStyle,
+  textProps,
+  labelStyle,
+  rightIcon = true,
+  rightIconType,
+  rightIconPress = () => {},
+  rightIconName = "search",
+  rightIconColor = COLOR.GRAY,
+  enabled = true,
+}: Props) => {
   return (
-    <View style={[containerStyle]}>
-      <Text style={{ ...TEXT.label1, color: COLOR.WHITE }}>{labelText}</Text>
+    <View style={[containerStyle, { zIndex: 1 }]}>
+      <Text style={[{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }, labelStyle]}>
+        {labelText}
+      </Text>
       <View
         style={{
           // width: 260,
@@ -60,12 +80,25 @@ const XInput = ({ labelText, containerStyle, textProps }: Props) => {
             flexGrow: 1,
           }}
           autoCapitalize="none"
+          enabled={false}
+          editable={enabled}
           {...textProps}
         />
-
-        <TouchableOpacity onPress={() => {}}>
-          <Ionicons name="search" size={18} color="gray" />
-        </TouchableOpacity>
+        {rightIcon ? (
+          <TouchableOpacity onPress={rightIconPress}>
+            {rightIconType === "FontAwesome5" ? (
+              <FontAwesome5
+                name={rightIconName}
+                size={18}
+                color={rightIconColor}
+              />
+            ) : (
+              <Ionicons name={rightIconName} size={18} color={rightIconColor} />
+            )}
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );

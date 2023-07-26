@@ -87,6 +87,11 @@ export const TEXT = {
     fontFamily: BaiJamjureeRegular,
     fontSize: 14,
   },
+  label3Thin: {
+    ...commonTextStyle,
+    fontFamily: BaiJamjureeRegular,
+    fontSize: 10,
+  },
   input1: {
     ...commonTextStyle,
     fontFamily: BaiJamjureeSemiBold,

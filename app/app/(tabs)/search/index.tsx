@@ -1,6 +1,11 @@
-import { ImageBackground, ScrollView, TouchableOpacity } from "react-native";
+import {
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  View,
+} from "react-native";
 
-import { Text, View } from "../../../src/components/Themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "@/styles/COLOR";

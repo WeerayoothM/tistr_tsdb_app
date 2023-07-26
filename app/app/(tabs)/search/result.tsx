@@ -159,12 +159,13 @@ const result = () => {
           <View
             style={{
               height: 111,
+              marginTop: 20,
               marginHorizontal: 20,
               alignItems: "center",
             }}
           >
             <ImageBackground
-              source={require("../../../assets/images/search_onbudget_blue_bg.png")}
+              source={require("../../../assets/images/search_offbudget_bg.png")}
               style={{
                 position: "absolute",
                 width: "100%",
