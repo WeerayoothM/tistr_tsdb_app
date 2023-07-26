@@ -138,7 +138,7 @@ const result = () => {
           flexDirection: "row",
         }}
       >
-        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>{item}</Text>
+        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>{item[1]}</Text>
         <TouchableOpacity style={{ marginLeft: 8 }}>
           <Ionicons name="close" size={18} color={COLOR.WHITE} />
         </TouchableOpacity>
@@ -202,7 +202,14 @@ const result = () => {
             </View>
           </View>
 
-          <View style={{ paddingHorizontal: 20 }}>
+          <View
+            style={{
+              paddingHorizontal: 20,
+              gap: 10,
+              paddingBottom: 30,
+              paddingTop: 10,
+            }}
+          >
             <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
               ผลการสืบค้น {projectListState.length} โครงการ
             </Text>

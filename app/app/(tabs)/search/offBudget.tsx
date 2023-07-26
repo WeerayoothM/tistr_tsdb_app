@@ -32,9 +32,6 @@ const offBudget = () => {
     useContext(ProjectContext);
   const [calendarStartDateOpen, setCalendarStartDateOpen] = useState(false);
   const [calendarEndDateOpen, setCalendarEndDateOpen] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [lateDate, setLateDate] = useState(false);
-  const [selected, setSelected] = useState("");
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -44,10 +41,10 @@ const offBudget = () => {
     console.log(resp);
     setProjectListState(resp.data);
 
-    // router.push({
-    //   pathname: "/search/result",
-    //   params: { type: "offBudget" },
-    // });
+    router.push({
+      pathname: "/search/result",
+      params: { type: "offBudget" },
+    });
   };
 
   return (
@@ -176,8 +173,6 @@ const offBudget = () => {
                         },
                       }}
                       onDayPress={(day) => {
-                        console.log("selected day", day.dateString);
-                        setSelected(day.dateString);
                         setProjectSearchState({
                           ...projectSearchState,
                           start_date: day.dateString,
@@ -244,8 +239,6 @@ const offBudget = () => {
                         },
                       }}
                       onDayPress={(day) => {
-                        console.log("selected day", day.dateString);
-                        setSelected(day.dateString);
                         setProjectSearchState({
                           ...projectSearchState,
                           end_date: day.dateString,
