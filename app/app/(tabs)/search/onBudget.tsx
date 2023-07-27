@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Header from "@/components/layout/Header";
 import { TEXT } from "@/styles/TEXT";
 import { COLOR } from "@/styles/COLOR";
@@ -15,10 +15,23 @@ import { ProjectContext } from "@/context/ProjectContext";
 import XButton from "@/components/atoms/XButton";
 import { getAllProject } from "./apis";
 import { useRouter } from "expo-router";
+import XDropdown from "@/components/atoms/XDropdown";
+import {
+  projectBudgetOptions,
+  projectGroupOptions,
+  projectStatusOptions,
+} from "@/constants/project";
+import { Calendar } from "react-native-calendars";
+import XSlideUp from "@/components/animations/XSlideUp";
+import { SCREEN_WIDTH } from "@/styles/COMMON";
+import XModal from "@/components/atoms/XModal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const onBudget = () => {
   const { projectSearchState, setProjectSearchState, setProjectListState } =
     useContext(ProjectContext);
+  const [calendarStartDateOpen, setCalendarStartDateOpen] = useState(false);
+  const [calendarEndDateOpen, setCalendarEndDateOpen] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -36,7 +49,10 @@ const onBudget = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        nestedScrollEnabled={true}
+      >
         <View
           style={{
             flex: 1,
@@ -96,115 +112,118 @@ const onBudget = () => {
           </View>
 
           <View style={{ paddingHorizontal: 20, gap: 10 }}>
-            <XInput
+            <XDropdown
               labelText="สถานะโครงการ"
-              textProps={{
-                value: projectSearchState.project_status,
-                onChangeText: (text) => {
-                  setProjectSearchState((prevState) => ({
-                    ...prevState,
-                    project_status: text,
-                  }));
-                },
-                placeholder: "สถานะโครงการ",
+              placeHolder="เลือกสถานะโครงการ"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_status: value,
+                }));
               }}
+              options={projectStatusOptions}
             />
-            <XInput
+            <XDropdown
               labelText="หน่วยงานเจ้าของโครงการ"
-              textProps={{
-                value: projectSearchState.project_resp_dept,
-                onChangeText: (text) => {
-                  setProjectSearchState((prevState) => ({
-                    ...prevState,
-                    project_resp_dept: text,
-                  }));
-                },
-                placeholder: "หน่วยงานเจ้าของโครงการ",
+              placeHolder="หน่วยงานเจ้าของโครงการ"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_resp_dept: value,
+                }));
               }}
+              options={projectStatusOptions}
             />
-            <XInput
+            <XDropdown
               labelText="หน่วยย่อย"
-              textProps={{
-                value: projectSearchState.project_sub_dept,
-                onChangeText: (text) => {
-                  setProjectSearchState((prevState) => ({
-                    ...prevState,
-                    project_sub_dept: text,
-                  }));
-                },
-                placeholder: "หน่วยย่อย",
+              placeHolder="หน่วยย่อย"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_sub_dept: value,
+                }));
               }}
+              options={projectStatusOptions}
             />
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                zIndex: 10,
+              }}
             >
-              <XInput
+              <XDropdown
                 labelText="ภาค"
-                textProps={{
-                  value: projectSearchState.location_region,
-                  onChangeText: (text) => {
-                    setProjectSearchState({
-                      ...projectSearchState,
-                      location_region: text,
-                    });
-                  },
-                  placeholder: "ภาค",
+                placeHolder="ภาค"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_region: value,
+                  }));
                 }}
+                options={projectStatusOptions}
                 containerStyle={{ flex: 1 }}
+                zIndex={2000}
+                listMode="MODAL"
               />
               <View
                 style={{
                   width: 10,
                 }}
               />
-              <XInput
-                labelText={"จังหวัด"}
-                textProps={{
-                  value: projectSearchState.location_province,
-                  onChangeText: (text) =>
-                    setProjectSearchState({
-                      ...projectSearchState,
-                      location_province: text,
-                    }),
-                  placeholder: "จังหวัด",
+
+              <XDropdown
+                labelText="จังหวัด"
+                placeHolder="จังหวัด"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_province: value,
+                  }));
                 }}
+                options={projectStatusOptions}
                 containerStyle={{ flex: 1 }}
+                listMode="MODAL"
               />
             </View>
+
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                zIndex: 9,
+              }}
             >
-              <XInput
+              <XDropdown
                 labelText="อำเภอ"
-                textProps={{
-                  value: projectSearchState.location_amphur,
-                  onChangeText: (text) => {
-                    setProjectSearchState({
-                      ...projectSearchState,
-                      location_amphur: text,
-                    });
-                  },
-                  placeholder: "อำเภอ",
+                placeHolder="อำเภอ"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_amphur: value,
+                  }));
                 }}
+                options={projectStatusOptions}
                 containerStyle={{ flex: 1 }}
+                listMode="MODAL"
               />
               <View
                 style={{
                   width: 10,
                 }}
               />
-              <XInput
-                labelText={"ตำบล"}
-                textProps={{
-                  value: projectSearchState.location_district,
-                  onChangeText: (text) =>
-                    setProjectSearchState({
-                      ...projectSearchState,
-                      location_district: text,
-                    }),
-                  placeholder: "ตำบล",
+              <XDropdown
+                labelText="ตำบล"
+                placeHolder="ตำบล"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_district: value,
+                  }));
                 }}
+                options={projectStatusOptions}
                 containerStyle={{ flex: 1 }}
+                listMode="MODAL"
               />
             </View>
             <View
@@ -223,7 +242,60 @@ const onBudget = () => {
                   placeholder: "เลือกวันที่",
                 }}
                 containerStyle={{ flex: 1 }}
+                rightIcon={true}
+                rightIconPress={() => {
+                  setCalendarStartDateOpen(true);
+                }}
+                rightIconName={"calendar-check"}
+                rightIconType="FontAwesome5"
+                rightIconColor={COLOR.DARKGRAY}
+                enabled={false}
               />
+              <XModal
+                visible={!!calendarStartDateOpen}
+                onClose={() => {
+                  setCalendarStartDateOpen(false);
+                }}
+                containerStyle={{
+                  justifyContent: "flex-end",
+                  alignItems: "flex-start",
+                }}
+              >
+                <XSlideUp height={500} active={!!calendarStartDateOpen}>
+                  <View
+                    style={{
+                      width: SCREEN_WIDTH,
+                      height: 500,
+                      backgroundColor: COLOR.WHITE,
+                      borderTopStartRadius: 30,
+                      borderTopEndRadius: 30,
+                    }}
+                  >
+                    <Calendar
+                      markedDates={{
+                        [projectSearchState.start_date]: {
+                          selected: true,
+                          selectedColor: COLOR.ORANGE,
+                        },
+                      }}
+                      onDayPress={(day) => {
+                        if (day.dateString === projectSearchState.start_date) {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            start_date: "",
+                          });
+                        } else {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            start_date: day.dateString,
+                          });
+                        }
+                      }}
+                    />
+                    {/* <Calendar markedDates={marked} onDayPress={onDayPress} /> */}
+                  </View>
+                </XSlideUp>
+              </XModal>
               <View
                 style={{
                   width: 10,
@@ -241,7 +313,59 @@ const onBudget = () => {
                   placeholder: "เลือกวันที่",
                 }}
                 containerStyle={{ flex: 1 }}
+                rightIcon={true}
+                rightIconPress={() => {
+                  setCalendarEndDateOpen(true);
+                }}
+                rightIconName={"calendar-check"}
+                rightIconType="FontAwesome5"
+                rightIconColor={COLOR.DARKGRAY}
+                enabled={false}
               />
+              <XModal
+                visible={!!calendarEndDateOpen}
+                onClose={() => {
+                  setCalendarEndDateOpen(false);
+                }}
+                containerStyle={{
+                  justifyContent: "flex-end",
+                  alignItems: "flex-start",
+                }}
+              >
+                <XSlideUp height={500} active={!!calendarEndDateOpen}>
+                  <View
+                    style={{
+                      width: SCREEN_WIDTH,
+                      height: 500,
+                      backgroundColor: COLOR.WHITE,
+                      borderTopStartRadius: 30,
+                      borderTopEndRadius: 30,
+                    }}
+                  >
+                    <Calendar
+                      markedDates={{
+                        [projectSearchState.end_date]: {
+                          selected: true,
+                          selectedColor: COLOR.ORANGE,
+                        },
+                      }}
+                      onDayPress={(day) => {
+                        if (day.dateString === projectSearchState.end_date) {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            end_date: "",
+                          });
+                        } else {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            end_date: day.dateString,
+                          });
+                        }
+                      }}
+                    />
+                  </View>
+                </XSlideUp>
+              </XModal>
             </View>
             <XInput
               labelText={"ผู้รับผิดชอบโครงการ"}
@@ -289,25 +413,37 @@ const onBudget = () => {
               labelText={"รหัสโครงการ"}
               textProps={{
                 value: projectSearchState.project_code,
-                onChangeText: (text) => {},
+                onChangeText: (text) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    project_code: text,
+                  }));
+                },
                 placeholder: "รหัสโครงการ...",
               }}
               containerStyle={{ flex: 1 }}
             />
-            <XInput
-              labelText={"งบประมาณ"}
-              textProps={{
-                value: projectSearchState.budget_amount,
-                onChangeText: (text) => {},
-                placeholder: "งบประมาณ...",
+            <XDropdown
+              labelText="งบประมาณ"
+              placeHolder="เลือกงบประมาณ"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  budget_amount: value,
+                }));
               }}
-              containerStyle={{ flex: 1 }}
+              options={projectBudgetOptions}
             />
             <XInput
               labelText={"เลขที่สัญญาโครงการ"}
               textProps={{
                 value: projectSearchState.contract_no,
-                onChangeText: (text) => {},
+                onChangeText: (text) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    contract_no: text,
+                  }));
+                },
                 placeholder: "เลขที่สัญญาโครงการ...",
               }}
               containerStyle={{ flex: 1 }}
@@ -326,18 +462,16 @@ const onBudget = () => {
               }}
               containerStyle={{ flex: 1 }}
             />
-            <XInput
+            <XDropdown
               labelText="สถานะขอทุน"
-              textProps={{
-                value: projectSearchState.project_status,
-                onChangeText: (text) => {
-                  setProjectSearchState((prevState) => ({
-                    ...prevState,
-                    project_status: text,
-                  }));
-                },
-                placeholder: "สถานะขอทุน",
+              placeHolder="เลือกสถานะขอทุน"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_status: value,
+                }));
               }}
+              options={projectBudgetOptions}
             />
             <XButton
               title="ค้นหา"
@@ -346,7 +480,7 @@ const onBudget = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

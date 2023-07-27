@@ -96,7 +96,7 @@ export default function TabDashboardScreen() {
             </Text>
             <XDropdown
               labelText=""
-              defaultValue={`${new Date().getFullYear}`}
+              defaultValue={"2566"}
               onValueChange={(value) => {
                 setSelectYear(value);
               }}
@@ -110,7 +110,7 @@ export default function TabDashboardScreen() {
                   value: "2565",
                 },
               ]}
-              containerStyle={{ width: 130, alignSelf: "flex-end" }}
+              dropDownContainerStyle={{ width: 130, alignSelf: "flex-end" }}
               zIndex={999}
             />
             <View

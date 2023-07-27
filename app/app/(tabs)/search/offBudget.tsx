@@ -36,7 +36,7 @@ const offBudget = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    console.log(projectSearchState);
+    console.log("projectSearchState", projectSearchState);
 
     const resp = await getAllProject(projectSearchState);
     console.log(resp);
@@ -208,7 +208,6 @@ const offBudget = () => {
                       ...projectSearchState,
                       end_date: text,
                     }),
-
                   placeholder: "เลือกวันที่",
                 }}
                 containerStyle={{ flex: 1 }}

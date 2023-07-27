@@ -25,8 +25,9 @@ const XDropdown = (props) => {
     onValueChange,
     placeHolder = "Name",
     containerStyle = {},
-    zIndex = 10,
-    listMode = "SCROLLVIEW",
+    dropDownContainerStyle = {},
+    zIndex = 999,
+    listMode = "MODAL",
   } = props;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | Option>(defaultValue);
@@ -34,13 +35,13 @@ const XDropdown = (props) => {
   useEffect(() => {
     console.log(value);
 
-    if (value) {
+    if (value || value === "") {
       onValueChange(typeof value === "object" ? String(value.value) : value);
     }
   }, [value]);
 
   return (
-    <>
+    <View style={[containerStyle, { zIndex: open ? zIndex : 0 }]}>
       <Text style={[{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }, labelStyle]}>
         {labelText}
       </Text>
@@ -59,6 +60,7 @@ const XDropdown = (props) => {
             borderColor: COLOR.LIGHTGRAY,
             backgroundColor: COLOR.WHITE,
             minHeight: 40,
+            flex: 1,
           },
         ]}
         labelStyle={{
@@ -71,7 +73,7 @@ const XDropdown = (props) => {
           paddingLeft: 3,
           color: COLOR.LIGHTGRAY,
         }}
-        containerStyle={[containerStyle, { zIndex: open ? zIndex : 0 }]}
+        containerStyle={[dropDownContainerStyle, { zIndex: open ? zIndex : 0 }]}
         dropDownContainerStyle={{
           borderWidth: 1,
           borderRadius: 8,
@@ -93,7 +95,7 @@ const XDropdown = (props) => {
           marginVertical: 5,
         }}
       />
-    </>
+    </View>
   );
 };
 
