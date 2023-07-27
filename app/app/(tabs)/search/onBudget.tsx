@@ -30,7 +30,7 @@ const onBudget = () => {
 
     router.push({
       pathname: "/search/result",
-      params: { type: "offBudget" },
+      params: { type: "onBudget" },
     });
   };
 

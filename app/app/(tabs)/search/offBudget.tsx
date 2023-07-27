@@ -26,6 +26,7 @@ import { Calendar } from "react-native-calendars";
 import XSlideUp from "@/components/animations/XSlideUp";
 import { SCREEN_WIDTH } from "@/styles/COMMON";
 import XModal from "@/components/atoms/XModal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const offBudget = () => {
   const { projectSearchState, setProjectSearchState, setProjectListState } =
@@ -49,7 +50,10 @@ const offBudget = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        nestedScrollEnabled={true}
+      >
         <View
           style={{
             flex: 1,
@@ -61,6 +65,7 @@ const offBudget = () => {
           <View
             style={{
               height: 111,
+              marginTop: 20,
               marginHorizontal: 20,
               alignItems: "center",
             }}
@@ -110,7 +115,7 @@ const offBudget = () => {
           <View style={{ paddingHorizontal: 20, gap: 10 }}>
             <XDropdown
               labelText="สถานะโครงการ"
-              placeHolder="สถานะโครงการ"
+              placeHolder="เลือกสถานะโครงการ"
               onValueChange={(value) => {
                 setProjectSearchState((prevState) => ({
                   ...prevState,
@@ -126,12 +131,12 @@ const offBudget = () => {
                 labelText="วันที่เริ่มโตรงการ"
                 textProps={{
                   value: projectSearchState.start_date,
-                  onChangeText: (text) =>
+                  onChangeText: (text) => {
                     setProjectSearchState({
                       ...projectSearchState,
                       start_date: text,
-                    }),
-
+                    });
+                  },
                   placeholder: "เลือกวันที่",
                 }}
                 containerStyle={{ flex: 1 }}
@@ -168,15 +173,21 @@ const offBudget = () => {
                       markedDates={{
                         [projectSearchState.start_date]: {
                           selected: true,
-                          disableTouchEvent: true,
                           selectedColor: COLOR.ORANGE,
                         },
                       }}
                       onDayPress={(day) => {
-                        setProjectSearchState({
-                          ...projectSearchState,
-                          start_date: day.dateString,
-                        });
+                        if (day.dateString === projectSearchState.start_date) {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            start_date: "",
+                          });
+                        } else {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            start_date: day.dateString,
+                          });
+                        }
                       }}
                     />
                     {/* <Calendar markedDates={marked} onDayPress={onDayPress} /> */}
@@ -234,15 +245,21 @@ const offBudget = () => {
                       markedDates={{
                         [projectSearchState.end_date]: {
                           selected: true,
-                          disableTouchEvent: true,
                           selectedColor: COLOR.ORANGE,
                         },
                       }}
                       onDayPress={(day) => {
-                        setProjectSearchState({
-                          ...projectSearchState,
-                          end_date: day.dateString,
-                        });
+                        if (day.dateString === projectSearchState.end_date) {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            end_date: "",
+                          });
+                        } else {
+                          setProjectSearchState({
+                            ...projectSearchState,
+                            end_date: day.dateString,
+                          });
+                        }
                       }}
                     />
                   </View>
@@ -265,7 +282,7 @@ const offBudget = () => {
             />
             <XDropdown
               labelText="กลุ่มงาน"
-              placeHolder="กลุ่มงาน"
+              placeHolder="เลือกกลุ่มงาน"
               onValueChange={(value) => {
                 console.log("onValueChange", value);
 
@@ -306,7 +323,7 @@ const offBudget = () => {
             />
             <XDropdown
               labelText="งบประมาณ"
-              placeHolder="งบประมาณ..."
+              placeHolder="เลือกงบประมาณ"
               onValueChange={(value) => {
                 setProjectSearchState((prevState) => ({
                   ...prevState,
@@ -350,7 +367,7 @@ const offBudget = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

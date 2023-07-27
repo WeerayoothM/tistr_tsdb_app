@@ -1,5 +1,9 @@
 export const projectStatusOptions = [
   {
+    label: "-- เลือกสถานะโครงการ --",
+    value: "",
+  },
+  {
     label: `โครงการวิจัยเสร็จสิ้น`,
     value: `โครงการวิจัยเสร็จสิ้น`,
   },
@@ -15,15 +19,23 @@ export const projectStatusOptions = [
 
 export const projectGroupOptions = [
   {
-    label: "กลุ่มงาน",
-    value: "กลุ่มงาน",
+    label: "-- เลือกกลุ่มงาน --",
+    value: "",
+  },
+  {
+    label: "กลุ่มงาน1",
+    value: "กลุ่มงาน1",
   },
 ];
 
 export const projectBudgetOptions = [
   {
-    label: "งบประมาณ",
-    value: "งบประมาณ",
+    label: "-- เลือกงบประมาณ --",
+    value: "",
+  },
+  {
+    label: "งบประมาณ1",
+    value: "งบประมาณ1",
   },
 ];
 

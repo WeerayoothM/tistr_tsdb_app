@@ -9,7 +9,6 @@ import { useState } from "react";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Link, useRouter } from "expo-router";
 
 const image = require("../../assets/images/login_bg.png");
 
@@ -20,26 +19,25 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   const login = async () => {
     try {
       setErrorMessage("");
       setLoading(true);
 
-      // if (!username || !password) {
-      //   setErrorMessage("Username or password is invalid");
-      //   return;
-      // }
+      if (!username || !password) {
+        setErrorMessage("Username or password is invalid");
+        return;
+      }
 
-      // const payload = {
-      //   username,
-      //   password,
-      // };
       const payload = {
-        username: "user2",
-        password: "St4Ea0Sc",
+        username,
+        password,
       };
+      // const payload = {
+      //   username: "user2",
+      //   password: "St4Ea0Sc",
+      // };
 
       const resp = await axios.post(
         "https://tsdb.duckdns.org:3022/login",
@@ -56,7 +54,6 @@ export default function Login() {
         setUser(data);
       }
       setLoading(false);
-      router.replace("/dashboard");
     } catch (e) {
       console.log(e);
       setErrorMessage("Something went wrong");

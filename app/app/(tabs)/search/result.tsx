@@ -16,17 +16,17 @@ import { TEXT } from "@/styles/TEXT";
 import { Ionicons } from "@expo/vector-icons";
 import XButton from "@/components/atoms/XButton";
 import { getAllProject } from "./apis";
+import CommonFooter from "@/components/layout/CommonFooter";
 
 const result = () => {
   const { projectSearchState, projectListState, setProjectListState } =
     useContext(ProjectContext);
   const router = useRouter();
-  const pathName = usePathname();
-  console.log(pathName);
+  const { type = "offBudget" } = useSearchParams();
+  const isOffBudget = type === "offBudget";
 
   const handleSubmit = async () => {
     const resp = await getAllProject(projectSearchState);
-    console.log(resp);
     setProjectListState(resp.data);
   };
 
@@ -146,106 +146,125 @@ const result = () => {
     );
   };
 
+  const searchList = Object.entries(projectSearchState).filter(
+    (item) => !!item[1]
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
-          <Header
-            title={"สืบค้นข้อมูลโครงการ"}
-            height={150}
-            rightIcon={true}
-            onPressRightIcon={() => router.back}
+      {/* <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        nestedScrollEnabled={true}
+      > */}
+      <View style={{ flexGrow: 1, backgroundColor: COLOR.OFFWHITE }}>
+        <Header
+          title={"สืบค้นข้อมูลโครงการ"}
+          height={150}
+          rightIcon={true}
+          onPressRightIcon={() => router.back()}
+        />
+        <View
+          style={{
+            height: 111,
+            marginTop: 20,
+            marginHorizontal: 20,
+            alignItems: "center",
+          }}
+        >
+          <ImageBackground
+            source={
+              isOffBudget
+                ? require(`../../../assets/images/search_offbudget_bg.png`)
+                : require(`../../../assets/images/search_onbudget_bg.png`)
+            }
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              zIndex: 1,
+              // borderRadius: 10,
+            }}
+            imageStyle={{ borderRadius: 8 }}
+            resizeMode="cover"
           />
           <View
             style={{
-              height: 111,
-              marginTop: 20,
-              marginHorizontal: 20,
-              alignItems: "center",
+              zIndex: 3,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingHorizontal: 20,
+              width: "100%",
+              height: "100%",
             }}
           >
-            <ImageBackground
-              source={require("../../../assets/images/search_offbudget_bg.png")}
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                zIndex: 1,
-                // borderRadius: 10,
-              }}
-              imageStyle={{ borderRadius: 8 }}
-              resizeMode="cover"
-            />
             <View
               style={{
-                zIndex: 3,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 20,
-                width: "100%",
-                height: "100%",
+                flexGrow: 1,
+                justifyContent: "center",
               }}
             >
-              <View
-                style={{
-                  flexGrow: 1,
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
-                  โครงการนอกงบประมาณ
-                </Text>
-                <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                  ผลการค้นหาข้อมูลโครงการนอกงบประมาณ
-                </Text>
-              </View>
+              <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
+                {isOffBudget ? "โครงการนอกงบประมาณ" : "โครงการนอกในประมาณ"}
+              </Text>
+              <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
+                {isOffBudget
+                  ? "ผลการค้นหาข้อมูลโครงการนอกงบประมาณ"
+                  : "ผลการค้นหาข้อมูลโครงการในงบประมาณ"}
+              </Text>
             </View>
           </View>
+        </View>
 
-          <View
-            style={{
-              paddingHorizontal: 20,
-              gap: 10,
-              paddingBottom: 30,
-              paddingTop: 10,
-            }}
-          >
-            <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
-              ผลการสืบค้น {projectListState.length} โครงการ
-            </Text>
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: 20,
+            gap: 10,
+            paddingTop: 10,
+          }}
+        >
+          <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
+            ผลการสืบค้น {projectListState.length} โครงการ
+          </Text>
 
-            <FlatList
-              data={Object.entries(projectSearchState).filter(
-                (item) => !!item[1]
-              )}
-              renderItem={renderSearchItem}
-              keyExtractor={(item) => item[0]}
-              horizontal={true} // Set the horizontal prop to true
-              showsHorizontalScrollIndicator={false} // Optionally, hide the horizontal scrollbar
-              // Other FlatList props can be added here if needed
-            />
-
-            {projectListState.length > 0 ? (
+          {searchList.length > 0 ? (
+            <View style={{}}>
+              <FlatList
+                data={searchList}
+                renderItem={renderSearchItem}
+                keyExtractor={(item) => item[0]}
+                horizontal={true} // Set the horizontal prop to true
+                showsHorizontalScrollIndicator={false} // Optionally, hide the horizontal scrollbar
+                // Other FlatList props can be added here if needed
+              />
+            </View>
+          ) : null}
+          {projectListState.length > 0 ? (
+            <View style={{ flex: 1 }}>
               <FlatList
                 data={projectListState}
                 keyExtractor={(item: ProjectData) => item.project_id}
                 renderItem={renderItem}
+                nestedScrollEnabled={true}
+                showsVerticalScrollIndicator={false}
+                ListFooterComponent={() => <CommonFooter bottom={50} />}
               />
-            ) : (
-              <View style={{ alignItems: "center", marginTop: 70 }}>
-                <Text style={{ ...TEXT.header3, color: COLOR.DARKGRAY2 }}>
-                  ไม่พบข้อมูล
-                </Text>
-                <XButton
-                  title="ค้นหาใหม่"
-                  containerStyle={{ marginTop: 40 }}
-                  onPress={() => router.back}
-                />
-              </View>
-            )}
-          </View>
+            </View>
+          ) : (
+            <View style={{ alignItems: "center", marginTop: 70 }}>
+              <Text style={{ ...TEXT.header3, color: COLOR.DARKGRAY2 }}>
+                ไม่พบข้อมูล
+              </Text>
+              <XButton
+                title="ค้นหาใหม่"
+                containerStyle={{ marginTop: 40 }}
+                onPress={() => router.back()}
+              />
+            </View>
+          )}
         </View>
-      </ScrollView>
+      </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

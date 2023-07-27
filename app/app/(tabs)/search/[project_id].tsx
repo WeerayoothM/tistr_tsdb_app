@@ -67,7 +67,7 @@ const Project = () => {
             title={"สืบค้นข้อมูลโครงการ"}
             height={150}
             rightIcon={true}
-            onPressRightIcon={() => router.back}
+            onPressRightIcon={() => router.back()}
           />
           <View
             style={{

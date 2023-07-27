@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Image,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,12 +13,15 @@ import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { FontAwesome } from "@expo/vector-icons";
 import { formatDateToThaiDate } from "@/utils/format";
+import XDropdown from "@/components/atoms/XDropdown";
+import { useState } from "react";
 
 export default function TabDashboardScreen() {
+  const [selectYear, setSelectYear] = useState("");
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={{ backgroundColor: COLOR.OFFWHITE }}>
+        <View style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
           <ImageBackground
             source={require("../../assets/images/header_bg.png")}
             style={{
@@ -45,6 +49,7 @@ export default function TabDashboardScreen() {
           />
           <View
             style={{
+              flex: 1,
               paddingHorizontal: 20,
               paddingVertical: 40,
               zIndex: 3,
@@ -89,9 +94,61 @@ export default function TabDashboardScreen() {
             <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
               วัน{formatDateToThaiDate()}
             </Text>
+            <XDropdown
+              labelText=""
+              defaultValue={`${new Date().getFullYear}`}
+              onValueChange={(value) => {
+                setSelectYear(value);
+              }}
+              options={[
+                {
+                  label: "พ.ศ. 2566",
+                  value: "2566",
+                },
+                {
+                  label: "พ.ศ. 2565",
+                  value: "2565",
+                },
+              ]}
+              containerStyle={{ width: 130, alignSelf: "flex-end" }}
+              zIndex={999}
+            />
             <View
-              style={{ height: 1000, backgroundColor: COLOR.TRANSPARENT }}
-            ></View>
+              style={{
+                flex: 1,
+                // flexGrow: 1,
+                backgroundColor: COLOR.TRANSPARENT,
+                marginTop: 20,
+                zIndex: 0,
+              }}
+            >
+              <Image
+                source={require("../../assets/images/dashboard_count_all_project.png")}
+                style={{ width: "100%", resizeMode: "cover" }}
+                // resizeMode="cover"
+              />
+              <View style={{ flexDirection: "row", gap: 5 }}>
+                <View style={{ flex: 1 }}>
+                  <Image
+                    source={require("../../assets/images/dashboard_count_offbudget_project.png")}
+                    style={{ width: "100%" }}
+                    resizeMode="cover"
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Image
+                    source={require("../../assets/images/dashboard_count_onbudget_project.png")}
+                    style={{ width: "100%" }}
+                    resizeMode="cover"
+                  />
+                </View>
+              </View>
+              <Image
+                source={require("../../assets/images/dashboard_stat.png")}
+                style={{ width: "100%" }}
+                resizeMode="cover"
+              />
+            </View>
           </View>
         </View>
       </ScrollView>

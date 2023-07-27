@@ -1,3 +1,4 @@
+import LocalStorage from "@/utils/LocalStorage";
 import { useSegments, useRouter } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -51,11 +52,22 @@ export function AuthProvider({
 }): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
 
+  const _setUser = async (user: User) => {
+    setUser(user);
+    LocalStorage.setItem("user", JSON.stringify(user));
+  };
+
+  useEffect(() => {
+    (async () => {
+      setUser(JSON.parse(await LocalStorage.getItem("user")));
+    })();
+  }, []);
+
   useProtectedRoute(user);
 
   const authContext: AuthType = {
     user,
-    setUser,
+    setUser: _setUser,
   };
 
   return (

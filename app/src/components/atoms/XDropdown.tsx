@@ -21,18 +21,18 @@ const XDropdown = (props) => {
     ],
     labelText = "test",
     labelStyle = {},
-    value: defaultValue,
+    defaultValue,
     onValueChange,
     placeHolder = "Name",
     containerStyle = {},
-    zIndex,
-    listMode = "FLATLIST",
+    zIndex = 10,
+    listMode = "SCROLLVIEW",
   } = props;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | Option>(defaultValue);
 
   useEffect(() => {
-    console.log("useEffect", value);
+    console.log(value);
 
     if (value) {
       onValueChange(typeof value === "object" ? String(value.value) : value);
@@ -45,7 +45,7 @@ const XDropdown = (props) => {
         {labelText}
       </Text>
       <DropDownPicker
-        // listMode={listMode}
+        listMode={listMode}
         open={open}
         value={value as ValueType}
         items={options}
@@ -64,14 +64,14 @@ const XDropdown = (props) => {
         labelStyle={{
           ...TEXT.input2,
           paddingLeft: 3,
-          color: COLOR.BLACK,
+          color: !value?.toString() ? COLOR.LIGHTGRAY : COLOR.BLACK,
         }}
         placeholderStyle={{
           ...TEXT.input2,
           paddingLeft: 3,
           color: COLOR.LIGHTGRAY,
         }}
-        containerStyle={[containerStyle]}
+        containerStyle={[containerStyle, { zIndex: open ? zIndex : 0 }]}
         dropDownContainerStyle={{
           borderWidth: 1,
           borderRadius: 8,
@@ -87,12 +87,11 @@ const XDropdown = (props) => {
         showTickIcon={false}
         itemSeparator={true}
         itemSeparatorStyle={{
-          backgroundColor: COLOR.LIGHTGRAY,
+          backgroundColor: COLOR.LIGHTGRAY2,
         }}
         listItemContainerStyle={{
           marginVertical: 5,
         }}
-        zIndex={zIndex}
       />
     </>
   );
