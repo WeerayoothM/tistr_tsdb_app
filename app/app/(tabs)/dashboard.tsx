@@ -96,7 +96,7 @@ export default function TabDashboardScreen() {
             </Text>
             <XDropdown
               labelText=""
-              defaultValue={"2566"}
+              defaultValue={`${Number(new Date().getFullYear()) + 543}`}
               onValueChange={(value) => {
                 setSelectYear(value);
               }}
