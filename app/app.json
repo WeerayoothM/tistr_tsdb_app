@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "app",
+    "name": "tsdb",
     "sdkVersion": "48.0.0",
     "slug": "app",
     "version": "1.0.0",
@@ -10,7 +10,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
