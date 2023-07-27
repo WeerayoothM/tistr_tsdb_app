@@ -49,24 +49,16 @@ const result = () => {
         <Text style={{ ...TEXT.body2, color: COLOR.BLUE }}>
           {item.project_name_th}
         </Text>
-        <Text
-          style={{ ...TEXT.caption2, color: COLOR.DARKGRAY, marginTop: 10 }}
-        >
+        <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
           ผู้รับผิดชอบโครงการ {item.project_responsible}
         </Text>
-        <Text
-          style={{ ...TEXT.caption2, color: COLOR.DARKGRAY, marginTop: 10 }}
-        >
+        <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
           หน่วยงาน {item.project_location}
         </Text>
-        <Text
-          style={{ ...TEXT.caption2, color: COLOR.DARKGRAY, marginTop: 10 }}
-        >
+        <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
           ระยะเวลาดำเนินงาน {item.start_date} - {item.end_date}
         </Text>
-        <Text
-          style={{ ...TEXT.caption2, color: COLOR.DARKGRAY, marginTop: 10 }}
-        >
+        <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
           งบประมาณ {item.budget_amount} บาท
         </Text>
         <View

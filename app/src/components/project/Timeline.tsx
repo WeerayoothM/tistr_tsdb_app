@@ -127,7 +127,7 @@ const Timeline = ({
       <View style={{ paddingVertical: 20 }}>
         {data.map((item, idx) => (
           <Row
-            key={`${Date.now}`}
+            key={idx}
             event={item}
             eventStyle={eventStyle}
             lastIndex={idx === data.length - 1}

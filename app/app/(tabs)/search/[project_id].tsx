@@ -38,8 +38,6 @@ const Project = () => {
     setProject(resp.data);
   };
 
-  const data = [];
-
   useEffect(() => {
     (async () => {
       await fetchProject();
@@ -96,7 +94,7 @@ const Project = () => {
                 paddingVertical: 20,
                 paddingHorizontal: 20,
                 width: "100%",
-                height: "100%",
+                // height: "100%",
               }}
             >
               <View
@@ -321,9 +319,9 @@ const Project = () => {
             >
               <XSlideDown active={showFinancialReport}>
                 <View>
-                  {["", ""].map(() => (
+                  {[{ id: "ID0001" }, { id: "ID0002" }].map((item) => (
                     <View
-                      key={`${Date.now}`}
+                      key={item.id}
                       style={{
                         paddingHorizontal: 20,
                         paddingVertical: 20,

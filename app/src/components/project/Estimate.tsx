@@ -9,6 +9,7 @@ const Estimate = ({ end_date = "" }) => {
     <View
       style={{
         paddingHorizontal: 10,
+        paddingTop: 10,
         paddingBottom: 27,
         backgroundColor: COLOR.WHITE,
         borderRadius: 10,
@@ -35,15 +36,13 @@ const Estimate = ({ end_date = "" }) => {
               fill: ({ datum }) =>
                 datum.y > 50 ? COLOR.DARKGREEN2 : COLOR.LIGHTGRAY3,
             },
-
-            labels: {
-              opacity: 0,
-            },
           }}
-          width={500}
-          height={500}
-          innerRadius={170}
+          radius={80}
+          width={180}
+          height={180}
+          innerRadius={70}
           standalone={true}
+          labelComponent={<></>}
         />
         <View
           style={{

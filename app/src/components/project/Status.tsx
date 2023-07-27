@@ -3,11 +3,15 @@ import React from "react";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { AntDesign } from "@expo/vector-icons";
+import { SCREEN_WIDTH } from "@/styles/COMMON";
 
 const Status = ({ percent = 0, end_date = null }) => {
+  const _percent = 75;
   const positionMarker = {
-    top: -15,
-    left: `${-1.75 + percent}%`,
+    top: -18,
+    // left: "100%",
+    left: ((SCREEN_WIDTH - 60) * _percent) / 100 - 13, // - 0.12 * _percent,
+    // left: `${-1.75 + percent}%`,
   };
   const isPassed = new Date(end_date).getTime() > new Date().getTime();
 
@@ -40,7 +44,15 @@ const Status = ({ percent = 0, end_date = null }) => {
           {percent === 100 ? "เสร็จสิ้น" : "กำลังดำเนินการ"}
         </Text>
       </View>
-      <View style={{ flexDirection: "row", flex: 1, gap: 3, marginTop: 12 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          flex: 1,
+          gap: 1,
+          marginTop: 12,
+          justifyContent: "center",
+        }}
+      >
         <View
           style={{
             position: "absolute",
@@ -73,7 +85,7 @@ const Status = ({ percent = 0, end_date = null }) => {
         </View>
         <View
           style={{
-            flexGrow: 1,
+            width: (SCREEN_WIDTH - 60) / 4,
           }}
         >
           <View
@@ -96,7 +108,7 @@ const Status = ({ percent = 0, end_date = null }) => {
         </View>
         <View
           style={{
-            flexGrow: 1,
+            width: (SCREEN_WIDTH - 60) / 4,
           }}
         >
           <View
@@ -117,7 +129,7 @@ const Status = ({ percent = 0, end_date = null }) => {
         </View>
         <View
           style={{
-            flexGrow: 1,
+            width: (SCREEN_WIDTH - 60) / 4,
           }}
         >
           <View
@@ -138,7 +150,7 @@ const Status = ({ percent = 0, end_date = null }) => {
         </View>
         <View
           style={{
-            flexGrow: 1,
+            width: (SCREEN_WIDTH - 60) / 4,
           }}
         >
           <View
