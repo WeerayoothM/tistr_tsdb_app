@@ -12,8 +12,9 @@ import { getProjectList } from "./APIS";
 import { colorStatus } from "./Data/data";
 import { useStore } from "../../stores/stores";
 
-const ProjectList = () => {
+const InProjectList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const storeProject = useStore("projectStore");
 
   const [projectData, setProjectData] = useState<{ [key: string]: any }[]>([]);
@@ -185,7 +186,7 @@ const ProjectList = () => {
     >
       <div
         className="flex items-center gap-[10px] font-srb-500 mb-[2rem] cursor-pointer"
-        onClick={() => navigate("/project/outbdg-search")}
+        onClick={() => navigate("/project/inbdg-search")}
       >
         <div>
           <img src="/images/project-left-arrow.png" alt="" />
@@ -242,7 +243,7 @@ const ProjectList = () => {
       </div>
 
       {/* Ant table */}
-      <div className="out-budget">
+      <div className="in-budget">
         <Table
           rowSelection={{
             type: "checkbox",
@@ -259,7 +260,7 @@ const ProjectList = () => {
               onClick: (event) => {
                 const projectId = get(record, "projectId");
                 if (!projectId) return;
-                navigate(`/project/${projectId}`);
+                navigate(`/project/inbdg/${projectId}`);
               }, // click row
             };
           }}
@@ -277,4 +278,4 @@ const ProjectList = () => {
   );
 };
 
-export default observer(ProjectList);
+export default observer(InProjectList);

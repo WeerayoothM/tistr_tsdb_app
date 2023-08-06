@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { motion } from "framer-motion";
 import { scrollTop } from "../../utils/helper";
-import { useNavigate } from "react-router-dom";
+import CardWithHeader from "../../components/CardWithHeader";
+import { useLocation, useNavigate } from "react-router-dom";
 import { get, isObject } from "lodash";
 import FormRenderer from "../../components/FormRenderer";
-import { formTemplate } from "./Data/data";
+import { formTemplate, formTemplate2 } from "./Data/data";
 import { useStore } from "../../stores/stores";
 import { runInAction } from "mobx";
 
-const ProjectSearch = () => {
+const InProjectSearch = () => {
   const navigate = useNavigate();
   const storeProject = useStore("projectStore");
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
@@ -71,14 +72,14 @@ const ProjectSearch = () => {
         <div className="text-[#ADB5BD] text-[17px]">ย้อนกลับ</div>
       </div>
       <div
-        className={`flex shrink-0 items-center justify-between bg-[url('/images/project-bg-1.png')] rounded-[8px] h-[170px] px-[2rem] bg-no-repeat bg-cover w-full`}
+        className={`flex shrink-0 items-center justify-between bg-[url('/images/project-bg-2.png')] rounded-[8px] h-[170px] px-[2rem] bg-no-repeat bg-cover w-full`}
       >
         <div className="flex flex-col gap-[10px] text-white">
           <div className="text-[31px] font-srb-700">
-            สืบค้นโครงการนอกงบประมาณ
+            สืบค้นโครงการในงบประมาณ
           </div>
           <div className="text-[22px] font-srb-400">
-            กรอกข้อมูลโครงการวิจัยที่ดำเนินโครงการนอกงบประมาณ
+            กรอกข้อมูลโครงการวิจัยที่ดำเนินโครงการในงบประมาณ
           </div>
         </div>
         <div>
@@ -86,7 +87,7 @@ const ProjectSearch = () => {
         </div>
       </div>
       <div className="mt-[1rem] grid grid-cols-4 gap-[1rem]">
-        {formTemplate.map((item, index) => (
+        {formTemplate2.map((item, index) => (
           <FormRenderer
             options={item.options}
             label={item.labal}
@@ -104,7 +105,7 @@ const ProjectSearch = () => {
       <div className="font-srb-500 flex items-center justify-end gap-[2rem] mt-[2rem]">
         <div
           className="text-[#FFA500] text-[16px] cursor-pointer"
-          onClick={() => navigate("/project/list")}
+          onClick={() => navigate("/project/inbdg-list")}
         >
           {"ดูโครงการทั้งหมด >"}
         </div>
@@ -123,7 +124,7 @@ const ProjectSearch = () => {
             );
             if (!canSearch) return;
             storeProject.setSearchObject(formData);
-            navigate("/project/list");
+            navigate("/project/inbdg-list");
           }}
         >
           ค้นหา
@@ -133,4 +134,4 @@ const ProjectSearch = () => {
   );
 };
 
-export default observer(ProjectSearch);
+export default observer(InProjectSearch);

@@ -14,16 +14,20 @@ const ProjectCard: React.FC<Props> = ({
   headerColor,
 }) => {
   return (
-    <div className={`bg-[white] rounded-[8px] w-full  ${cn}`}>
+    <div
+      className={`bg-[white] ${
+        headerTitle && "pt-[38px]"
+      } rounded-[8px] w-full relative ${cn}`}
+    >
       {headerTitle && (
         <div
-          className={`font-srb-700 text-[17px] text-white rounded-t-[8px]  px-[2rem] py-[0.5rem]`}
+          className={`absolute font-srb-700 text-[17px] top-0 w-full  text-white rounded-t-[8px]  px-[2rem] py-[0.5rem]`}
           style={{ backgroundColor: `${headerColor}` }}
         >
           {headerTitle}
         </div>
       )}
-      <div className="w-full">{children}</div>
+      {children}
     </div>
   );
 };

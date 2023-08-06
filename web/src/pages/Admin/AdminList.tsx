@@ -105,7 +105,7 @@ const AdminList = () => {
       </div>
 
       {/* Ant table */}
-      <div>
+      <div className="out-budget">
         <Table
           onRow={(record, rowIndex) => {
             return {

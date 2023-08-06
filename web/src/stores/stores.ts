@@ -1,10 +1,12 @@
 import { createContext, useContext } from "react";
 import { UserStore } from "./user/userStore";
 import { MainStore } from "./main/mainStore";
+import { ProjectStore } from "./project/projectStore";
 
 const stores = Object.freeze({
   userStore: new UserStore(),
   mainStore: new MainStore(),
+  projectStore: new ProjectStore(),
 });
 
 export const StoreContext = createContext(stores);

@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { motion } from "framer-motion";
 import { scrollTop } from "../../utils/helper";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { get, isEmpty, isNumber } from "lodash";
+import { get, isEmpty } from "lodash";
 import "./style/index.css";
 import numeral from "numeral";
 
@@ -22,7 +22,7 @@ const detailTemplate = [
   },
   {
     label: "รหัสพนักงาน",
-    key: "projectRespEmpId",
+    key: "researchProjectCode",
   },
   {
     label: "หน่วยงาน",
@@ -96,11 +96,49 @@ const detailTemplate5 = [
   },
   {
     label: "สรุปการเบิกจ่าย",
-    key: "budgetAmount",
+    key: "3",
   },
 ];
 
-const ProjectList = () => {
+const detailTemplate6 = [
+  {
+    label: "ประเภทเทคโนโลยี",
+    key: "1",
+  },
+  {
+    label: "สาขาเทคโนโลยี",
+    key: "2",
+  },
+];
+
+const detailTemplate7 = [
+  {
+    label: "ภาค",
+    key: "locationRegion",
+  },
+  {
+    label: "จังหวัด",
+    key: "locationProvince",
+  },
+  {
+    label: "อำเภอ",
+    key: "locationDistrict",
+  },
+  {
+    label: "ตำบล",
+    key: "locationAmphur",
+  },
+  {
+    label: "หมู่บ้าน",
+    key: "locationVillage",
+  },
+  {
+    label: "พื้นที่เป้าหมาย",
+    key: "locationTarget",
+  },
+];
+
+const InProjectList = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [projectData, setProjectData] = useState<{ [key: string]: any }>({});
@@ -152,7 +190,7 @@ const ProjectList = () => {
     >
       <div
         className="flex items-center gap-[10px] font-srb-500 mb-[2rem] cursor-pointer"
-        onClick={() => navigate("/project/list")}
+        onClick={() => navigate("/project/inbdg-list")}
       >
         <div>
           <img src="/images/project-left-arrow.png" alt="" />
@@ -170,7 +208,7 @@ const ProjectList = () => {
       </div>
 
       <div
-        className={`shrink-0 bg-[url('/images/project-bg-1.png')] rounded-[8px] p-[2rem] bg-no-repeat bg-cover w-full mb-[1rem] min-h-[150px]`}
+        className={`shrink-0 bg-[url('/images/project-bg-2.png')] rounded-[8px] p-[2rem] bg-no-repeat bg-cover w-full mb-[1rem] min-h-[150px]`}
       >
         <div className="flex flex-col gap-[10px] text-white">
           <div className="text-[16px] font-srb-400">ชื่อโครงการ</div>
@@ -241,7 +279,7 @@ const ProjectList = () => {
                 <div>
                   <div className="w-full h-[8.12px] rounded-[17px] bg-[#D9D9D9]">
                     <div
-                      className={`h-[8.12px]   rounded-[17px]`}
+                      className={`h-[8.12px]  bg-[#000] rounded-[17px]`}
                       style={{
                         width: `${get(
                           projectData,
@@ -322,7 +360,7 @@ const ProjectList = () => {
           <ProjectCard
             cn={`mt-[1rem] text-[#666666] flex-1`}
             headerTitle="รายละเอียดโครงการ"
-            headerColor="#2F64D4"
+            headerColor="#5140b0"
           >
             <>
               {!isEmpty(projectData) &&
@@ -350,23 +388,78 @@ const ProjectList = () => {
         </div>
       </div>
 
+      <div className="grid grid-cols-2 gap-[1rem]">
+        <div className="flex flex-col">
+          <ProjectCard
+            cn={`mt-[1rem] flex-1 text-[#666666]`}
+            headerTitle="เทคโนโลยี"
+            headerColor="#5140b0"
+          >
+            <>
+              {!isEmpty(projectData) &&
+                detailTemplate6.map((template: any, index: number) => (
+                  <div
+                    className="card-wrapper min-h-[95px]"
+                    key={`template6-${index}`}
+                  >
+                    <div
+                      key={`project-detail-${index}`}
+                      className="px-[2rem] py-[1rem] flex flex-col gap-[10px]"
+                    >
+                      <div className="text-[19px]">{template.label}</div>
+                      <div className="text-[#1265DC] text-[22px]">
+                        {get(projectData, template.key, "-")}
+                      </div>
+                    </div>
+                    {index !== (detailTemplate6 || []).length - 1 && <hr />}
+                  </div>
+                ))}
+            </>
+          </ProjectCard>
+        </div>
+        <div className="flex flex-col">
+          <ProjectCard
+            cn={`mt-[1rem] flex-1 text-[#666666]`}
+            headerTitle="พื้นที่ดำเนินการ"
+            headerColor="#5140b0"
+          >
+            <>
+              {!isEmpty(projectData) &&
+                detailTemplate7.map((template: any, index: number) => (
+                  <div
+                    key={`template7-${index}`}
+                    className="grid grid-cols-5 px-[2rem] py-[1rem] items-baseline"
+                  >
+                    <div className="text-[19px] col-span-2">
+                      {template.label}
+                    </div>
+                    <div className="text-[#1265DC] text-[22px] col-span-3">
+                      {get(projectData, template.key, "-") || "-"}
+                    </div>
+                  </div>
+                ))}
+            </>
+          </ProjectCard>
+        </div>
+      </div>
+
       <div className="mt-[1rem]">
         <CardWithHeader
-          headerColor={"#2F64D4"}
+          headerColor={"#5140b0"}
           headerTitle={"แผนการดำเนินโครงการ"}
         />
       </div>
 
       <div className="w-full mt-[1rem]">
-        <GantChart projectData={projectData} color={"#1265DC"} />
+        <GantChart projectData={projectData} color={"#5140b0"} />
       </div>
 
       <div className="grid grid-cols-2 gap-[1rem]">
-        <div className="h-full flex flex-col">
+        <div className="flex flex-col">
           <ProjectCard
             cn={`mt-[1rem] flex-1 text-[#666666]`}
             headerTitle="สถานะการเบิกจ่าย"
-            headerColor="#2F64D4"
+            headerColor="#5140b0"
           >
             <>
               {!isEmpty(projectData) &&
@@ -397,11 +490,11 @@ const ProjectList = () => {
             </div>
           </ProjectCard>
         </div>
-        <div className="h-full flex flex-col">
+        <div className="flex flex-col">
           <ProjectCard
             cn={`mt-[1rem] flex-1 text-[#666666]`}
             headerTitle="รายงานแผนการใช้เงิน"
-            headerColor="#2F64D4"
+            headerColor="#5140b0"
           >
             <>
               {!isEmpty(projectData) &&
@@ -416,11 +509,7 @@ const ProjectList = () => {
                     >
                       <div className="text-[19px]">{template.label}</div>
                       <div className="text-[#1265DC] text-[22px]">
-                        {isNumber(get(projectData, template.key, "-"))
-                          ? numeral(get(projectData, template.key, "-")).format(
-                              "0,0"
-                            )
-                          : get(projectData, template.key, "-")}
+                        {get(projectData, template.key, "-")}
                       </div>
                     </div>
                     {index !== (detailTemplate5 || []).length - 1 && <hr />}
@@ -521,4 +610,4 @@ const ProjectList = () => {
   );
 };
 
-export default observer(ProjectList);
+export default observer(InProjectList);

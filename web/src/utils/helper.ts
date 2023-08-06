@@ -73,19 +73,18 @@ export const initTasks = (projectData: any) => {
       project: "ProjectSample",
     },
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
+      start: "",
+      end: "",
       name: "ดำเนินโครงการจัดอบรม ครั้งที่ 1",
       id: "Task 4",
       type: "task",
       project: "ProjectSample",
     },
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
+      start: "",
+      end: "",
       name: "ดำเนินโครงการจัดอบรม ครั้งที่ 2",
       id: "Task 5",
-      // dependencies: ["Task 4"],
       project: "ProjectSample",
     },
     {

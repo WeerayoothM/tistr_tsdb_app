@@ -8,7 +8,14 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
   background: white;
 }
-thead[class*="ant-table-thead"] th {
+.in-budget thead[class*="ant-table-thead"] th {
+  background-color: #5140b0 !important;
+  color: white !important;
+  font-weight: bold;
+  border: none !important;
+  text-align: center;
+}
+.out-budget thead[class*="ant-table-thead"] th {
   background-color: #3268db !important;
   color: white !important;
   font-weight: bold;

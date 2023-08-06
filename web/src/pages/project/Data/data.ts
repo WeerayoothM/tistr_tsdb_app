@@ -15,7 +15,7 @@ export const projectTemplate = [
 
 export const projectStatusOptions = [
   {
-    label: "สถานะโครงการ",
+    label: "ตัวเลือก",
     value: "",
   },
   {
@@ -126,5 +126,165 @@ export const formTemplate = [
     name: "project_sub_dept",
     options: [],
     col: "2",
+  },
+];
+
+export const formTemplate2 = [
+  {
+    type: "select",
+    labal: "สถานะโครงการ",
+    placeholder: "สถานะโครงการ",
+    name: "project_status",
+    options: projectStatusOptions,
+    col: "2",
+  },
+  {
+    type: "date",
+    labal: "วันเริ่มต้นโครงการ",
+    placeholder: "เลือกวันที่",
+    name: "start_date",
+    options: [],
+    col: "1",
+  },
+  {
+    type: "date",
+    labal: "วันสิ้นสุดโครงการ",
+    placeholder: "เลือกวันที่",
+    name: "end_date",
+    options: [],
+    col: "1",
+  },
+  {
+    type: "select",
+    labal: "ภาค",
+    placeholder: "ภาค",
+    name: "location_region",
+    options: projectStatusOptions,
+    col: "1",
+  },
+  {
+    type: "select",
+    labal: "จังหวัด",
+    placeholder: "จังหวัด",
+    name: "location_province",
+    options: projectStatusOptions,
+    col: "1",
+  },
+  {
+    type: "select",
+    labal: "อำเภอ",
+    placeholder: "อำเภอ",
+    name: "location_amphur",
+    options: projectStatusOptions,
+    col: "1",
+  },
+  {
+    type: "select",
+    labal: "ตำบล",
+    placeholder: "ตำบล",
+    name: "location_district",
+    options: projectStatusOptions,
+    col: "1",
+  },
+
+  {
+    type: "select",
+    labal: "หน่วยงานเจ้าของโครงการ",
+    placeholder: "หน่วยงานเจ้าของโครงการ",
+    name: "project_resp_dept",
+    options: projectStatusOptions,
+    col: "2",
+  },
+  {
+    type: "select",
+    labal: "หน่วยย่อย",
+    placeholder: "หน่วยย่อย",
+    name: "project_sub_dept",
+    options: projectStatusOptions,
+    col: "2",
+  },
+  {
+    type: "text",
+    labal: "ผู้รับผิดชอบโครงการ",
+    placeholder: "ผู้รับผิดชอบโครงการ...",
+    name: "project_responsible",
+    options: [],
+    col: "2",
+  },
+  {
+    type: "text",
+    labal: "พื้นที่เป้าหมาย",
+    placeholder: "พื้นที่เป้าหมาย",
+    name: "location_target",
+    options: [],
+    col: "2",
+  },
+  {
+    type: "text",
+    labal: "ชื่อโครงการ",
+    placeholder: "ชื่อโครงการ",
+    name: "project_name_th",
+    options: [],
+    col: "4",
+  },
+  {
+    type: "text",
+    labal: "รหัสโครงการ",
+    placeholder: "รหัสโครงการ",
+    name: "project_code",
+    options: [],
+    col: "2",
+  },
+
+  {
+    type: "text",
+    labal: "เลขที่สัญญา",
+    placeholder: "เลขที่สัญญา",
+    name: "contract_no",
+    options: [],
+    col: "2",
+  },
+  {
+    type: "select",
+    labal: "งบประมาณ",
+    placeholder: "งบประมาณ",
+    name: "budget_amount",
+    options: projectBudgetOptions,
+    col: "2",
+  },
+  {
+    type: "text",
+    labal: "แหล่งทุนวิจัย",
+    placeholder: "แหล่งทุนวิจัย",
+    name: "research_fund",
+    options: [],
+    col: "2",
+  },
+  {
+    type: "select",
+    labal: "สถานะการขอทุน",
+    placeholder: "สถานะการขอทุน",
+    name: "budget",
+    options: projectBudgetOptions,
+    col: "2",
+  },
+];
+
+export const colorStatus = [
+  {
+    key: "โครงการวิจัยเสร็จสิ้น",
+    color: "#FFA500",
+  },
+  {
+    key: "กำลังดำเนินการ",
+    color: "#008F88",
+  },
+  {
+    key: "รอดำเนินการ",
+    color: "#ADB5BD",
+  },
+  {
+    key: "เกินระยะเวลา",
+    color: "#E9748C",
   },
 ];

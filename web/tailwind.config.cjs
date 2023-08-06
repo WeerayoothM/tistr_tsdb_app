@@ -22,6 +22,9 @@ module.exports = {
         "login-background": "url('/images/login-background.png')",
         "admin-background": "url('/images/admin-background.png')",
       },
+      // gridColumn: {
+      //   "span-3": "span 4",
+      // },
     },
   },
   plugins: [],

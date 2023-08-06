@@ -12,6 +12,10 @@ import ProjectDetail from "../pages/project/ProjectDetail";
 import AuthorizationSearch from "../pages/Authorization/AuthorizationSearch";
 import AuthorizationList from "../pages/Authorization/AuthorizationList";
 import AdminList from "../pages/Admin/AdminList";
+import InProjectSearch from "../pages/project/InProjectSearch";
+import InProjectList from "../pages/project/InProjectList";
+import InProjectDetail from "../pages/project/InProjectDetail";
+import Import from "../pages/Import/Import";
 
 const RouteConfig: React.FC = () => {
   const location = useLocation();
@@ -40,12 +44,21 @@ const RouteConfig: React.FC = () => {
                   />
                   <Route
                     path="/project/inbdg-search"
-                    element={<ProjectSearch />}
+                    element={<InProjectSearch />}
                   />
                   <Route path="/project/list" element={<ProjectList />} />
                   <Route path="/project/:id" element={<ProjectDetail />} />
 
-                  <Route path="/import" element={<Dashboard />} />
+                  <Route
+                    path="/project/inbdg-list"
+                    element={<InProjectList />}
+                  />
+                  <Route
+                    path="/project/inbdg/:id"
+                    element={<InProjectDetail />}
+                  />
+
+                  <Route path="/import" element={<Import />} />
 
                   <Route
                     path="/authorization"

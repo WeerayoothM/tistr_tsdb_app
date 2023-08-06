@@ -7,17 +7,21 @@ import { get, isEmpty } from "lodash";
 
 interface Props {
   projectData: any;
+  color: string;
 }
 
-const GantChart: React.FC<Props> = ({ projectData }) => {
+const GantChart: React.FC<Props> = ({ projectData, color = "#1265DC" }) => {
   const view = ViewMode.Week;
   const [tasks, setTasks] = useState<any>([]);
 
   useEffect(() => {
     if (isEmpty(projectData)) return;
 
-    const newTasks = (initTasks(projectData) || []).filter((item: any) => {
-      return get(item, "start") && get(item, "end");
+    const newTasks = (initTasks(projectData) || []).map((item: any) => {
+      const hasStartAndEnd = get(item, "start") && get(item, "end");
+      return hasStartAndEnd
+        ? item
+        : { ...item, start: new Date(), end: new Date() };
     });
 
     setTasks(newTasks);
@@ -30,7 +34,7 @@ const GantChart: React.FC<Props> = ({ projectData }) => {
           tasks={tasks}
           viewMode={view}
           columnWidth={140}
-          barBackgroundColor="#1265DC"
+          barBackgroundColor={color}
           rowHeight={70}
           fontSize={"12"}
           TaskListHeader={({ headerHeight }) => (
@@ -54,7 +58,7 @@ const GantChart: React.FC<Props> = ({ projectData }) => {
           TaskListTable={(props) => <TaskListTable {...props} />}
           TooltipContent={() => <></>}
           todayColor={"transparent"}
-          barBackgroundSelectedColor={"#1265DC"}
+          barBackgroundSelectedColor={color}
           barCornerRadius={8}
         />
       )}
