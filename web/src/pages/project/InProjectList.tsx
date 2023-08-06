@@ -125,7 +125,6 @@ const InProjectList = () => {
 
   useEffect(() => {
     scrollTop();
-    getProjectData({ ...storeProject.searchObject });
   }, []);
 
   useEffect(() => {
@@ -140,6 +139,7 @@ const InProjectList = () => {
       const resp = await getProjectList({
         offset,
         limit: tableParams.pagination.pageSize,
+        source: "in",
         payload,
       });
 
