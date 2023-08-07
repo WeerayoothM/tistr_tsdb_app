@@ -16,6 +16,13 @@ import dayjs from "dayjs";
 import { colorStatus, mockChart1 } from "./Data/data";
 import Charts from "../dashboard/Chart/Charts";
 
+import {
+  CircularProgressbar,
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 const detailTemplate = [
   {
     label: "ผู้รับผิดชอบโครงการ",

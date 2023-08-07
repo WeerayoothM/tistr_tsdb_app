@@ -68,7 +68,7 @@ export const formTemplate = [
     labal: "กลุ่มงาน",
     placeholder: "กลุ่มงาน",
     name: "group",
-    options: [],
+    options: projectGroupOptions,
     col: "2",
   },
   {
@@ -76,7 +76,7 @@ export const formTemplate = [
     labal: "สิทธิ์การใช้งาน",
     placeholder: "สิทธิ์การใช้งาน",
     name: "license",
-    options: [],
+    options: projectBudgetOptions,
     col: "2",
   },
 ];
