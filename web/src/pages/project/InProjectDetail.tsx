@@ -13,7 +13,8 @@ import ProjectCard from "./elements/ProjectCard";
 import CardWithHeader from "../../components/CardWithHeader";
 import GantChart from "./elements/GantChart";
 import dayjs from "dayjs";
-import { colorStatus } from "./Data/data";
+import { colorStatus, mockChart1 } from "./Data/data";
+import Charts from "../dashboard/Chart/Charts";
 
 const detailTemplate = [
   {
@@ -143,6 +144,7 @@ const InProjectList = () => {
   const { id } = useParams();
   const [projectData, setProjectData] = useState<{ [key: string]: any }>({});
   const [color, setColor] = useState("");
+  const [chartData, setChartData] = useState({ chart1: {}, chart2: {} });
 
   useEffect(() => {
     scrollTop();
@@ -155,6 +157,7 @@ const InProjectList = () => {
 
       const data = get(resp, "data", []);
       setProjectData(data);
+      setChartData({ ...chartData, chart1: mockChart1 });
       const status = colorStatus.find((item) =>
         get(data, "projectStatus", "").includes(item.key)
       );
@@ -345,7 +348,7 @@ const InProjectList = () => {
                     >
                       <div className="text-[19px]">{template.label}</div>
                       <div className="text-[#1265DC] text-[22px]">
-                        {get(projectData, template.key, "-")}
+                        {get(projectData, template.key, "-") || "-"}
                       </div>
                     </div>
                     {index !== (detailTemplate2 || []).length - 1 && <hr />}
@@ -483,9 +486,14 @@ const InProjectList = () => {
             </>
           </ProjectCard>
           <ProjectCard cn={`mt-[1rem] flex-1 text-[#666666]`}>
-            <div className="px-[2rem] py-[1rem] flex flex-col gap-[10px]">
+            <div className="px-[2rem] py-[1rem]">
               <div className="text-[19px]">
                 รายงานการเบิกจ่ายงบประมาณตลอดโครงการ
+              </div>
+              <div className="pt-[1rem] ">
+                {!isEmpty(chartData.chart1) && (
+                  <Charts chartData={chartData.chart1} type="bubble" />
+                )}
               </div>
             </div>
           </ProjectCard>
@@ -525,25 +533,42 @@ const InProjectList = () => {
         headerTitle="ผลการประเมินโครงการ"
         headerColor="#E88F34"
       >
-        <div className="grid grid-cols-12 px-[2rem] py-[1rem]">
-          <div className="col-span-4">chart</div>
-          <div className="col-span-8">
-            <div className="flex items-center w-full justify-between">
+        <div className="grid grid-cols-12 gap-[2rem] px-[2rem] py-[1rem]">
+          <div className="col-span-4 flex justify-center">
+            <div className="w-[200px]">
+              <CircularProgressbarWithChildren
+                value={60}
+                strokeWidth={8}
+                styles={buildStyles({
+                  pathColor: "#008F88",
+                  strokeLinecap: "butt",
+                  pathTransition: "none",
+                })}
+              >
+                <div className="text-[#1A1A1A] text-[60px]">{"60%"}</div>
+                <div className="text-[#ADB5BD] text-[18px]">ดีเยี่ยม</div>
+              </CircularProgressbarWithChildren>
+            </div>
+          </div>
+          <div className="col-span-8 text-[#666666] font-srb-400">
+            <div className="flex items-center w-full justify-between font-srb-500">
               <div>เกณฑ์การประเมิน</div>
-              <div>ผ่านเกณฑ์</div>
+              <div className="text-[#008F88]">ผ่านเกณฑ์</div>
             </div>
-            <hr />
-            <div className="flex items-center w-full justify-between">
-              <div>เกณฑ์การประเมิน (1)</div>
-              <div>80</div>
-            </div>
-            <div className="flex items-center w-full justify-between">
-              <div>เกณฑ์การประเมิน (2)</div>
-              <div>76</div>
-            </div>
-            <div className="flex items-center w-full justify-between">
-              <div>เกณฑ์การประเมิน (3)</div>
-              <div>98</div>
+            <hr className="my-[1.5rem]" />
+            <div className="flex flex-col gap-[20px]">
+              <div className="flex items-center w-full justify-between">
+                <div>เกณฑ์การประเมิน (1)</div>
+                <div>80</div>
+              </div>
+              <div className="flex items-center w-full justify-between">
+                <div>เกณฑ์การประเมิน (2)</div>
+                <div>76</div>
+              </div>
+              <div className="flex items-center w-full justify-between">
+                <div>เกณฑ์การประเมิน (3)</div>
+                <div>98</div>
+              </div>
             </div>
           </div>
         </div>

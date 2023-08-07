@@ -288,3 +288,30 @@ export const colorStatus = [
     color: "#E9748C",
   },
 ];
+
+export const mockChart1 = {
+  labels: ["มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค."],
+  datasets: [
+    {
+      type: "bar",
+      label: "งบโครงการ",
+      data: [, , 25, 29],
+      borderColor: "#5E48CF",
+      backgroundColor: "#5E48CF",
+    },
+    {
+      type: "bar",
+      label: "งบโครงการ",
+      data: [, , 16, 30],
+      borderColor: "#FFA500",
+      backgroundColor: "#FFA500",
+    },
+    {
+      type: "line",
+      label: "งบโครงการเฉลี่ย",
+      data: [12, 15, 20, 26, 10, 13, 15, 22, 20, 20, 17, 25],
+      fill: true,
+      borderColor: "#13007D",
+    },
+  ],
+};

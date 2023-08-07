@@ -39,6 +39,11 @@ const Charts: React.FC<DoughnutChartProps> = ({ chartData, type, height }) => {
               },
               maintainAspectRatio: false,
               scales: {},
+              elements: {
+                line: {
+                  fill: false,
+                },
+              },
             }}
           />
         </div>
