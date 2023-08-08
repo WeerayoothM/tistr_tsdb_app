@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "tsdb",
+    "name": "R Plus",
     "sdkVersion": "48.0.0",
-    "slug": "app",
+    "slug": "rplus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
-    "scheme": "myapp",
+    "scheme": "rplus",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -16,14 +16,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tsdb.app"
+      "bundleIdentifier": "com.tistr.rplus"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/images/logo-android.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.tsdb.app"
+      "package": "com.tistr.rplus"
     },
     "web": {
       "bundler": "metro",

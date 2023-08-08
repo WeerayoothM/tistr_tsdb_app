@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { Platform, StyleSheet } from "react-native";
 
-import EditScreenInfo from "../src/components/EditScreenInfo";
-import { Text, View } from "../src/components/Themed";
+import EditScreenInfo from "../../../src/components/EditScreenInfo";
+import { Text, View } from "../../../src/components/Themed";
 
-export default function ModalScreen() {
+export default function notification() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Modal</Text>
