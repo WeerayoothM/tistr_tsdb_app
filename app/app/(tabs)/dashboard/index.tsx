@@ -69,8 +69,8 @@ export default function TabDashboardScreen() {
               <Text style={{ ...TEXT.header1BOLD, color: COLOR.WHITE }}>
                 แดชบอร์ด
               </Text>
-              <Link href="dashboard/notification" asChild>
-                {/* <Pressable>
+              {/* <Link href="dashboard/notification" asChild> */}
+              {/* <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
                     name="info-circle"
@@ -80,36 +80,36 @@ export default function TabDashboardScreen() {
                   />
                 )}
               </Pressable> */}
-                <TouchableOpacity
-                // onPress={() => router.push("dashboard/notification")}
+              <TouchableOpacity
+              // onPress={() => router.push("dashboard/notification")}
+              >
+                <View
+                  style={{
+                    position: "absolute",
+                    backgroundColor: COLOR.PINK,
+                    borderRadius: 50,
+                    width: 13,
+                    height: 13,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    zIndex: 3,
+                    right: 0,
+                    top: -5,
+                  }}
                 >
-                  <View
+                  <Text
                     style={{
-                      position: "absolute",
-                      backgroundColor: COLOR.PINK,
-                      borderRadius: 50,
-                      width: 13,
-                      height: 13,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      zIndex: 3,
-                      right: 0,
-                      top: -5,
+                      ...TEXT.badge1,
+                      color: COLOR.WHITE,
+                      fontSize: 8,
                     }}
                   >
-                    <Text
-                      style={{
-                        ...TEXT.badge1,
-                        color: COLOR.WHITE,
-                        fontSize: 8,
-                      }}
-                    >
-                      2
-                    </Text>
-                  </View>
-                  <FontAwesome name="bell" size={24} color={COLOR.WHITE} />
-                </TouchableOpacity>
-              </Link>
+                    2
+                  </Text>
+                </View>
+                <FontAwesome name="bell" size={24} color={COLOR.WHITE} />
+              </TouchableOpacity>
+              {/* </Link> */}
             </View>
             <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
               วัน{formatDateToThaiDate()}
