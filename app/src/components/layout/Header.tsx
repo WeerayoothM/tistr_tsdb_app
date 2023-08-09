@@ -11,6 +11,7 @@ const Header = ({
   height = 250,
   rightIcon = false,
   onPressRightIcon = () => {},
+  headerTextStyle = {},
 }) => {
   const router = useRouter();
   return (
@@ -53,7 +54,11 @@ const Header = ({
         <TouchableOpacity style={{ width: 50 }} onPress={() => router.back()}>
           <Ionicons name="chevron-back" size={24} color={COLOR.WHITE} />
         </TouchableOpacity>
-        <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>{title}</Text>
+        <Text
+          style={{ ...TEXT.caption1, color: COLOR.WHITE, ...headerTextStyle }}
+        >
+          {title}
+        </Text>
         {rightIcon ? (
           <TouchableOpacity
             style={{ width: 50, justifyContent: "center" }}

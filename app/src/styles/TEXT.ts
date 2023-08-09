@@ -128,6 +128,11 @@ export const TEXT = {
     fontFamily: BaiJamjureeBold,
     fontSize: 32,
   },
+  header1SemiBOLD: {
+    ...commonTextStyle,
+    fontFamily: BaiJamjureeBold,
+    fontSize: 32,
+  },
   header2BOLD: {
     ...commonTextStyle,
     fontFamily: BaiJamjureeBold,

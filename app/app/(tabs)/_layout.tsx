@@ -100,6 +100,11 @@ export default function TabLayout() {
           //   </Link>
           // ),
         }}
+        listeners={{
+          tabPress: (e) => {
+            router.replace("/dashboard");
+          },
+        }}
       />
       <Tabs.Screen
         name="search"
@@ -110,6 +115,11 @@ export default function TabLayout() {
           ),
           headerShown: false,
           headerShadowVisible: false, // applied here
+        }}
+        listeners={{
+          tabPress: (e) => {
+            router.replace("/search");
+          },
         }}
       />
       <Tabs.Screen

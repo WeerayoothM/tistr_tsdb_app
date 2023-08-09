@@ -15,6 +15,8 @@ import { AntDesign } from "@expo/vector-icons";
 
 const CardLayoutThick = ({
   containerStyle = {},
+  headerContainerStyle = {},
+  headerLabelStyle = {},
   headerHeight = 60,
   themeColor = COLOR.BLUE,
   children,
@@ -26,6 +28,8 @@ const CardLayoutThick = ({
   onPressHeader = () => {},
 }: {
   containerStyle?: ViewStyle;
+  headerContainerStyle?: ViewStyle;
+  headerLabelStyle?: ViewStyle;
   headerHeight?: number;
   themeColor?: string;
   children?: React.ReactNode;
@@ -40,6 +44,7 @@ const CardLayoutThick = ({
     [COLOR.BLUE]: require("../../../assets/images/card_header_thick_blue_bg.png"),
     [COLOR.PURPLE]: require("../../../assets/images/card_header_thick_purple_bg.png"),
     [COLOR.ORANGE]: require("../../../assets/images/card_header_thick_orange_bg.png"),
+    [COLOR.DARKORANGE]: require("../../../assets/images/card_header_thick_darkorange_bg.png"),
     [COLOR.GREEN]: require("../../../assets/images/card_header_thick_green_bg.png"),
   };
   return (
@@ -56,6 +61,7 @@ const CardLayoutThick = ({
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           justifyContent: "center",
+          ...headerContainerStyle,
         }}
       >
         <ImageBackground
@@ -81,6 +87,7 @@ const CardLayoutThick = ({
             alignItems: "center",
             justifyContent: "space-between",
             paddingHorizontal: 10,
+            ...headerLabelStyle,
           }}
         >
           <Text style={{ ...TEXT.caption1BOLD, color: COLOR.WHITE }}>

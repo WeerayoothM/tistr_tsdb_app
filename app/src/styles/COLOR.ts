@@ -17,6 +17,7 @@ export const COLOR = {
 
   DARKPINK: "#B23955",
   PINK: "#FF5275",
+  PINK2: "#E9748C",
   LIGHTPINK: "#FFEBF0",
   LIGHTPINK2: "#FDDEE6",
   RED: "#FE5C5C",
@@ -33,6 +34,7 @@ export const COLOR = {
   LIGHTPURPLE: "#9747FF",
 
   ORANGE: "#FFA500",
+  DARKORANGE: "#F76400",
 
   TRANSPARENT: "rgba(255,255,255,0)",
 };

@@ -24,7 +24,7 @@ export default function TabProfile() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
           <ImageBackground
             source={require("../../assets/images/header_search_bg.png")}
             style={{
