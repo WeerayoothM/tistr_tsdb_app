@@ -103,6 +103,12 @@ export const TEXT = {
     fontSize: 14,
     lineHeight: 20,
   },
+  input3: {
+    ...commonTextStyle,
+    fontFamily: BaiJamjureeSemiBold,
+    fontSize: 12,
+    lineHeight: 16,
+  },
   badge1: {
     ...commonTextStyle,
     fontFamily: BaiJamjureeSemiBold,
@@ -151,6 +157,11 @@ export const TEXT = {
   header5BOLD: {
     ...commonTextStyle,
     fontFamily: BaiJamjureeBold,
+    fontSize: 24,
+  },
+  header5SemiBOLD: {
+    ...commonTextStyle,
+    fontFamily: BaiJamjureeSemiBold,
     fontSize: 24,
   },
   header6BOLD: {

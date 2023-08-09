@@ -31,6 +31,7 @@ export const COLOR = {
   DARKBLUE: "#13007D",
 
   PURPLE: "#5E48CF",
+  PURPLE2: "#462FBB",
   LIGHTPURPLE: "#9747FF",
 
   ORANGE: "#FFA500",

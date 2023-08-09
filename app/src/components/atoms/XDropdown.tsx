@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
+import { AntDesign } from "@expo/vector-icons";
 
 export interface Option {
   value: string | number;
@@ -33,8 +34,6 @@ const XDropdown = (props) => {
   const [value, setValue] = useState<string | Option>(defaultValue);
 
   useEffect(() => {
-    console.log(value);
-
     if (value || value === "") {
       onValueChange(typeof value === "object" ? String(value.value) : value);
     }
@@ -42,9 +41,15 @@ const XDropdown = (props) => {
 
   return (
     <View style={[containerStyle, { zIndex: open ? zIndex : 0 }]}>
-      <Text style={[{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }, labelStyle]}>
-        {labelText}
-      </Text>
+      {labelText ? (
+        <Text
+          style={[{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }, labelStyle]}
+        >
+          {labelText}
+        </Text>
+      ) : (
+        <></>
+      )}
       <DropDownPicker
         listMode={listMode}
         open={open}
@@ -64,8 +69,7 @@ const XDropdown = (props) => {
           },
         ]}
         labelStyle={{
-          ...TEXT.input2,
-          paddingLeft: 3,
+          ...TEXT.input3,
           color: !value?.toString() ? COLOR.LIGHTGRAY : COLOR.BLACK,
         }}
         placeholderStyle={{
@@ -94,6 +98,11 @@ const XDropdown = (props) => {
         listItemContainerStyle={{
           marginVertical: 5,
         }}
+        ArrowDownIconComponent={() => (
+          <View style={{ height: 16, width: 16 }}>
+            <AntDesign name="down" size={16} color={COLOR.ORANGE} />
+          </View>
+        )}
       />
     </View>
   );

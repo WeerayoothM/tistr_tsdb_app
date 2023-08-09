@@ -33,6 +33,7 @@ const CardLayoutThinVertical = ({
         borderRadius: 10,
         width: "100%",
         flexDirection: "row",
+        flex: 1,
         ...headerContainerStyle,
       }}
     >

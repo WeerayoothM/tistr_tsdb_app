@@ -14,17 +14,42 @@ import { TEXT } from "@/styles/TEXT";
 import { FontAwesome } from "@expo/vector-icons";
 import { formatDateToThaiDate } from "@/utils/format";
 import XDropdown from "@/components/atoms/XDropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
-import { BaiJamjureeSemiBold } from "@/styles/COMMON";
+import {
+  BaiJamjureeRegular,
+  BaiJamjureeSemiBold,
+  SCREEN_WIDTH,
+} from "@/styles/COMMON";
 import CardLayoutThin from "@/components/layout/CardLayoutThin";
 import CardLayoutThick from "@/components/layout/CardLayoutThick";
-import { VictoryPie } from "victory-native";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryGroup,
+  VictoryLine,
+  VictoryPie,
+} from "victory-native";
 import CardLayoutThinVertical from "@/components/layout/CardLayoutThinVertical";
 
 export default function TabDashboardScreen() {
   const [selectYear, setSelectYear] = useState("");
   const [selectBudget, setSelectBudget] = useState("");
+  const [endAngle, setEndAngle] = useState(0);
+  const [width, setWidth] = useState(null);
+
+  const handleLayout = (event) => {
+    const { width } = event.nativeEvent.layout;
+
+    setWidth(width);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setEndAngle(360);
+    }, 500);
+  }, []);
   const router = useRouter();
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -110,7 +135,13 @@ export default function TabDashboardScreen() {
             <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
               วัน{formatDateToThaiDate()}
             </Text>
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                marginTop: 20,
+              }}
+            >
               <XDropdown
                 labelText=""
                 defaultValue={`${Number(new Date().getFullYear()) + 543}`}
@@ -127,7 +158,7 @@ export default function TabDashboardScreen() {
                     value: "2565",
                   },
                 ]}
-                dropDownContainerStyle={{ alignSelf: "flex-end" }}
+                dropDownContainerStyle={{ width: 130, alignSelf: "flex-end" }}
                 zIndex={999}
               />
             </View>
@@ -165,7 +196,7 @@ export default function TabDashboardScreen() {
                     justifyContent: "space-between",
                     paddingHorizontal: 20,
                     width: "100%",
-                    height: "100%",
+                    minHeight: 116,
                   }}
                 >
                   <View
@@ -193,13 +224,13 @@ export default function TabDashboardScreen() {
                     <View
                       style={{
                         flexDirection: "row",
-                        alignItems: "flex-end",
+                        alignItems: "center",
                         gap: 14,
                       }}
                     >
                       <Image
                         source={require("../../../assets/images/project_icon_orange.png")}
-                        style={{ height: 38, resizeMode: "cover" }}
+                        style={{ height: 38, resizeMode: "contain" }}
                         // resizeMode="cover"
                       />
                       <Text
@@ -207,7 +238,7 @@ export default function TabDashboardScreen() {
                           ...TEXT.header1SemiBOLD,
                           fontFamily: BaiJamjureeSemiBold,
                           fontSize: 40,
-                          // fontWeight:600,
+                          lineHeight: 40,
                           color: COLOR.WHITE,
                         }}
                       >
@@ -314,12 +345,14 @@ export default function TabDashboardScreen() {
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    gap: 8,
                   }}
                 >
                   <View
                     style={{
                       justifyContent: "center",
                       alignItems: "center",
+                      flex: 1,
                       flexGrow: 1,
                     }}
                   >
@@ -330,8 +363,12 @@ export default function TabDashboardScreen() {
                         { x: "overdue", y: 100 / 2370 },
                         { x: "waiting", y: 700 / 2370 },
                       ]}
+                      animate={{
+                        duration: 1000, // Duration in milliseconds
+                        // onLoad: { duration: 500 },
+                      }}
+                      endAngle={endAngle}
                       style={{
-                        border: { borderWidth: 1 },
                         data: {
                           fill: ({ datum }) => {
                             switch (datum.xName) {
@@ -347,13 +384,15 @@ export default function TabDashboardScreen() {
                                 return COLOR.LIGHTGRAY2;
                             }
                           },
-                          // datum.y > 50 ? COLOR.DARKGREEN2 : COLOR.LIGHTGRAY3,
                         },
                       }}
-                      radius={100}
-                      width={200}
-                      height={200}
-                      innerRadius={66}
+                      // SCREEN_WIDTH -
+                      width={SCREEN_WIDTH - width - 40 - 36 - 8}
+                      height={SCREEN_WIDTH - width - 40 - 36 - 8}
+                      padding={0}
+                      innerRadius={
+                        ((SCREEN_WIDTH - width - 40 - 36 - 8) * 0.75) / 2
+                      }
                       standalone={true}
                       labelComponent={<></>}
                     />
@@ -368,8 +407,7 @@ export default function TabDashboardScreen() {
                     >
                       <Text
                         style={{
-                          ...TEXT.header1SemiBOLD,
-                          fontSize: 40,
+                          ...TEXT.header5SemiBOLD,
                           color: COLOR.DARKORANGE,
                         }}
                       >
@@ -382,7 +420,12 @@ export default function TabDashboardScreen() {
                       </Text>
                     </View>
                   </View>
-                  <View style={{ gap: 13 }}>
+                  <View
+                    style={{
+                      gap: 13,
+                    }}
+                    onLayout={handleLayout}
+                  >
                     <View>
                       <Text
                         style={{ ...TEXT.body1BOLD, color: COLOR.DARKGREEN2 }}
@@ -505,49 +548,221 @@ export default function TabDashboardScreen() {
                     gap: 13,
                   }}
                 >
-                  <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
+                  <Text
+                    style={{
+                      ...TEXT.caption1,
+                      color: COLOR.DARKGRAY,
+                      flexWrap: "wrap",
+                    }}
+                  >
                     รายการเบิกจ่ายงบประมาณ
                   </Text>
-                  <XDropdown
-                    labelText=""
-                    defaultValue={`งบรวม`}
-                    onValueChange={(value) => {
-                      setSelectBudget(value);
-                    }}
-                    options={[
-                      {
-                        label: "งบรวม",
-                        value: "งบรวม",
-                      },
-                      {
-                        label: "งบโครงการภายใน",
-                        value: "งบโครงการภายใน",
-                      },
-                      {
-                        label: "งบโครงการภายนอก",
-                        value: "งบโครงการภายนอก",
-                      },
-                    ]}
-                    dropDownContainerStyle={{
-                      alignSelf: "flex-end",
-                    }}
-                    zIndex={999}
-                    containerStyle={{
-                      borderWidth: 1,
-                      borderRadius: 8,
-                      borderColor: COLOR.LIGHTGRAY,
-                    }}
-                  />
+                  <View style={{ flex: 1 }}>
+                    <XDropdown
+                      labelText=""
+                      defaultValue={`งบรวม`}
+                      onValueChange={(value) => {
+                        setSelectBudget(value);
+                      }}
+                      options={[
+                        {
+                          label: "งบรวม",
+                          value: "งบรวม",
+                        },
+                        {
+                          label: "ค่าใช้จ่ายรวม",
+                          value: "ค่าใช้จ่ายรวม",
+                        },
+                      ]}
+                      dropDownContainerStyle={{
+                        flex: 1,
+                        alignSelf: "flex-end",
+                      }}
+                      zIndex={999}
+                      containerStyle={{
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        borderColor: COLOR.LIGHTGRAY,
+                      }}
+                    />
+                  </View>
                 </View>
                 <View style={{ marginTop: 10 }}>
-                  <Image
-                    source={require("../../../assets/images/Mock_Graph_Blue.png")}
+                  <View
                     style={{
-                      width: "100%",
-                      resizeMode: "contain",
-                      aspectRatio: 1,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 11,
                     }}
-                  />
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 10,
+                          backgroundColor: COLOR.BLUE,
+                        }}
+                      />
+                      <Text
+                        style={{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }}
+                      >
+                        งบโครงการภายใน(แผน)
+                      </Text>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 10,
+                          backgroundColor: COLOR.PURPLE2,
+                        }}
+                      />
+                      <Text
+                        style={{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }}
+                      >
+                        งบโครงการภายนอก(แผน)
+                      </Text>
+                    </View>
+                    <View style={{ flexGrow: 1 }}>
+                      <Text
+                        style={{
+                          ...TEXT.label3Thin,
+                          color: COLOR.LIGHTGRAY,
+                          textAlign: "right",
+                        }}
+                      >
+                        ปี 2565
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <VictoryChart
+                      padding={20}
+                      width={SCREEN_WIDTH - 40 - 36}
+                      height={123}
+                      domainPadding={0}
+                    >
+                      <VictoryGroup
+                        offset={8}
+                        style={{ data: { width: 8 } }}
+                        animate={{
+                          duration: 1000,
+                          onLoad: { duration: 500 },
+                        }}
+                      >
+                        {/* Data A */}
+                        <VictoryBar
+                          data={[
+                            { x: "ม.ค.", y: 50 },
+                            { x: "ก.พ.", y: 90 },
+                            { x: "มี.ค.", y: 100 },
+                            { x: "เม.ย.", y: 70 },
+                            { x: "พ.ค.", y: 75 },
+                            { x: "มิ.ย.", y: 70 },
+                            { x: "ก.ค.", y: 50 },
+                            { x: "ส.ค.", y: 60 },
+                            { x: "ก.ย.", y: 50 },
+                            { x: "ต.ค.", y: 62 },
+                            { x: "พ.ย.", y: 80 },
+                            { x: "ธ.ค.", y: 80 },
+                          ]}
+                          style={{ data: { fill: COLOR.BLUE } }}
+                          cornerRadius={{ topLeft: 1, topRight: 1 }}
+                        />
+                        {/* Data B */}
+                        <VictoryBar
+                          data={[
+                            { x: "ม.ค.", y: 70 },
+                            { x: "ก.พ.", y: 110 },
+                            { x: "มี.ค.", y: 120 },
+                            { x: "เม.ย.", y: 90 },
+                            { x: "พ.ค.", y: 100 },
+                            { x: "มิ.ย.", y: 100 },
+                            { x: "ก.ค.", y: 70 },
+                            { x: "ส.ค.", y: 65 },
+                            { x: "ก.ย.", y: 55 },
+                            { x: "ต.ค.", y: 65 },
+                            { x: "พ.ย.", y: 100 },
+                            { x: "ธ.ค.", y: 100 },
+                          ]}
+                          style={{
+                            data: {
+                              fill: COLOR.PURPLE2,
+                            },
+                          }}
+                          cornerRadius={{ topLeft: 1, topRight: 1 }}
+                        />
+                      </VictoryGroup>
+
+                      {/* Average Line */}
+                      <VictoryLine
+                        data={[
+                          { x: "ม.ค.", y: 50 },
+                          { x: "ก.พ.", y: 90 },
+                          { x: "มี.ค.", y: 100 },
+                          { x: "เม.ย.", y: 70 },
+                          { x: "พ.ค.", y: 75 },
+                          { x: "มิ.ย.", y: 70 },
+                          { x: "ก.ค.", y: 50 },
+                          { x: "ส.ค.", y: 60 },
+                          { x: "ก.ย.", y: 50 },
+                          { x: "ต.ค.", y: 60 },
+                          { x: "พ.ย.", y: 80 },
+                          { x: "ธ.ค.", y: 80 },
+                        ]}
+                        style={{
+                          data: { stroke: COLOR.DARKBLUE, strokeWidth: 2 },
+                        }}
+                        animate={{
+                          duration: 1000,
+                        }}
+                      />
+
+                      {/* Horizontal Line at Top of Chart */}
+                      <VictoryLine
+                        data={[
+                          { x: "ม.ค.", y: 120 },
+                          { x: "ธ.ค.", y: 120 },
+                        ]}
+                        style={{
+                          data: { stroke: COLOR.DARKGRAY2, strokeWidth: 1 },
+                        }}
+                      />
+
+                      {/* X-Axis */}
+                      <VictoryAxis
+                        style={{
+                          axis: { stroke: COLOR.DARKGRAY2 },
+                          axisLabel: {},
+                          ticks: {},
+                          tickLabels: {
+                            fill: COLOR.DARKGRAY,
+                            fontSize: 10,
+                          },
+                        }}
+                      />
+                    </VictoryChart>
+                  </View>
                 </View>
               </View>
 
@@ -576,7 +791,6 @@ export default function TabDashboardScreen() {
                     justifyContent: "space-between",
                     paddingHorizontal: 20,
                     width: "100%",
-                    height: "100%",
                   }}
                 >
                   <View
@@ -683,6 +897,7 @@ export default function TabDashboardScreen() {
                 style={{
                   marginTop: 20,
                   alignItems: "center",
+                  flex: 1,
                 }}
               >
                 <ImageBackground
@@ -700,84 +915,94 @@ export default function TabDashboardScreen() {
                 <View
                   style={{
                     zIndex: 3,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
                     paddingHorizontal: 20,
+                    paddingVertical: 16,
                     width: "100%",
-                    height: "100%",
+                    flex: 1,
                   }}
                 >
                   <View
                     style={{
-                      flexGrow: 1,
-                      justifyContent: "center",
-                      paddingVertical: 16,
+                      marginBottom: 16,
                     }}
                   >
+                    <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
+                      ระยะเวลาดำเนินโครงการที่เสร็จสิ้น
+                    </Text>
+                  </View>
+                  <View style={{ gap: 11 }}>
                     <View
                       style={{
+                        flex: 1,
                         flexDirection: "row",
-                        justifyContent: "space-between",
                         alignItems: "center",
-                        marginBottom: 16,
+                        justifyContent: "space-between",
                       }}
                     >
-                      <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
-                        ระยะเวลาดำเนินโครงการที่เสร็จสิ้น
+                      <Text
+                        style={{
+                          ...TEXT.caption2,
+                          color: COLOR.WHITE,
+                        }}
+                      >
+                        เสร็จสิ้นตามระยะเวลาโครงการ
                       </Text>
-                    </View>
-                    <View style={{ gap: 11 }}>
                       <View
                         style={{
                           flexDirection: "row",
+                          // flex: 1,
+                          flexGrow: 1,
+                          // flexWrap: "nowrap",
                           alignItems: "center",
+                          alignSelf: "flex-end",
+                          justifyContent: "flex-end",
                           gap: 11,
                         }}
                       >
-                        <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
-                          เสร็จสิ้นตามระยะเวลาโครงการ
-                        </Text>
                         <Text
                           style={{
                             ...TEXT.body1BOLD,
                             color: COLOR.WHITE,
-                            flexGrow: 1,
-                            alignSelf: "flex-end",
-                            textAlign: "right",
                           }}
                         >
                           512
                         </Text>
-                        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                          โครงการ
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 11,
-                        }}
-                      >
-                        <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
-                          เกินระยะเวลาโครงการ
-                        </Text>
                         <Text
                           style={{
-                            ...TEXT.body1BOLD,
+                            ...TEXT.caption2,
                             color: COLOR.WHITE,
-                            flexGrow: 1,
-                            alignSelf: "flex-end",
-                            textAlign: "right",
                           }}
                         >
-                          119
-                        </Text>
-                        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
                         </Text>
                       </View>
                     </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 11,
+                      }}
+                    >
+                      <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
+                        เกินระยะเวลาโครงการ
+                      </Text>
+                      <Text
+                        style={{
+                          ...TEXT.body1BOLD,
+                          color: COLOR.WHITE,
+                          flexGrow: 1,
+                          alignSelf: "flex-end",
+                          textAlign: "right",
+                        }}
+                      >
+                        119
+                      </Text>
+                      <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
+                        โครงการ
+                      </Text>
+                    </View>
+                    {/* </View> */}
                   </View>
                 </View>
               </View>
@@ -812,12 +1037,9 @@ export default function TabDashboardScreen() {
                 <View
                   style={{
                     zIndex: 3,
-                    // flexDirection: "row",
-                    // justifyContent: "space-between",
                     paddingHorizontal: 20,
                     paddingVertical: 11,
                     width: "100%",
-                    height: "100%",
                   }}
                 >
                   <Text style={{ ...TEXT.caption1BOLD, color: COLOR.WHITE }}>
@@ -913,7 +1135,7 @@ export default function TabDashboardScreen() {
                 </Text>
                 <Text
                   style={{
-                    ...TEXT.caption1SemiBold,
+                    ...TEXT.header1SemiBOLD,
                     fontSize: 40,
                     color: COLOR.DARKGREEN2,
                   }}

@@ -9,7 +9,7 @@ import CardLayoutThin from "@/components/layout/CardLayoutThin";
 import { FlatList } from "react-native";
 import CommonFooter from "@/components/layout/CommonFooter";
 import { formatDateToThaiDate } from "@/utils/format";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const mockData = [
   {
@@ -129,15 +129,15 @@ export default function notification() {
                   height: 20,
                   width: 20,
                   borderRadius: 20,
-                  backgroundColor: index === 0 ? COLOR.PINK : COLOR.DARKGREEN2,
+                  // backgroundColor: index === 0 ? COLOR.PINK : COLOR.DARKGREEN2,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <MaterialIcons
-                  name="keyboard-arrow-right"
-                  size={24}
-                  color={COLOR.WHITE}
+                <AntDesign
+                  name="rightcircle"
+                  size={20}
+                  color={index === 0 ? COLOR.PINK : COLOR.DARKGREEN2}
                 />
               </View>
             </View>

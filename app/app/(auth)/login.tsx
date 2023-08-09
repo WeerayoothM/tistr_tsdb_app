@@ -92,10 +92,21 @@ export default function Login() {
                   width: 100,
                   height: 100,
                   backgroundColor: COLOR.WHITE,
-                  borderRadius: 31,
+                  borderRadius: 25,
                   alignSelf: "center",
                 }}
-              />
+              >
+                <Image
+                  source={require("../../assets/images/logo.png")}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 25,
+                    alignSelf: "center",
+                  }}
+                  resizeMode="cover"
+                />
+              </View>
               <View
                 style={{
                   height: 45,
