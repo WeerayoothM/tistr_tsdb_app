@@ -83,7 +83,13 @@ const Login = () => {
       className="w-full font-srb-500 flex flex-col justify-center items-center shrink-0 flex-1 bg-[url('/images/login_bg.png')] min-h-screen bg-no-repeat bg-cover overflow-y-scroll relative"
     >
       <div className="flex flex-col items-center">
-        <div className="bg-white  w-[106px] h-[106px] rounded-[31px] mb-[3rem]" />
+        <div className="bg-white  w-[106px] h-[106px] rounded-[31px] mb-[3rem] p-2">
+          <img
+            src="/images/logo.png"
+            alt=""
+            className="w-full aspect-w-1 aspect-h-1"
+          />
+        </div>
         <form className="" onSubmit={handleSubmit}>
           {formTemplate.map((item: { [key: string]: string }, index) => (
             <div className=" mb-[1rem]" key={`user-login-${index}`}>
@@ -101,11 +107,8 @@ const Login = () => {
             </div>
           ))}
           {errorMessage && <div className="text-[#FF5757]">{errorMessage}</div>}
-          <div className="text-white mb-[2rem] flex justify-end cursor-pointer">
-            ลืมรหัสผ่าน?
-          </div>
 
-          <div className="flex justify-center items-end gap-[30px] flex-1">
+          <div className="flex justify-center items-end gap-[30px] flex-1 mt-[2rem]">
             <Button
               title="ลงชื่อเข้าใช้"
               cn="bg-[#FFA500] text-white cursor-pointer"

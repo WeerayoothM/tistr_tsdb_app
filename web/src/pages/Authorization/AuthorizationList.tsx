@@ -8,6 +8,7 @@ import "./style/index.css";
 import numeral from "numeral";
 
 import { Table } from "antd";
+import { useStore } from "../../stores/stores";
 // import { getProjectList } from "./APIS";
 
 const columns: any = [
@@ -87,13 +88,29 @@ const defaultPayload = {
 
 const AuthorizationList = () => {
   const navigate = useNavigate();
+  const authorizationStore = useStore("authorizationStore");
+
   const location = useLocation();
   const [projectData, setProjectData] = useState<{ [key: string]: any }[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [tableParams, setTableParams] = useState<any>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     scrollTop();
-    getProjectData({ ...defaultPayload, ...location.state });
   }, []);
+
+  useEffect(() => {
+    getProjectData({ ...authorizationStore.searchObject });
+  }, [
+    JSON.stringify(tableParams),
+    JSON.stringify(authorizationStore.searchObject),
+  ]);
 
   const getProjectData = async (payload: any) => {
     try {
@@ -104,6 +121,16 @@ const AuthorizationList = () => {
       // setProjectData(data);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const handleTableChange = (pagination: any) => {
+    setTableParams({
+      pagination,
+    });
+
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setProjectData([]);
     }
   };
 
@@ -130,6 +157,30 @@ const AuthorizationList = () => {
         </div>
       </div>
 
+      <div className="flex flex-wrap gap-[10px] mb-[2rem]">
+        {(Object.keys(authorizationStore.searchObject) || [])
+          .filter((item) => authorizationStore.searchObject[item])
+          .map((item: any, index) => (
+            <div
+              key={`search-item-${index}`}
+              className="bg-[#BBBBBB] flex items-center gap-[1rem] rounded-full px-[1rem] py-[8px] text-white"
+            >
+              <div>{authorizationStore.searchObject[item]}</div>
+              <div
+                className="cursor-pointer"
+                onClick={() =>
+                  authorizationStore.setSearchObject({
+                    ...authorizationStore.searchObject,
+                    [item]: "",
+                  })
+                }
+              >
+                x
+              </div>
+            </div>
+          ))}
+      </div>
+
       {/* Ant table */}
       <div className="out-budget">
         <Table
@@ -142,9 +193,13 @@ const AuthorizationList = () => {
               }, // click row
             };
           }}
+          rowKey={(record) => record.projectId}
           bordered
           columns={columns}
           dataSource={projectData}
+          loading={loading}
+          onChange={handleTableChange}
+          pagination={tableParams.pagination}
         />
       </div>
       {/* Ant table */}

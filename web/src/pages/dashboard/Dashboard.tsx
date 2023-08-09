@@ -494,7 +494,7 @@ const Dashboard = () => {
                             : ``,
                       }}
                     >
-                      <div className="font-srb-500 text-[16px] ">
+                      <div className="font-srb-500 text-[16px] line-clamp-1">
                         {item.label}
                       </div>
                       <div

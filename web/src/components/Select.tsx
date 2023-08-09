@@ -5,7 +5,7 @@ const Select = observer((props: any) => {
     <div>
       <select
         name={props.name}
-        className="max-h-[60.5px] outline-none placeholder:text-[#ADB5BD] border-none bg-white rounded-[11px] px-[1rem] py-[1.25rem] w-full text-[16px] font-srb-400"
+        className="outline-none placeholder:text-[#ADB5BD] border-none bg-white rounded-[11px] px-[1rem] py-[1.25rem] w-full text-[16px] font-srb-400"
         value={props.value}
         onChange={(e) => {
           props.onChange(e, props.name);

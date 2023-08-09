@@ -7,13 +7,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { get, isObject } from "lodash";
 import FormRenderer from "../../components/FormRenderer";
 import { formTemplate } from "./Data/data";
+import { useStore } from "../../stores/stores";
+import { runInAction } from "mobx";
 
 const AuthorizationSearch = () => {
   const navigate = useNavigate();
+  const authorizationStore = useStore("authorizationStore");
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
     scrollTop();
+    runInAction(() => {
+      authorizationStore.setSearchObject({});
+    });
   }, []);
 
   const handleChangeInput = (
@@ -109,8 +115,8 @@ const AuthorizationSearch = () => {
               (item) => !!item
             );
             if (!canSearch) return;
-
-            navigate("/authorization/list", { state: formData });
+            authorizationStore.setSearchObject(formData);
+            navigate("/authorization/list");
           }}
         >
           ค้นหา
