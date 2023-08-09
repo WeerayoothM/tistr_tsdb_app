@@ -897,7 +897,6 @@ export default function TabDashboardScreen() {
                 style={{
                   marginTop: 20,
                   alignItems: "center",
-                  flex: 1,
                 }}
               >
                 <ImageBackground
@@ -916,97 +915,83 @@ export default function TabDashboardScreen() {
                   style={{
                     zIndex: 3,
                     paddingHorizontal: 20,
-                    paddingVertical: 16,
                     width: "100%",
-                    flex: 1,
                   }}
                 >
                   <View
                     style={{
-                      marginBottom: 16,
+                      flexGrow: 1,
+                      justifyContent: "center",
+                      paddingVertical: 16,
                     }}
                   >
-                    <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
-                      ระยะเวลาดำเนินโครงการที่เสร็จสิ้น
-                    </Text>
-                  </View>
-                  <View style={{ gap: 11 }}>
                     <View
                       style={{
-                        flex: 1,
                         flexDirection: "row",
-                        alignItems: "center",
                         justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 16,
                       }}
                     >
-                      <Text
-                        style={{
-                          ...TEXT.caption2,
-                          color: COLOR.WHITE,
-                        }}
-                      >
-                        เสร็จสิ้นตามระยะเวลาโครงการ
+                      <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
+                        ระยะเวลาดำเนินโครงการที่เสร็จสิ้น
                       </Text>
+                    </View>
+                    <View style={{ gap: 11 }}>
                       <View
                         style={{
                           flexDirection: "row",
-                          // flex: 1,
-                          flexGrow: 1,
-                          // flexWrap: "nowrap",
                           alignItems: "center",
-                          alignSelf: "flex-end",
-                          justifyContent: "flex-end",
                           gap: 11,
                         }}
                       >
+                        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
+                          เสร็จสิ้นตามระยะเวลาโครงการ
+                        </Text>
                         <Text
                           style={{
                             ...TEXT.body1BOLD,
                             color: COLOR.WHITE,
+                            flexGrow: 1,
+                            alignSelf: "flex-end",
+                            textAlign: "right",
                           }}
                         >
                           512
                         </Text>
+                        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
+                          โครงการ
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 11,
+                        }}
+                      >
+                        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
+                          เกินระยะเวลาโครงการ
+                        </Text>
                         <Text
                           style={{
-                            ...TEXT.caption2,
+                            ...TEXT.body1BOLD,
                             color: COLOR.WHITE,
+                            flexGrow: 1,
+                            alignSelf: "flex-end",
+                            textAlign: "right",
                           }}
                         >
+                          119
+                        </Text>
+                        <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
                         </Text>
                       </View>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 11,
-                      }}
-                    >
-                      <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                        เกินระยะเวลาโครงการ
-                      </Text>
-                      <Text
-                        style={{
-                          ...TEXT.body1BOLD,
-                          color: COLOR.WHITE,
-                          flexGrow: 1,
-                          alignSelf: "flex-end",
-                          textAlign: "right",
-                        }}
-                      >
-                        119
-                      </Text>
-                      <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                        โครงการ
-                      </Text>
-                    </View>
-                    {/* </View> */}
                   </View>
                 </View>
               </View>
-
               <CardLayoutThick
                 leftHeader={"ผลผลิต / ผลลัพธ์โครงการรวมทั้งหมด"}
                 rightHeader={""}
