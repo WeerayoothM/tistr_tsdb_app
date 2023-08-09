@@ -13,7 +13,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tistr.rplus"
@@ -30,11 +32,17 @@
       "favicon": "./assets/images/favicon.png"
     },
     "packagerOpts": {
-      "sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svg",
+        "ts",
+        "tsx"
+      ]
     },
     "extra": {
       "eas": {
-        "projectId": "68399ea5-b1ed-4672-8f73-cf893cd233e7"
+        "projectId": "c1065f50-a563-4ccd-92dd-dfff67717fa0"
       }
     }
   }
