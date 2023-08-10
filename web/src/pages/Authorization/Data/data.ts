@@ -41,8 +41,28 @@ export const projectGroupOptions = [
 
 export const projectBudgetOptions = [
   {
-    label: "งบประมาณ",
+    label: "สิทธิ์การใช้งาน",
     value: "",
+  },
+  {
+    label: "Level1",
+    value: "0",
+  },
+  {
+    label: "Level2",
+    value: "1",
+  },
+  {
+    label: "Level3",
+    value: "2",
+  },
+  {
+    label: "Level4",
+    value: "3",
+  },
+  {
+    label: "Level5",
+    value: "4",
   },
 ];
 
@@ -51,7 +71,7 @@ export const formTemplate = [
     type: "text",
     labal: "ชื่อผู้ใช้งาน",
     placeholder: "ชื่อผู้ใช้งาน...",
-    name: "username",
+    name: "FName",
     options: [],
     col: "2",
   },
@@ -59,7 +79,7 @@ export const formTemplate = [
     type: "text",
     labal: "ID",
     placeholder: "รหัสประจำตัว...",
-    name: "userId",
+    name: "EmpId",
     options: [],
     col: "2",
   },
@@ -68,14 +88,14 @@ export const formTemplate = [
     labal: "กลุ่มงาน",
     placeholder: "กลุ่มงาน",
     name: "group",
-    options: projectGroupOptions,
+    options: [],
     col: "2",
   },
   {
     type: "select",
     labal: "สิทธิ์การใช้งาน",
     placeholder: "สิทธิ์การใช้งาน",
-    name: "license",
+    name: "Level",
     options: projectBudgetOptions,
     col: "2",
   },

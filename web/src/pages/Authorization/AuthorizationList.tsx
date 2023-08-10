@@ -9,89 +9,14 @@ import numeral from "numeral";
 
 import { Table } from "antd";
 import { useStore } from "../../stores/stores";
-// import { getProjectList } from "./APIS";
-
-const columns: any = [
-  {
-    title: "No",
-    dataIndex: "key",
-    align: "center",
-  },
-  {
-    title: "ชื่อผู้ใช้งาน",
-    dataIndex: "projectNameTh",
-  },
-  {
-    title: "ชื่อ-นามสกุล",
-    dataIndex: "projectResponsible",
-  },
-  {
-    title: "หน่วยงาน",
-    dataIndex: "budgetAmount",
-    align: "center",
-  },
-  {
-    title: "สิทธิ์การใช้งาน",
-    dataIndex: "actualStartDate",
-    render: (text: string) => (
-      <div className="flex items-center gap-[10px]">
-        <div className="w-[15px] h-[15px] rounded-full bg-[#000] shrink-0"></div>
-        <div>{text}</div>
-      </div>
-    ),
-    align: "center",
-  },
-  {
-    title: "สถานะ",
-    dataIndex: "projectStatus",
-    render: (text: string, record: any) => {
-      return (
-        <div className=" flex flex-col gap-[20px] max-w-[200px]">
-          {/* toggle */}
-        </div>
-      );
-    },
-    align: "center",
-  },
-  {
-    title: "จัดการ",
-    dataIndex: "projectStatus",
-    render: (text: string, record: any) => {
-      return (
-        <div className=" flex flex-col gap-[20px] max-w-[200px]">
-          {/* toggle */}
-        </div>
-      );
-    },
-    align: "center",
-  },
-];
-
-const defaultPayload = {
-  project_status: "",
-  start_date: "",
-  end_date: "",
-  location_region: "",
-  location_province: "",
-  location_amphur: "",
-  location_district: "",
-  project_resp_dept: "",
-  project_sub_dept: "",
-  project_responsible: "",
-  location_target: "",
-  project_name_th: "",
-  project_code: "",
-  contract_no: "",
-  budget_amount: "",
-  research_fund: "",
-};
+import { changeActive, getUserList } from "./APIS";
 
 const AuthorizationList = () => {
   const navigate = useNavigate();
   const authorizationStore = useStore("authorizationStore");
 
   const location = useLocation();
-  const [projectData, setProjectData] = useState<{ [key: string]: any }[]>([]);
+  const [userData, setUserData] = useState<{ [key: string]: any }[]>([]);
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<any>({
     pagination: {
@@ -101,24 +26,127 @@ const AuthorizationList = () => {
   });
   const [total, setTotal] = useState(0);
 
+  const columns: any = [
+    {
+      title: "No",
+      dataIndex: "no",
+      align: "center",
+      render: (text: string) => (
+        <div className="flex justify-center items-center gap-[10px] text-[#ADB5BD]">
+          <div>{text}</div>
+        </div>
+      ),
+    },
+    {
+      title: "ชื่อผู้ใช้งาน",
+      dataIndex: "username",
+      render: (text: string) => (
+        <div className="flex justify-center items-center gap-[10px] text-[#ADB5BD]">
+          <div>{text}</div>
+        </div>
+      ),
+    },
+    {
+      title: "ชื่อ-นามสกุล",
+      dataIndex: "projectResponsible",
+      render: (text: string, record: any) => (
+        <div className="flex justify-start items-center gap-[10px] text-[#ADB5BD]">
+          <div>{`${record.fname} ${record.lname}`}</div>
+        </div>
+      ),
+    },
+    {
+      title: "หน่วยงาน",
+      dataIndex: "subDivision",
+      align: "center",
+      render: (text: string, record: any) => (
+        <div className="flex justify-center items-center gap-[10px] text-[#ADB5BD]">
+          <div>{text}</div>
+        </div>
+      ),
+    },
+    {
+      title: "สิทธิ์การใช้งาน",
+      dataIndex: "level",
+      render: (text: string) => (
+        <div className="flex justify-center items-center gap-[10px] text-[#ADB5BD]">
+          <div className="w-[15px] h-[15px] rounded-full bg-[#ADB5BD] shrink-0"></div>
+          <div>ระดับ {text + 1}</div>
+        </div>
+      ),
+      align: "center",
+    },
+    {
+      title: "สถานะ",
+      dataIndex: "isActive",
+      render: (text: string, record: any) => {
+        return (
+          <div className=" flex items-center justify-center gap-[20px] max-w-[200px]">
+            <img
+              src={`/images/${text === "Y" ? "toggle-on" : "toggle-off"}.png`}
+              alt=""
+              className="w-[40px]"
+              onClick={async () => {
+                await changeActive(record.id, text === "Y" ? "N" : "Y");
+                getUserData({ ...authorizationStore.searchObject });
+              }}
+            />
+          </div>
+        );
+      },
+      align: "center",
+    },
+    // {
+    //   title: "จัดการ",
+    //   dataIndex: "projectStatus",
+    //   render: (text: string, record: any) => {
+    //     return (
+    //       <div className=" flex flex-col gap-[20px] max-w-[200px]">
+    //         {/* toggle */}
+    //       </div>
+    //     );
+    //   },
+    //   align: "center",
+    // },
+  ];
+
   useEffect(() => {
     scrollTop();
   }, []);
 
   useEffect(() => {
-    getProjectData({ ...authorizationStore.searchObject });
+    getUserData({ ...authorizationStore.searchObject });
   }, [
     JSON.stringify(tableParams),
     JSON.stringify(authorizationStore.searchObject),
   ]);
 
-  const getProjectData = async (payload: any) => {
+  const getUserData = async (payload: any) => {
     try {
-      // const resp = await getProjectList(payload);
-      // const data = get(resp, "data", []).map((item: any, index: number) => {
-      //   return { ...item, key: index + 1 };
-      // });
-      // setProjectData(data);
+      const offset =
+        (tableParams.pagination.current - 1) * tableParams.pagination.pageSize;
+      const resp = await getUserList({
+        offset,
+        limit: tableParams.pagination.pageSize,
+        payload,
+      });
+
+      const data = get(resp, "data.item", []).map(
+        (item: any, index: number) => {
+          return { ...item, no: offset + index + 1 };
+        }
+      );
+
+      setUserData(data);
+      setTotal(get(resp, "data.total", 0));
+
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: get(resp, "data.total", 0),
+        },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -130,7 +158,7 @@ const AuthorizationList = () => {
     });
 
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setProjectData([]);
+      setUserData([]);
     }
   };
 
@@ -153,11 +181,11 @@ const AuthorizationList = () => {
 
       <div className="flex justify-start items-baseline mb-[2rem]">
         <div className="text-[#666666] font-srb-300 text-[34px]">
-          รวมทั้งสิ้น {(projectData || []).length} ผู้ใช้งาน
+          รวมทั้งสิ้น {total} ผู้ใช้งาน
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-[10px] mb-[2rem]">
+      {/* <div className="flex flex-wrap gap-[10px] mb-[2rem]">
         {(Object.keys(authorizationStore.searchObject) || [])
           .filter((item) => authorizationStore.searchObject[item])
           .map((item: any, index) => (
@@ -179,24 +207,26 @@ const AuthorizationList = () => {
               </div>
             </div>
           ))}
-      </div>
+      </div> */}
 
       {/* Ant table */}
       <div className="out-budget">
         <Table
-          onRow={(record, rowIndex) => {
-            return {
-              onClick: (event) => {
-                const projectId = get(record, "projectId");
-                if (!projectId) return;
-                navigate(`/project/${projectId}`);
-              }, // click row
-            };
+          // onRow={(record, rowIndex) => {
+          //   return {
+          //     onClick: (event) => {
+          //       const projectId = get(record, "projectId");
+          //       if (!projectId) return;
+          //       navigate(`/project/${projectId}`);
+          //     }, // click row
+          //   };
+          // }}
+          rowKey={(record) => {
+            return record.id;
           }}
-          rowKey={(record) => record.projectId}
           bordered
           columns={columns}
-          dataSource={projectData}
+          dataSource={userData}
           loading={loading}
           onChange={handleTableChange}
           pagination={tableParams.pagination}

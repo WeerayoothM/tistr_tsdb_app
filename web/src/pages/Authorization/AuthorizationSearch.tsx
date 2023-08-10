@@ -9,18 +9,53 @@ import FormRenderer from "../../components/FormRenderer";
 import { formTemplate } from "./Data/data";
 import { useStore } from "../../stores/stores";
 import { runInAction } from "mobx";
+import { getGroupOptions } from "./APIS";
 
 const AuthorizationSearch = () => {
   const navigate = useNavigate();
   const authorizationStore = useStore("authorizationStore");
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
+  const [formTemplateData, setFormTemplateData] = useState<any>(
+    formTemplate || []
+  );
+  const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
     scrollTop();
+    fetchData();
     runInAction(() => {
       authorizationStore.setSearchObject({});
     });
   }, []);
+
+  const fetchData = async () => {
+    setIsRender(false);
+    try {
+      const [groupOptionsResponse] = await Promise.all([getGroupOptions()]);
+
+      const mappedGroup = get(groupOptionsResponse, "data", []).map(
+        (item: any) => {
+          return { label: item.group, value: item.group };
+        }
+      );
+
+      const newFormTemplate = formTemplate.map((item) => {
+        if (item.name === "group") {
+          return {
+            ...item,
+            options: [{ label: "กลุ่มงาน", value: "" }, ...mappedGroup],
+          };
+        }
+        return item;
+      });
+
+      setFormTemplateData(newFormTemplate);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsRender(true);
+    }
+  };
 
   const handleChangeInput = (
     e: any,
@@ -55,6 +90,8 @@ const AuthorizationSearch = () => {
     setFormData({ ...formData, [name]: christDate });
   };
 
+  if (!isRender) return <></>;
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -79,7 +116,7 @@ const AuthorizationSearch = () => {
         className="mt-[1rem] grid gap-[1rem]"
         style={{ gridTemplateColumns: "auto auto auto auto" }}
       >
-        {formTemplate.map((item, index) => (
+        {formTemplateData.map((item: any, index: number) => (
           <FormRenderer
             options={item.options}
             label={item.labal}

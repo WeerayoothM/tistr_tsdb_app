@@ -144,7 +144,7 @@ const ProjectList = () => {
 
       const data = get(resp, "data.item", []).map(
         (item: any, index: number) => {
-          return { ...item, no: index + 1 };
+          return { ...item, no: offset + index + 1 };
         }
       );
       setProjectData(data);

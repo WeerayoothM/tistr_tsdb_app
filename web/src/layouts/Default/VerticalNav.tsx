@@ -45,7 +45,7 @@ const VerticalNav: React.FC = () => {
   return (
     <div className="w-[350px] font-srb-600 relative shrink-0 z-[1000] bg-no-repeat bg-cover bg-[url('/images/vertical-nav-bg.png')] flex flex-col items-center py-[2rem] text-[#ffffff] overflow-y-scroll">
       <div className="flex flex-col items-start justify-start mt-[1rem] h-full w-full px-[2rem] gap-[1.5rem]">
-        <div className="w-full flex justify-center mb-[2rem]">
+        <div className="w-full flex justify-center mb-[1rem]">
           <div className="bg-white   w-[106px] h-[106px] rounded-[31px] p-2">
             <img
               src="/images/logo.png"

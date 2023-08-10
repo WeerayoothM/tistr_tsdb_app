@@ -75,7 +75,10 @@ const Import = () => {
     >
       <div className="grid grid-cols-4 gap-[1rem] mb-[3rem]">
         {tabOptions.map((item, index) => (
-          <div className="cursor-pointer text-white text-[20px] text-center p-[1rem] rounded-[8px] bg-[#FFA500]">
+          <div
+            key={`button-import-${index}`}
+            className="cursor-pointer text-white text-[20px] text-center p-[1rem] rounded-[8px] bg-[#FFA500]"
+          >
             {item.text}
           </div>
         ))}
