@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useStore } from "../../stores/stores";
 
 const nav = [
   {
@@ -42,6 +43,7 @@ const nav = [
 const VerticalNav: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const userStore = useStore("userStore");
   return (
     <div className="w-[350px] font-srb-600 relative shrink-0 z-[1000] bg-no-repeat bg-cover bg-[url('/images/vertical-nav-bg.png')] flex flex-col items-center py-[2rem] text-[#ffffff] overflow-y-scroll">
       <div className="flex flex-col items-start justify-start mt-[1rem] h-full w-full px-[2rem] gap-[1.5rem]">
@@ -84,7 +86,10 @@ const VerticalNav: React.FC = () => {
 
       <div
         className="w-full px-[3rem] flex justify-start absolute bottom-[4rem]"
-        onClick={() => navigate("/login")}
+        onClick={() => {
+          userStore.logout();
+          navigate("/login");
+        }}
       >
         <div>
           <img src="/images/logout-logo.png" alt="" />

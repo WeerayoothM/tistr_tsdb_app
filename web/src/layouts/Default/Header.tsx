@@ -1,6 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getToken } from "../../utils/localStorage";
+import jwtDecode from "jwt-decode";
 
 const Header: React.FC = () => {
   const [sidebarOpen, setSideBarOpen] = useState(false);
@@ -8,6 +10,11 @@ const Header: React.FC = () => {
   const [toggleLogout, setToggleLogout] = useState(false);
   const [title, setTitle] = useState("แดชบอร์ด");
   const location = useLocation();
+
+  let token = {} as any;
+  if (getToken()) {
+    token = (getToken() ? jwtDecode(getToken() as string) : "") as any;
+  }
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -48,7 +55,7 @@ const Header: React.FC = () => {
         <div className="flex items-center gap-[1em]">
           <div className="w-[59px] h-[59px] bg-[#D9D9D9] rounded-[20px]"></div>
           <div className="text-[15px] font-srb-600 text-[#666666]">
-            <div>แก้วตา ดวงใจ</div>
+            <div>{`${token.FName} ${token.LName}`}</div>
             <div>แอดมิน</div>
           </div>
         </div>
