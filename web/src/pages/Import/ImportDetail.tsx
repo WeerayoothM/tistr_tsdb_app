@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { motion } from "framer-motion";
 import { scrollTop } from "../../utils/helper";
@@ -209,7 +209,7 @@ const ImportDetail = () => {
 
   const processing = async () => {
     try {
-      if (isDisabled()) return;
+      if (isDisabled) return;
       mainStore.setIsLoading(true);
       const resp = await processBatch(id);
       setTimeout(() => {
@@ -223,7 +223,7 @@ const ImportDetail = () => {
 
   const cancel = async () => {
     try {
-      if (isDisabled()) return;
+      if (isDisabled) return;
       mainStore.setIsLoading(true);
       const resp = await cancelBatch(id);
       await getData();
@@ -233,9 +233,9 @@ const ImportDetail = () => {
     }
   };
 
-  const isDisabled = () => {
+  const isDisabled = useMemo(() => {
     return ["C", "S", "P"].includes(get(data, "batchStatus", ""));
-  };
+  }, [JSON.stringify(data)]);
 
   return (
     <motion.div
@@ -285,15 +285,15 @@ const ImportDetail = () => {
         <div className="flex justify-center gap-[2rem] mt-[2rem]">
           <div
             className={`cursor-${
-              isDisabled() ? "not-allowed" : "pointer"
+              isDisabled ? "not-allowed" : "pointer"
             } min-w-[164px] text-white text-[20px] text-center p-[1rem] rounded-[8px] bg-[#FFA500]`}
             onClick={processing}
           >
             ประมวลผล
           </div>
           <div
-            className={`cursor-${
-              isDisabled() ? "not-allowed" : "pointer"
+            className={`${
+              isDisabled ? "cursor-not-allowed" : "cursor-pointer"
             } min-w-[164px] text-[20px] text-center p-[1rem] rounded-[8px] border-solid border-[#FFA500] text-[#FFA500]`}
             onClick={cancel}
           >

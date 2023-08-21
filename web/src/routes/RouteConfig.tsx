@@ -25,7 +25,7 @@ const RouteConfig: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (window.location.pathname === "/") navigate("/login");
+    if (window.location.pathname === "/") navigate("/dashboard");
   }, []);
 
   return (
