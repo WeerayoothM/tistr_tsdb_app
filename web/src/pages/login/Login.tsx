@@ -58,6 +58,7 @@ const Login = () => {
       };
 
       const resp = await userStore.login(payload);
+      console.log("res", resp);
 
       if (!resp?.success) {
         setIsPerform(false);

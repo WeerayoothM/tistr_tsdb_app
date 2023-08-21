@@ -71,7 +71,7 @@ const AuthorizationList = () => {
       render: (text: string) => (
         <div className="flex justify-center items-center gap-[10px] text-[#ADB5BD]">
           <div className="w-[15px] h-[15px] rounded-full bg-[#ADB5BD] shrink-0"></div>
-          <div>ระดับ {text}</div>
+          <div>ระดับ {text + 1}</div>
         </div>
       ),
       align: "center",

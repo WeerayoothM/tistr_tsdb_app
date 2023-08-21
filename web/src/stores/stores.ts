@@ -4,7 +4,6 @@ import { MainStore } from "./main/mainStore";
 import { ProjectStore } from "./project/projectStore";
 import { AuthorizationStore } from "./authorization/authorizationStore";
 import { AdminStore } from "./admin/adminStore";
-import { ImportStore } from "./import/importStore";
 
 const stores = Object.freeze({
   userStore: new UserStore(),
@@ -12,7 +11,6 @@ const stores = Object.freeze({
   projectStore: new ProjectStore(),
   authorizationStore: new AuthorizationStore(),
   adminStore: new AdminStore(),
-  importStore: new ImportStore(),
 });
 
 export const StoreContext = createContext(stores);

@@ -25,6 +25,7 @@ const AdminList = () => {
   const [adminData, setAdminData] = useState<{ [key: string]: any }[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
+  const searchElement = useRef();
 
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<any>({

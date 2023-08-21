@@ -29,11 +29,11 @@ export class UserStore implements IUserStore {
   async login(payload: LoginPayload) {
     try {
       const resp = await userLogin(payload);
-      console.log("resp", resp);
+      // if (!resp?.data.token) return;
+      // setToken(resp?.data.token);
+      // this.role = resp?.data.role.name;
 
       if (isEmpty(resp.data)) return { success: false };
-      setToken(resp.data);
-      this.role = "admin";
       return { success: true };
     } catch (e: any) {
       return { success: false };

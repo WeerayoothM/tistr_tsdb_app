@@ -45,23 +45,23 @@ export const projectBudgetOptions = [
     value: "",
   },
   {
-    label: "Level0",
+    label: "Level1",
     value: "0",
   },
   {
-    label: "Level1",
+    label: "Level2",
     value: "1",
   },
   {
-    label: "Level2",
+    label: "Level3",
     value: "2",
   },
   {
-    label: "Level3",
+    label: "Level4",
     value: "3",
   },
   {
-    label: "Level4",
+    label: "Level5",
     value: "4",
   },
 ];

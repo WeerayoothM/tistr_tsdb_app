@@ -402,7 +402,7 @@ const Dashboard = () => {
           {selectTemplate.map((item, index) => (
             <div key={`dashboard-select-template-${index}`}>
               <Select
-                value={state[item.key] || ""}
+                value={state[item.key]}
                 option={item.options}
                 onChange={handleChangeInput}
                 name={item.key}

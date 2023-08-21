@@ -15,17 +15,14 @@ import AdminList from "../pages/Admin/AdminList";
 import InProjectSearch from "../pages/project/InProjectSearch";
 import InProjectList from "../pages/project/InProjectList";
 import InProjectDetail from "../pages/project/InProjectDetail";
-import Import from "../pages/Import/ImportList";
-import ImportCreate from "../pages/Import/ImportCreate";
-import ImportDetail from "../pages/Import/ImportDetail";
-import ProtectedRoute from "./ProtectedRoute";
+import Import from "../pages/Import/Import";
 
 const RouteConfig: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (window.location.pathname === "/") navigate("/dashboard");
+    if (window.location.pathname === "/") navigate("/login");
   }, []);
 
   return (
@@ -38,49 +35,45 @@ const RouteConfig: React.FC = () => {
                 <Route path="/login" element={<Login />} />
 
                 <Route path="/" element={<Default />}>
-                  <Route element={<ProtectedRoute />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
 
-                    <Route path="/project" element={<Project />} />
-                    <Route
-                      path="/project/outbdg-search"
-                      element={<ProjectSearch />}
-                    />
-                    <Route
-                      path="/project/inbdg-search"
-                      element={<InProjectSearch />}
-                    />
-                    <Route path="/project/list" element={<ProjectList />} />
-                    <Route path="/project/:id" element={<ProjectDetail />} />
+                  <Route path="/project" element={<Project />} />
+                  <Route
+                    path="/project/outbdg-search"
+                    element={<ProjectSearch />}
+                  />
+                  <Route
+                    path="/project/inbdg-search"
+                    element={<InProjectSearch />}
+                  />
+                  <Route path="/project/list" element={<ProjectList />} />
+                  <Route path="/project/:id" element={<ProjectDetail />} />
 
-                    <Route
-                      path="/project/inbdg-list"
-                      element={<InProjectList />}
-                    />
-                    <Route
-                      path="/project/inbdg/:id"
-                      element={<InProjectDetail />}
-                    />
+                  <Route
+                    path="/project/inbdg-list"
+                    element={<InProjectList />}
+                  />
+                  <Route
+                    path="/project/inbdg/:id"
+                    element={<InProjectDetail />}
+                  />
 
-                    <Route path="/import" element={<Import />} />
-                    <Route path="/import/create" element={<ImportCreate />} />
-                    <Route path="/import/edit/:id" element={<ImportDetail />} />
+                  <Route path="/import" element={<Import />} />
 
-                    <Route
-                      path="/authorization"
-                      element={<AuthorizationSearch />}
-                    />
-                    <Route
-                      path="/authorization/list"
-                      element={<AuthorizationList />}
-                    />
+                  <Route
+                    path="/authorization"
+                    element={<AuthorizationSearch />}
+                  />
+                  <Route
+                    path="/authorization/list"
+                    element={<AuthorizationList />}
+                  />
 
-                    <Route path="/admin" element={<AdminList />} />
+                  <Route path="/admin" element={<AdminList />} />
 
-                    {/* <Route element={<FarmerProtectedRoute user={authorize} />}> */}
-                    {/* <Route path="/bwrf01-1" element={<BWRF01_1 />} /> */}
-                    {/* </Route> */}
-                  </Route>
+                  {/* <Route element={<FarmerProtectedRoute user={authorize} />}> */}
+                  {/* <Route path="/bwrf01-1" element={<BWRF01_1 />} /> */}
+                  {/* </Route> */}
                 </Route>
               </>
             </Routes>
