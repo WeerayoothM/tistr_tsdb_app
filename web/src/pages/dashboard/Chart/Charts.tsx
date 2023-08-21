@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Doughnut, Bubble, Bar } from "react-chartjs-2";
+import { get, isEmpty } from "lodash";
 
 Chart.register(CategoryScale);
 
@@ -13,6 +14,15 @@ interface DoughnutChartProps {
 }
 
 const Charts: React.FC<DoughnutChartProps> = ({ chartData, type, height }) => {
+  const getLabelBubbleChart = useMemo(() => {
+    if (type === "bubble" && !isEmpty(chartData)) {
+      const data = get(chartData, "datasets", []).filter(
+        (item: any) => item.type === "bar"
+      );
+      return data;
+    }
+  }, [chartData]);
+
   return (
     <div>
       {type === "doughnut" && (
@@ -28,24 +38,37 @@ const Charts: React.FC<DoughnutChartProps> = ({ chartData, type, height }) => {
         />
       )}
       {type === "bubble" && (
-        <div className="h-[150px] w-full flex justify-center">
-          <Bubble
-            data={chartData}
-            options={{
-              plugins: {
-                legend: {
-                  display: false,
+        <div>
+          <div className="h-[150px] w-full flex flex-col items-center">
+            <Bubble
+              data={chartData}
+              options={{
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
                 },
-              },
-              maintainAspectRatio: false,
-              scales: {},
-              elements: {
-                line: {
-                  fill: false,
+                maintainAspectRatio: false,
+                scales: {},
+                elements: {
+                  line: {
+                    fill: false,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
+          <div className="flex justify-around text-[11px] mt-[1rem]">
+            {getLabelBubbleChart.map((item: any, index: number) => (
+              <div className="flex items-center gap-[10px]">
+                <div
+                  className="w-[14px] h-[14px] rounded-full"
+                  style={{ backgroundColor: item.backgroundColor }}
+                />
+                <div key={`${item.label}-${index}`}>{item.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

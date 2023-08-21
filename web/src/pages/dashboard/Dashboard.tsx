@@ -72,11 +72,11 @@ const selectTemplate = [
       },
       {
         label: "โครงการนอกงบประมาณ",
-        value: "out",
+        value: "OUT",
       },
       {
         label: "โครงการในงบประมาณ",
-        value: "in",
+        value: "IN",
       },
     ],
   },
@@ -633,7 +633,7 @@ const Dashboard = () => {
                 key={`result-ticket-${index}`}
               >
                 <div className="flex items-center justify-between p-[1rem] text-[#ADB5BD] text-[16px] font-srb-400">
-                  <div>publication</div>
+                  <div>{item.label}</div>
                   <div className="text-[#ADB5BD] text-[50px] font-srb-700">
                     230
                   </div>
@@ -644,7 +644,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {state.type === "out" && (
+      {state.type === "OUT" && (
         <div className="grid grid-cols-3 mt-[1rem] gap-[1rem]">
           <div className="col-span-2 grid grid-cols-2 gap-[1rem]">
             <Ticket cn={`flex-1 flex flex-col  text-[#666666] h-full`}>
@@ -681,7 +681,7 @@ const Dashboard = () => {
                 key={`result-ticket-${index}`}
               >
                 <div className="flex items-center justify-between p-[1rem] text-[#ADB5BD] text-[16px] font-srb-400">
-                  <div>publication</div>
+                  <div>{item.label}</div>
                   <div className="text-[#ADB5BD] text-[50px] font-srb-700">
                     230
                   </div>
@@ -692,7 +692,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {state.type === "in" && (
+      {state.type === "IN" && (
         <div className="grid grid-cols-3 mt-[1rem] gap-[1rem]">
           <div className="col-span-2 grid grid-cols-2 gap-[1rem]">
             <Ticket cn={`flex-1 flex flex-col  text-[#666666] h-full`}>
@@ -742,7 +742,7 @@ const Dashboard = () => {
                 key={`result-ticket-${index}`}
               >
                 <div className="flex items-center justify-between p-[1rem] text-[#ADB5BD] text-[16px] font-srb-400">
-                  <div>publication</div>
+                  <div>{item.label}</div>
                   <div className="text-[#ADB5BD] text-[50px] font-srb-700">
                     230
                   </div>
