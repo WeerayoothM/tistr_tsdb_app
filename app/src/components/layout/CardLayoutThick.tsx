@@ -90,7 +90,7 @@ const CardLayoutThick = ({
             ...headerLabelStyle,
           }}
         >
-          <Text style={{ ...TEXT.caption1BOLD, color: COLOR.WHITE }}>
+          <Text style={{ ...TEXT.caption2BOLD, color: COLOR.WHITE }}>
             {leftHeader}
           </Text>
 
@@ -100,7 +100,7 @@ const CardLayoutThick = ({
               alignItems: "center",
             }}
           >
-            <Text style={{ ...TEXT.caption1, color: COLOR.WHITE }}>
+            <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
               {rightHeader}
             </Text>
 

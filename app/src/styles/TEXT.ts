@@ -46,6 +46,11 @@ export const TEXT = {
     fontFamily: BaiJamjureeMedium,
     fontSize: 20,
   },
+  body1SemiBold: {
+    ...commonTextStyle,
+    fontFamily: BaiJamjureeSemiBold,
+    fontSize: 20,
+  },
   body2: {
     ...commonTextStyle,
     fontFamily: BaiJamjureeMedium,

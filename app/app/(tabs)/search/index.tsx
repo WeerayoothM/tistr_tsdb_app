@@ -15,20 +15,40 @@ import { Image } from "react-native";
 import XButton from "@/components/atoms/XButton";
 import XButtonText from "@/components/atoms/XButtonText";
 import { useRouter } from "expo-router";
+import { ProjectContext } from "@/context/ProjectContext";
+import { useContext } from "react";
+import { getAllProject } from "./apis";
 
 export default function Search() {
   const router = useRouter();
+  const { projectSearchState, setProjectListState } =
+    useContext(ProjectContext);
+
   const searchOffBudget = () => {
     router.push("/search/offBudget");
   };
-  const searchAllOffBudget = () => {
-    router.push("/search/offBudget");
-  };
+
   const searchOnBudget = () => {
     router.push("/search/onBudget");
   };
-  const searchAllOnBudget = () => {
-    router.push("/search/onBudget");
+  const searchAllOnBudget = async () => {
+    const resp = await getAllProject(projectSearchState);
+    setProjectListState(resp.data);
+
+    router.push({
+      pathname: "/search/result",
+      params: { type: "onBudget" },
+    });
+  };
+
+  const searchAllOffBudget = async () => {
+    const resp = await getAllProject(projectSearchState);
+    setProjectListState(resp.data);
+
+    router.push({
+      pathname: "/search/result",
+      params: { type: "offBudget" },
+    });
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>

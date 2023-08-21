@@ -73,7 +73,7 @@ const XDropdown = (props) => {
           color: !value?.toString() ? COLOR.LIGHTGRAY : COLOR.BLACK,
         }}
         placeholderStyle={{
-          ...TEXT.input2,
+          ...TEXT.input3,
           paddingLeft: 3,
           color: COLOR.LIGHTGRAY,
         }}
