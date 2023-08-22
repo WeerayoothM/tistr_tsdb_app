@@ -93,11 +93,13 @@ const ProjectContext = createContext<{
   >;
   projectListState: ProjectData[];
   setProjectListState: React.Dispatch<React.SetStateAction<ProjectData[]>>;
+  resetProjectSearchState;
 }>({
   projectSearchState: initialProjectState,
   setProjectSearchState: () => {},
   projectListState: null,
   setProjectListState: () => {},
+  resetProjectSearchState: () => {},
 });
 
 // Create a Provider component to wrap around the parts of the app that need access to the context state
@@ -106,6 +108,10 @@ const ProjectProvider = ({ children }) => {
     useState(initialProjectState);
   const [projectListState, setProjectListState] = useState<ProjectData[]>([]);
 
+  const resetProjectSearchState = () => {
+    setProjectSearchState(initialProjectState);
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -113,6 +119,7 @@ const ProjectProvider = ({ children }) => {
         setProjectSearchState,
         projectListState,
         setProjectListState,
+        resetProjectSearchState,
       }}
     >
       {children}

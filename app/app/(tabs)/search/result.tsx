@@ -15,26 +15,42 @@ import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { Ionicons } from "@expo/vector-icons";
 import XButton from "@/components/atoms/XButton";
-import { getAllProject } from "./apis";
+import { getAllProject, getSearchProject } from "./apis";
 import CommonFooter from "@/components/layout/CommonFooter";
 
 const result = () => {
-  const { projectSearchState, projectListState, setProjectListState } =
-    useContext(ProjectContext);
+  const {
+    projectSearchState,
+    projectListState,
+    setProjectListState,
+    setProjectSearchState,
+  } = useContext(ProjectContext);
   const router = useRouter();
   const { type = "offBudget" } = useSearchParams();
   const isOffBudget = type === "offBudget";
 
   const handleSubmit = async () => {
-    const resp = await getAllProject(projectSearchState);
-    setProjectListState(resp.data);
+    console.log(type);
+    console.log(isOffBudget);
+
+    const payload = {
+      offset: 0,
+      limit: 100,
+      source: isOffBudget ? "OUT" : "IN",
+      emp_id: 0,
+      data: projectSearchState,
+    };
+    const resp = await getSearchProject(payload);
+    setProjectListState(() => resp.data.item);
   };
 
   useEffect(() => {
-    (async () => {
-      await handleSubmit();
-    })();
-  }, []);
+    if (type) {
+      (async () => {
+        await handleSubmit();
+      })();
+    }
+  }, [type, projectSearchState]);
 
   const renderItem = ({ item }: { item: ProjectData }) => {
     return (
@@ -131,7 +147,12 @@ const result = () => {
         }}
       >
         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>{item[1]}</Text>
-        <TouchableOpacity style={{ marginLeft: 8 }}>
+        <TouchableOpacity
+          style={{ marginLeft: 8 }}
+          onPress={() => {
+            setProjectSearchState((prev) => ({ ...prev, [item[0]]: "" }));
+          }}
+        >
           <Ionicons name="close" size={18} color={COLOR.WHITE} />
         </TouchableOpacity>
       </View>

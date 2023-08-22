@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import React, { useContext, useState } from "react";
+import { View, Text, ImageBackground, SafeAreaView } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import { TEXT } from "@/styles/TEXT";
 import { COLOR } from "@/styles/COLOR";
@@ -14,8 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import XInput from "@/components/atoms/XInput";
 import { ProjectContext } from "@/context/ProjectContext";
 import XButton from "@/components/atoms/XButton";
-import { getAllProject } from "./apis";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import XDropdown from "@/components/atoms/XDropdown";
 import {
   projectBudgetOptions,
@@ -29,24 +21,48 @@ import XModal from "@/components/atoms/XModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const offBudget = () => {
-  const { projectSearchState, setProjectSearchState, setProjectListState } =
-    useContext(ProjectContext);
+  const {
+    projectSearchState,
+    setProjectSearchState,
+    setProjectListState,
+    resetProjectSearchState,
+  } = useContext(ProjectContext);
   const [calendarStartDateOpen, setCalendarStartDateOpen] = useState(false);
   const [calendarEndDateOpen, setCalendarEndDateOpen] = useState(false);
   const router = useRouter();
+  const navigation = useNavigation();
 
   const handleSubmit = async () => {
-    console.log("projectSearchState", projectSearchState);
+    // console.log("projectSearchState", projectSearchState);
 
-    const resp = await getAllProject(projectSearchState);
-    console.log(resp);
-    setProjectListState(resp.data);
+    // const payload = {
+    //   offset: 0,
+    //   limit: 100,
+    //   source: "OUT",
+    //   emp_id: 0,
+    //   data: projectSearchState,
+    // };
+
+    // const resp = await getSearchProject(payload);
+    // console.log(resp);
+    // setProjectListState(resp.data);
 
     router.push({
       pathname: "/search/result",
       params: { type: "offBudget" },
     });
   };
+
+  useEffect(() => {
+    resetProjectSearchState();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      resetProjectSearchState();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

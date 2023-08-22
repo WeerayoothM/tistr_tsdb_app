@@ -85,7 +85,7 @@ const mockChart2 = {
 };
 
 export default function TabDashboardScreen() {
-  const [selectYear, setSelectYear] = useState("");
+  const [selectYear, setSelectYear] = useState("2566");
   const [selectBudget, setSelectBudget] = useState("");
   const [endAngle, setEndAngle] = useState(0);
   const [width, setWidth] = useState(null);
@@ -107,7 +107,7 @@ export default function TabDashboardScreen() {
   const fetchChart1 = async () => {
     const payload = {
       source: "IN",
-      year: "2018",
+      year: `${Number(selectYear) - 543}`,
     };
     try {
       const resp = await getChart1(payload);
@@ -122,7 +122,7 @@ export default function TabDashboardScreen() {
   const fetchChart2 = async () => {
     const payload = {
       source: "IN",
-      year: "2018",
+      year: `${Number(selectYear) - 543}`,
     };
     try {
       const resp = await getChart2(payload);
@@ -140,7 +140,7 @@ export default function TabDashboardScreen() {
       await fetchChart1();
       await fetchChart2();
     })();
-  }, []);
+  }, [selectYear]);
 
   const router = useRouter();
   return (
@@ -236,7 +236,8 @@ export default function TabDashboardScreen() {
             >
               <XDropdown
                 labelText=""
-                defaultValue={`${Number(new Date().getFullYear()) + 543}`}
+                // defaultValue={`${Number(new Date().getFullYear()) + 543}`}
+                defaultValue={`2561`}
                 onValueChange={(value) => {
                   setSelectYear(value);
                 }}
@@ -248,6 +249,22 @@ export default function TabDashboardScreen() {
                   {
                     label: "พ.ศ. 2565",
                     value: "2565",
+                  },
+                  {
+                    label: "พ.ศ. 2564",
+                    value: "2564",
+                  },
+                  {
+                    label: "พ.ศ. 2563",
+                    value: "2563",
+                  },
+                  {
+                    label: "พ.ศ. 2562",
+                    value: "2562",
+                  },
+                  {
+                    label: "พ.ศ. 2561",
+                    value: "2561",
                   },
                 ]}
                 dropDownContainerStyle={{ width: 130, alignSelf: "flex-end" }}
