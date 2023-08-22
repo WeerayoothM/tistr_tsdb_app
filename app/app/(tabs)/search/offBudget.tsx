@@ -163,7 +163,7 @@ const offBudget = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-                enabled={false}
+                // enabled={false}
               />
               <XModal
                 visible={!!calendarStartDateOpen}
@@ -234,7 +234,7 @@ const offBudget = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-                enabled={false}
+                // enabled={false}
               />
               <XModal
                 visible={!!calendarEndDateOpen}
