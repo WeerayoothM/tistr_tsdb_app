@@ -358,10 +358,10 @@ const AdminList = () => {
                     transform: "translate(-50%,-40%)",
                     cursor: "pointer",
                   }}
-                  // onClick={() => {
-                  //   if (!formData.empId) return;
-                  //   searchAdmin();
-                  // }}
+                  onClick={() => {
+                    if (!formData.empId) return;
+                    searchAdmin();
+                  }}
                 >
                   <img src="/images/project-input-search.png" alt="" />
                 </div>
