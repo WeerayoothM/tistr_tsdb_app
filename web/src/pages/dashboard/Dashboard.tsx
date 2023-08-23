@@ -187,7 +187,7 @@ const Dashboard = () => {
 
   const color = useMemo(() => {
     if (state.type === "all") return "#E76F2D";
-    if (state.type === "out") return "#1265DC";
+    if (state.type === "OUT") return "#1265DC";
     return "#5140b0";
   }, [state.type]);
 
