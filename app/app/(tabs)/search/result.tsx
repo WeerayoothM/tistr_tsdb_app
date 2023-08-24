@@ -26,17 +26,17 @@ const result = () => {
     setProjectSearchState,
   } = useContext(ProjectContext);
   const router = useRouter();
-  const { type = "offBudget" } = useSearchParams();
-  const isOffBudget = type === "offBudget";
+  const { type = "outProject" } = useSearchParams();
+  const isOutProject = type === "outProject";
 
   const handleSubmit = async () => {
     console.log(type);
-    console.log(isOffBudget);
+    console.log(isOutProject);
 
     const payload = {
       offset: 0,
       limit: 100,
-      source: isOffBudget ? "OUT" : "IN",
+      source: isOutProject ? "OUT" : "IN",
       emp_id: 0,
       data: projectSearchState,
     };
@@ -186,9 +186,9 @@ const result = () => {
         >
           <ImageBackground
             source={
-              isOffBudget
-                ? require(`../../../assets/images/search_offbudget_bg.png`)
-                : require(`../../../assets/images/search_onbudget_bg.png`)
+              isOutProject
+                ? require(`../../../assets/images/search_outproject_bg.png`)
+                : require(`../../../assets/images/search_inproject_bg.png`)
             }
             style={{
               position: "absolute",
@@ -217,10 +217,10 @@ const result = () => {
               }}
             >
               <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
-                {isOffBudget ? "โครงการนอกงบประมาณ" : "โครงการนอกในประมาณ"}
+                {isOutProject ? "โครงการนอกงบประมาณ" : "โครงการนอกในประมาณ"}
               </Text>
               <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                {isOffBudget
+                {isOutProject
                   ? "ผลการค้นหาข้อมูลโครงการนอกงบประมาณ"
                   : "ผลการค้นหาข้อมูลโครงการในงบประมาณ"}
               </Text>

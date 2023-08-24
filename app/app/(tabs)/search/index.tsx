@@ -24,30 +24,30 @@ export default function Search() {
   const { projectSearchState, setProjectListState } =
     useContext(ProjectContext);
 
-  const searchOffBudget = () => {
-    router.push("/search/offBudget");
+  const searchOutProject = () => {
+    router.push("/search/outProject");
   };
 
-  const searchOnBudget = () => {
-    router.push("/search/onBudget");
+  const searchInProject = () => {
+    router.push("/search/inProject");
   };
-  const searchAllOnBudget = async () => {
+  const searchAllInProject = async () => {
     const resp = await getAllProject(projectSearchState);
     setProjectListState(resp.data);
 
     router.push({
       pathname: "/search/result",
-      params: { type: "onBudget" },
+      params: { type: "inProject" },
     });
   };
 
-  const searchAllOffBudget = async () => {
+  const searchAllOutProject = async () => {
     const resp = await getAllProject(projectSearchState);
     setProjectListState(resp.data);
 
     router.push({
       pathname: "/search/result",
-      params: { type: "offBudget" },
+      params: { type: "outProject" },
     });
   };
   return (
@@ -150,12 +150,12 @@ export default function Search() {
                   <XButtonText
                     title="ดูโครงการทั้งหมด >"
                     containerStyle={{}}
-                    onPress={searchAllOffBudget}
+                    onPress={searchAllOutProject}
                   />
                   <XButton
                     title="ค้นหา"
                     containerStyle={{}}
-                    onPress={searchOffBudget}
+                    onPress={searchOutProject}
                   />
                 </View>
               </CardLayout>
@@ -195,12 +195,12 @@ export default function Search() {
                   <XButtonText
                     title="ดูโครงการทั้งหมด >"
                     containerStyle={{}}
-                    onPress={searchAllOnBudget}
+                    onPress={searchAllInProject}
                   />
                   <XButton
                     title="ค้นหา"
                     containerStyle={{}}
-                    onPress={searchOnBudget}
+                    onPress={searchInProject}
                   />
                 </View>
               </CardLayout>

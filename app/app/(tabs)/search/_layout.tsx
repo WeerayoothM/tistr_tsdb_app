@@ -9,9 +9,9 @@ const StackLayout = () => {
           name="index"
           options={{ headerShown: false, headerBackVisible: false }}
         />
-        <Stack.Screen name="offBudget" options={{ headerShown: false }} />
+        <Stack.Screen name="outProject" options={{ headerShown: false }} />
         <Stack.Screen
-          name="onBudget"
+          name="inProject"
           options={{ headerShown: false, headerBackVisible: false }}
         />
         <Stack.Screen

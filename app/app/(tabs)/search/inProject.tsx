@@ -18,7 +18,7 @@ import { DateData } from "react-native-calendars";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import XCalendar from "@/components/atoms/XCalendar";
 
-const offBudget = () => {
+const inProject = () => {
   const {
     projectSearchState,
     setProjectSearchState,
@@ -31,12 +31,12 @@ const offBudget = () => {
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
-    // console.log("projectSearchState", projectSearchState);
+    // console.log(projectSearchState);
 
     // const payload = {
     //   offset: 0,
     //   limit: 100,
-    //   source: "OUT",
+    //   source: "IN",
     //   emp_id: 0,
     //   data: projectSearchState,
     // };
@@ -47,7 +47,7 @@ const offBudget = () => {
 
     router.push({
       pathname: "/search/result",
-      params: { type: "offBudget" },
+      params: { type: "inProject" },
     });
   };
 
@@ -85,7 +85,7 @@ const offBudget = () => {
             }}
           >
             <ImageBackground
-              source={require("../../../assets/images/search_offbudget_bg.png")}
+              source={require("../../../assets/images/search_inproject_bg.png")}
               style={{
                 position: "absolute",
                 width: "100%",
@@ -113,10 +113,10 @@ const offBudget = () => {
                 }}
               >
                 <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
-                  สืบค้นโครงการนอกงบประมาณ
+                  สืบค้นโครงการในงบประมาณ
                 </Text>
                 <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                  กรอกข้อมูลโครงการนอกงบประมาณ
+                  กรอกข้อมูลโครงการในงบประมาณ
                 </Text>
               </View>
               <View style={{ justifyContent: "center" }}>
@@ -138,6 +138,109 @@ const offBudget = () => {
               }}
               options={projectStatusOptions}
             />
+            <XDropdown
+              labelText="หน่วยงานเจ้าของโครงการ"
+              placeHolder="หน่วยงานเจ้าของโครงการ"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_resp_dept: value,
+                }));
+              }}
+              options={projectStatusOptions}
+            />
+            <XDropdown
+              labelText="หน่วยย่อย"
+              placeHolder="หน่วยย่อย"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_sub_dept: value,
+                }));
+              }}
+              options={projectStatusOptions}
+            />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                zIndex: 10,
+              }}
+            >
+              <XDropdown
+                labelText="ภาค"
+                placeHolder="ภาค"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_region: value,
+                  }));
+                }}
+                options={projectStatusOptions}
+                containerStyle={{ flex: 1 }}
+                zIndex={2000}
+                listMode="MODAL"
+              />
+              <View
+                style={{
+                  width: 10,
+                }}
+              />
+
+              <XDropdown
+                labelText="จังหวัด"
+                placeHolder="จังหวัด"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_province: value,
+                  }));
+                }}
+                options={projectStatusOptions}
+                containerStyle={{ flex: 1 }}
+                listMode="MODAL"
+              />
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                zIndex: 9,
+              }}
+            >
+              <XDropdown
+                labelText="อำเภอ"
+                placeHolder="อำเภอ"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_amphur: value,
+                  }));
+                }}
+                options={projectStatusOptions}
+                containerStyle={{ flex: 1 }}
+                listMode="MODAL"
+              />
+              <View
+                style={{
+                  width: 10,
+                }}
+              />
+              <XDropdown
+                labelText="ตำบล"
+                placeHolder="ตำบล"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_district: value,
+                  }));
+                }}
+                options={projectStatusOptions}
+                containerStyle={{ flex: 1 }}
+                listMode="MODAL"
+              />
+            </View>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
@@ -161,7 +264,6 @@ const offBudget = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-                // enabled={false}
               />
               <XCalendar
                 calendarOpen={calendarStartDateOpen}
@@ -188,6 +290,7 @@ const offBudget = () => {
                   }
                 }}
               />
+
               <View
                 style={{
                   width: 10,
@@ -212,7 +315,6 @@ const offBudget = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-                // enabled={false}
               />
               <XCalendar
                 calendarOpen={calendarEndDateOpen}
@@ -254,18 +356,19 @@ const offBudget = () => {
               }}
               containerStyle={{ flex: 1 }}
             />
-            <XDropdown
-              labelText="กลุ่มงาน"
-              placeHolder="เลือกกลุ่มงาน"
-              onValueChange={(value) => {
-                console.log("onValueChange", value);
-
-                setProjectSearchState((prevState) => ({
-                  ...prevState,
-                  project_resp_dept: value,
-                }));
+            <XInput
+              labelText={"พื้นที่เป้าหมาย"}
+              textProps={{
+                value: projectSearchState.location_target,
+                onChangeText: (text) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    location_target: text,
+                  }));
+                },
+                placeholder: "พื้นที่เป้าหมาย",
               }}
-              options={projectGroupOptions}
+              containerStyle={{ flex: 1 }}
             />
             <XInput
               labelText={"ชื่อโครงการ"}
@@ -321,18 +424,29 @@ const offBudget = () => {
               containerStyle={{ flex: 1 }}
             />
             <XInput
-              labelText={"บริษัทคู่สัญญา"}
+              labelText={"แหล่งทุนวิจัย"}
               textProps={{
-                value: projectSearchState.project_sub_dept,
+                value: projectSearchState.research_fund,
                 onChangeText: (text) => {
                   setProjectSearchState((prevState) => ({
                     ...prevState,
-                    project_sub_dept: text,
+                    research_fund: text,
                   }));
                 },
-                placeholder: "บริษัทคู่สัญญา...",
+                placeholder: "แหล่งทุนวิจัย",
               }}
               containerStyle={{ flex: 1 }}
+            />
+            <XDropdown
+              labelText="สถานะขอทุน"
+              placeHolder="เลือกสถานะขอทุน"
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_status: value,
+                }));
+              }}
+              options={projectBudgetOptions}
             />
             <XButton
               title="ค้นหา"
@@ -346,4 +460,4 @@ const offBudget = () => {
   );
 };
 
-export default offBudget;
+export default inProject;

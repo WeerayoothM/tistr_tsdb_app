@@ -41,11 +41,11 @@ export default function TabLayout() {
   }
 
   useEffect(() => {
-    // router.push("/search/offBudget");
+    // router.push("/search/outProject");
     if (navigationRef.isReady()) {
       // Perform navigation if the react navigation is ready to handle actions
       // navigationRef.
-      // navigationRef.navigate(        "/search/offBudget"      );
+      // navigationRef.navigate(        "/search/outProject"      );
     } else {
       // You can decide what to do if react navigation is not ready
       // You can ignore this, or add these actions to a queue you can call later
