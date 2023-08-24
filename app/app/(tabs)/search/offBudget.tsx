@@ -14,11 +14,9 @@ import {
   projectGroupOptions,
   projectStatusOptions,
 } from "@/constants/project";
-import { Calendar } from "react-native-calendars";
-import XSlideUp from "@/components/animations/XSlideUp";
-import { SCREEN_WIDTH } from "@/styles/COMMON";
-import XModal from "@/components/atoms/XModal";
+import { DateData } from "react-native-calendars";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import XCalendar from "@/components/atoms/XCalendar";
 
 const offBudget = () => {
   const {
@@ -165,51 +163,31 @@ const offBudget = () => {
                 rightIconColor={COLOR.DARKGRAY}
                 // enabled={false}
               />
-              <XModal
-                visible={!!calendarStartDateOpen}
+              <XCalendar
+                calendarOpen={calendarStartDateOpen}
                 onClose={() => {
                   setCalendarStartDateOpen(false);
                 }}
-                containerStyle={{
-                  justifyContent: "flex-end",
-                  alignItems: "flex-start",
+                markedDates={{
+                  [projectSearchState.start_date]: {
+                    selected: true,
+                    selectedColor: COLOR.ORANGE,
+                  },
                 }}
-              >
-                <XSlideUp height={500} active={!!calendarStartDateOpen}>
-                  <View
-                    style={{
-                      width: SCREEN_WIDTH,
-                      height: 500,
-                      backgroundColor: COLOR.WHITE,
-                      borderTopStartRadius: 30,
-                      borderTopEndRadius: 30,
-                    }}
-                  >
-                    <Calendar
-                      markedDates={{
-                        [projectSearchState.start_date]: {
-                          selected: true,
-                          selectedColor: COLOR.ORANGE,
-                        },
-                      }}
-                      onDayPress={(day) => {
-                        if (day.dateString === projectSearchState.start_date) {
-                          setProjectSearchState({
-                            ...projectSearchState,
-                            start_date: "",
-                          });
-                        } else {
-                          setProjectSearchState({
-                            ...projectSearchState,
-                            start_date: day.dateString,
-                          });
-                        }
-                      }}
-                    />
-                    {/* <Calendar markedDates={marked} onDayPress={onDayPress} /> */}
-                  </View>
-                </XSlideUp>
-              </XModal>
+                onDayPress={(day: DateData) => {
+                  if (day.dateString === projectSearchState.start_date) {
+                    setProjectSearchState({
+                      ...projectSearchState,
+                      start_date: "",
+                    });
+                  } else {
+                    setProjectSearchState({
+                      ...projectSearchState,
+                      start_date: day.dateString,
+                    });
+                  }
+                }}
+              />
               <View
                 style={{
                   width: 10,
@@ -236,50 +214,31 @@ const offBudget = () => {
                 rightIconColor={COLOR.DARKGRAY}
                 // enabled={false}
               />
-              <XModal
-                visible={!!calendarEndDateOpen}
+              <XCalendar
+                calendarOpen={calendarEndDateOpen}
                 onClose={() => {
                   setCalendarEndDateOpen(false);
                 }}
-                containerStyle={{
-                  justifyContent: "flex-end",
-                  alignItems: "flex-start",
+                markedDates={{
+                  [projectSearchState.end_date]: {
+                    selected: true,
+                    selectedColor: COLOR.ORANGE,
+                  },
                 }}
-              >
-                <XSlideUp height={500} active={!!calendarEndDateOpen}>
-                  <View
-                    style={{
-                      width: SCREEN_WIDTH,
-                      height: 500,
-                      backgroundColor: COLOR.WHITE,
-                      borderTopStartRadius: 30,
-                      borderTopEndRadius: 30,
-                    }}
-                  >
-                    <Calendar
-                      markedDates={{
-                        [projectSearchState.end_date]: {
-                          selected: true,
-                          selectedColor: COLOR.ORANGE,
-                        },
-                      }}
-                      onDayPress={(day) => {
-                        if (day.dateString === projectSearchState.end_date) {
-                          setProjectSearchState({
-                            ...projectSearchState,
-                            end_date: "",
-                          });
-                        } else {
-                          setProjectSearchState({
-                            ...projectSearchState,
-                            end_date: day.dateString,
-                          });
-                        }
-                      }}
-                    />
-                  </View>
-                </XSlideUp>
-              </XModal>
+                onDayPress={(day: DateData) => {
+                  if (day.dateString === projectSearchState.end_date) {
+                    setProjectSearchState({
+                      ...projectSearchState,
+                      end_date: "",
+                    });
+                  } else {
+                    setProjectSearchState({
+                      ...projectSearchState,
+                      end_date: day.dateString,
+                    });
+                  }
+                }}
+              />
             </View>
             <XInput
               labelText={"ผู้รับผิดชอบโครงการ"}
