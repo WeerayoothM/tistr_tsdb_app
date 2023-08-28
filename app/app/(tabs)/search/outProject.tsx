@@ -161,7 +161,6 @@ const outProject = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-                // enabled={false}
               />
               <XCalendar
                 calendarOpen={calendarStartDateOpen}
@@ -212,7 +211,6 @@ const outProject = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-                // enabled={false}
               />
               <XCalendar
                 calendarOpen={calendarEndDateOpen}
