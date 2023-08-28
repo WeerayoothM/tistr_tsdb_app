@@ -30,6 +30,9 @@ const inProject = () => {
   const router = useRouter();
   const navigation = useNavigation();
 
+  const groupedData = require("../../../assets/data/thailand_region_data.json");
+  // console.log(groupedData);
+
   const handleSubmit = async () => {
     // console.log(projectSearchState);
 
@@ -61,6 +64,39 @@ const inProject = () => {
     });
     return unsubscribe;
   }, [navigation]);
+
+  const regions = Object.keys(groupedData).map((region) => ({
+    label: region,
+    value: region,
+  }));
+
+  const provinces = projectSearchState.location_region
+    ? Object.keys(groupedData[projectSearchState.location_region]).map(
+        (province) => ({
+          label: province,
+          value: province,
+        })
+      )
+    : [];
+
+  const amphurs = projectSearchState.location_province
+    ? Object.keys(
+        groupedData[projectSearchState.location_region][
+          projectSearchState.location_province
+        ]
+      ).map((district) => ({
+        label: district,
+        value: district,
+      }))
+    : [];
+
+  const tambons = projectSearchState.location_amphur
+    ? Object.keys(
+        groupedData[projectSearchState.location_region][
+          projectSearchState.location_province
+        ][projectSearchState.location_amphur]
+      ).map((tambon) => ({ label: tambon, value: tambon }))
+    : [];
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -176,7 +212,7 @@ const inProject = () => {
                     location_region: value,
                   }));
                 }}
-                options={projectStatusOptions}
+                options={regions}
                 containerStyle={{ flex: 1 }}
                 zIndex={2000}
                 listMode="MODAL"
@@ -196,7 +232,7 @@ const inProject = () => {
                     location_province: value,
                   }));
                 }}
-                options={projectStatusOptions}
+                options={provinces}
                 containerStyle={{ flex: 1 }}
                 listMode="MODAL"
               />
@@ -218,7 +254,7 @@ const inProject = () => {
                     location_amphur: value,
                   }));
                 }}
-                options={projectStatusOptions}
+                options={amphurs}
                 containerStyle={{ flex: 1 }}
                 listMode="MODAL"
               />
@@ -236,7 +272,7 @@ const inProject = () => {
                     location_district: value,
                   }));
                 }}
-                options={projectStatusOptions}
+                options={tambons}
                 containerStyle={{ flex: 1 }}
                 listMode="MODAL"
               />
