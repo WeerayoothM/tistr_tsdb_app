@@ -105,9 +105,7 @@ const XCalendar = ({
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  flex: 1,
-                  flexGrow: 1,
-                  marginBottom: 40,
+                  marginBottom: 10,
                 }}
               >
                 <View
@@ -134,7 +132,7 @@ const XCalendar = ({
                   </View>
                 </TouchableOpacity>
               </View>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 <View
                   style={{
                     alignItems: "center",

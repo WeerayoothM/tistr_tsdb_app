@@ -36,7 +36,7 @@ const XSlideUp = ({
   return (
     <Animated.View
       style={{
-        position: "absolute",
+        // position: "absolute",
         backgroundColor: "white",
         width: "100%",
         height: anim.interpolate({

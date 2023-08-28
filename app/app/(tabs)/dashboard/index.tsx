@@ -111,7 +111,6 @@ export default function TabDashboardScreen() {
     };
     try {
       const resp = await getChart1(payload);
-      console.log(resp.data.data);
 
       setChart1(() => resp.data.data);
     } catch (e) {
@@ -126,7 +125,6 @@ export default function TabDashboardScreen() {
     };
     try {
       const resp = await getChart2(payload);
-      console.log(resp.data.data);
 
       setChart2(() => resp.data.data);
     } catch (e) {
