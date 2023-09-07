@@ -65,38 +65,46 @@ const inProject = () => {
     return unsubscribe;
   }, [navigation]);
 
-  const regions = Object.keys(groupedData).map((region) => ({
-    label: region,
-    value: region,
-  }));
+  const regions = [{ label: "-- เลือกภาค --", value: "" }].concat(
+    Object.keys(groupedData).map((region) => ({
+      label: region,
+      value: region,
+    }))
+  );
 
-  const provinces = projectSearchState.location_region
-    ? Object.keys(groupedData[projectSearchState.location_region]).map(
-        (province) => ({
-          label: province,
-          value: province,
-        })
-      )
-    : [];
+  const provinces = [{ label: "-- เลือกจังหวัด --", value: "" }].concat(
+    projectSearchState.location_region
+      ? Object.keys(groupedData[projectSearchState.location_region]).map(
+          (province) => ({
+            label: province,
+            value: province,
+          })
+        )
+      : []
+  );
 
-  const amphurs = projectSearchState.location_province
-    ? Object.keys(
-        groupedData[projectSearchState.location_region][
-          projectSearchState.location_province
-        ]
-      ).map((district) => ({
-        label: district,
-        value: district,
-      }))
-    : [];
+  const amphurs = [{ label: "-- เลือกอำเภอ --", value: "" }].concat(
+    projectSearchState.location_province
+      ? Object.keys(
+          groupedData[projectSearchState.location_region][
+            projectSearchState.location_province
+          ]
+        ).map((district) => ({
+          label: district,
+          value: district,
+        }))
+      : []
+  );
 
-  const tambons = projectSearchState.location_amphur
-    ? Object.keys(
-        groupedData[projectSearchState.location_region][
-          projectSearchState.location_province
-        ][projectSearchState.location_amphur]
-      ).map((tambon) => ({ label: tambon, value: tambon }))
-    : [];
+  const tambons = [{ label: "-- เลือกตำบล --", value: "" }].concat(
+    projectSearchState.location_amphur
+      ? Object.keys(
+          groupedData[projectSearchState.location_region][
+            projectSearchState.location_province
+          ][projectSearchState.location_amphur]
+        ).map((tambon) => ({ label: tambon, value: tambon }))
+      : []
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -43,8 +43,9 @@ export const formatDateToThaiDate = (
   }${plusToThaiYear ? date.getFullYear() + 543 : date.getFullYear()}`.trim();
 };
 
-export function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export function numberWithCommas(x, d = "-") {
+  // d = default
+  return !x ? d : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function getMonthString(monthNum, lang) {

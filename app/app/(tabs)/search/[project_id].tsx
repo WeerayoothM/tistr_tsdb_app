@@ -438,7 +438,7 @@ const Project = () => {
               onlyHeader={true}
             />
 
-            <Summary />
+            <Summary project={project} />
 
             <CardLayoutThick
               leftHeader={"ผลการประเมินโครงการ"}
