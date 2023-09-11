@@ -32,8 +32,8 @@ export default function Search() {
     router.push("/search/inProject");
   };
   const searchAllInProject = async () => {
-    const resp = await getAllProject(projectSearchState);
-    setProjectListState(resp.data);
+    // const resp = await getAllProject(projectSearchState);
+    // setProjectListState(resp.data);
 
     router.push({
       pathname: "/search/result",
@@ -42,8 +42,8 @@ export default function Search() {
   };
 
   const searchAllOutProject = async () => {
-    const resp = await getAllProject(projectSearchState);
-    setProjectListState(resp.data);
+    // const resp = await getAllProject(projectSearchState);
+    // setProjectListState(resp.data);
 
     router.push({
       pathname: "/search/result",

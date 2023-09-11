@@ -31,20 +31,6 @@ const outProject = () => {
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
-    // console.log("projectSearchState", projectSearchState);
-
-    // const payload = {
-    //   offset: 0,
-    //   limit: 100,
-    //   source: "OUT",
-    //   emp_id: 0,
-    //   data: projectSearchState,
-    // };
-
-    // const resp = await getSearchProject(payload);
-    // console.log(resp);
-    // setProjectListState(resp.data);
-
     router.push({
       pathname: "/search/result",
       params: { type: "outProject" },
@@ -256,8 +242,6 @@ const outProject = () => {
               labelText="กลุ่มงาน"
               placeHolder="เลือกกลุ่มงาน"
               onValueChange={(value) => {
-                console.log("onValueChange", value);
-
                 setProjectSearchState((prevState) => ({
                   ...prevState,
                   project_resp_dept: value,

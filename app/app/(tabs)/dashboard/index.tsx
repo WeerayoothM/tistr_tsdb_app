@@ -12,7 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { FontAwesome } from "@expo/vector-icons";
-import { formatDateToThaiDate } from "@/utils/format";
+import { formatDateToThaiDate, getString } from "@/utils/format";
 import XDropdown from "@/components/atoms/XDropdown";
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
@@ -32,7 +32,16 @@ import {
   VictoryPie,
 } from "victory-native";
 import CardLayoutThinVertical from "@/components/layout/CardLayoutThinVertical";
-import { getChart1, getChart2 } from "./apis";
+import {
+  getBox1,
+  getBox2,
+  getBox3,
+  getBox4,
+  getBox5,
+  getBox6,
+  getChart1,
+  getChart2,
+} from "./apis";
 import { Chart1Data, Chart2, Chart2Data } from "@/context/DashboardContext";
 
 const mockChart1 = {
@@ -89,6 +98,9 @@ export default function TabDashboardScreen() {
     `${Number(new Date().getFullYear()) + 543}`
   );
   const [selectBudget, setSelectBudget] = useState("");
+  const [selectSource, setSelectSource] = useState("");
+
+  const [box, setBox] = useState({} as any);
   const [endAngle, setEndAngle] = useState(0);
   const [width, setWidth] = useState(null);
   const [chart1, setChart1] = useState<Chart1Data>(mockChart1);
@@ -108,7 +120,7 @@ export default function TabDashboardScreen() {
 
   const fetchChart1 = async () => {
     const payload = {
-      source: "IN",
+      source: selectSource,
       year: `${Number(selectYear) - 543}`,
     };
     try {
@@ -122,7 +134,7 @@ export default function TabDashboardScreen() {
 
   const fetchChart2 = async () => {
     const payload = {
-      source: "IN",
+      source: selectSource,
       year: `${Number(selectYear) - 543}`,
     };
     try {
@@ -134,13 +146,47 @@ export default function TabDashboardScreen() {
     }
   };
 
+  const fetchBox = async () => {
+    const payloadYear = {
+      source: selectSource,
+      year: `${Number(selectYear) - 543}`,
+    };
+    const [box1, box1Out, box1In, box2, box3, box4, box5, box6] =
+      await Promise.all([
+        getBox1(payloadYear),
+        getBox1({ ...payloadYear, source: "OUT" }),
+        getBox1({ ...payloadYear, source: "IN" }),
+        getBox2(payloadYear),
+        getBox3(payloadYear),
+        getBox4(payloadYear),
+        getBox5(payloadYear),
+        getBox6(payloadYear),
+      ]);
+
+    setBox((prev) => ({
+      ...prev,
+      box1: box1[0],
+      box1Out: box1Out[0],
+      box1In: box1In[0],
+      box2: box2,
+      box3: box3[0],
+      box4: box4[0],
+      box5: box5[0],
+      box6: box6[0],
+    }));
+  };
+
   useEffect(() => {
     (async () => {
       // await Promise.all([fetchChart1(), fetchChart2()]);
       await fetchChart1();
       await fetchChart2();
+      await fetchBox();
     })();
-  }, [selectYear]);
+  }, [selectYear, selectSource]);
+
+  const isSelectOut = selectSource === "OUT";
+  const isSelectIn = selectSource === "IN";
 
   const router = useRouter();
   return (
@@ -350,7 +396,12 @@ export default function TabDashboardScreen() {
                           color: COLOR.WHITE,
                         }}
                       >
-                        {"2,370"}
+                        {/* {getString(
+                          inProjectList.total + outProjectList.total,
+                          "0",
+                          true
+                        )} */}
+                        {box?.box1?.total_project || 0}
                       </Text>
                       <Text style={{ ...TEXT.body1, color: COLOR.WHITE }}>
                         โครงการ
@@ -361,80 +412,149 @@ export default function TabDashboardScreen() {
               </View>
 
               <View style={{ flexDirection: "row", gap: 13, marginTop: 14 }}>
-                <TouchableOpacity style={{ flex: 1 }}>
+                <TouchableOpacity
+                  style={{ flex: 1, borderRadius: 10 }}
+                  onPress={() => {
+                    setSelectSource((prev) => {
+                      if (prev === "OUT") return "";
+                      else return "OUT";
+                    });
+                  }}
+                >
                   <CardLayoutThin
                     themeColor={COLOR.BLUE}
-                    containerStyle={{
-                      paddingHorizontal: 17,
-                      paddingVertical: 11,
-                    }}
+                    containerStyle={{}}
+                    headerHeight={isSelectOut ? 0 : 12}
                   >
-                    <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
-                      โครงการนอกงบประมาณ
-                    </Text>
-                    <Text
+                    <ImageBackground
+                      source={require("../../../assets/images/dashboard_count_blue_bg.png")}
                       style={{
-                        ...TEXT.caption1SemiBold,
-                        fontSize: 40,
-                        color: COLOR.BLUE,
+                        width: "100%",
+                        height: "100%",
+                        paddingHorizontal: 17,
+                        paddingVertical: isSelectOut ? 17 : 11,
+                        borderRadius: 10,
                       }}
-                    >
-                      {"723"}
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
+                      imageStyle={{
+                        borderRadius: 10,
+                        opacity: isSelectOut ? 1 : 0,
                       }}
+                      resizeMode="cover"
                     >
                       <Text
-                        style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}
+                        style={{
+                          ...TEXT.caption2,
+                          color: isSelectOut ? COLOR.WHITE : COLOR.DARKGRAY,
+                        }}
                       >
-                        โครงการ
+                        โครงการนอกงบประมาณ
                       </Text>
-                      <Image
-                        source={require("../../../assets/images/arrow-down-circle-blue.png")}
-                      />
-                    </View>
+                      <Text
+                        style={{
+                          ...TEXT.caption1SemiBold,
+                          fontSize: 40,
+                          color: isSelectOut ? COLOR.WHITE : COLOR.BLUE,
+                        }}
+                      >
+                        {box?.box1Out?.total_project || 0}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            ...TEXT.caption2,
+                            color: isSelectOut ? COLOR.WHITE : COLOR.LIGHTGRAY,
+                          }}
+                        >
+                          โครงการ
+                        </Text>
+                        {isSelectOut ? (
+                          <></>
+                        ) : (
+                          <Image
+                            source={require("../../../assets/images/arrow-down-circle-blue.png")}
+                          />
+                        )}
+                      </View>
+                    </ImageBackground>
                   </CardLayoutThin>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ flex: 1 }}>
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => {
+                    setSelectSource((prev) => {
+                      if (prev === "IN") return "";
+                      else return "IN";
+                    });
+                  }}
+                >
                   <CardLayoutThin
                     themeColor={COLOR.PURPLE}
-                    containerStyle={{
-                      paddingHorizontal: 17,
-                      paddingVertical: 11,
-                    }}
+                    containerStyle={{}}
+                    headerHeight={isSelectIn ? 0 : 12}
                   >
-                    <Text style={{ ...TEXT.caption2, color: COLOR.DARKGRAY }}>
-                      โครงการในงบประมาณ
-                    </Text>
-                    <Text
+                    <ImageBackground
+                      source={require("../../../assets/images/dashboard_count_purple_bg.png")}
                       style={{
-                        ...TEXT.caption1SemiBold,
-                        fontSize: 40,
-                        color: COLOR.PURPLE,
+                        width: "100%",
+                        height: "100%",
+                        paddingHorizontal: 17,
+                        paddingVertical: isSelectIn ? 17 : 11,
+                        borderRadius: 10,
                       }}
-                    >
-                      {"1,264"}
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
+                      imageStyle={{
+                        borderRadius: 10,
+                        opacity: isSelectIn ? 1 : 0,
                       }}
+                      resizeMode="cover"
                     >
                       <Text
-                        style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}
+                        style={{
+                          ...TEXT.caption2,
+                          color: isSelectIn ? COLOR.WHITE : COLOR.DARKGRAY,
+                        }}
                       >
-                        โครงการ
+                        โครงการในงบประมาณ
                       </Text>
-                      <Image
-                        source={require("../../../assets/images/arrow-down-circle-purple.png")}
-                      />
-                    </View>
+                      <Text
+                        style={{
+                          ...TEXT.caption1SemiBold,
+                          fontSize: 40,
+                          color: isSelectIn ? COLOR.WHITE : COLOR.PURPLE,
+                        }}
+                      >
+                        {/* {getString(inProjectList.total, "0", true)} */}
+                        {box?.box1In?.total_project || 0}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            ...TEXT.caption2,
+                            color: isSelectIn ? COLOR.WHITE : COLOR.LIGHTGRAY,
+                          }}
+                        >
+                          โครงการ
+                        </Text>
+                        {isSelectIn ? (
+                          <></>
+                        ) : (
+                          <Image
+                            source={require("../../../assets/images/arrow-down-circle-purple.png")}
+                          />
+                        )}
+                      </View>
+                    </ImageBackground>
                   </CardLayoutThin>
                 </TouchableOpacity>
               </View>
@@ -675,7 +795,7 @@ export default function TabDashboardScreen() {
                       textAlign: "right",
                     }}
                   >
-                    40,000,000
+                    {box?.box4?.total_budget_amount || 0}
                   </Text>
                   <Text style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}>
                     บาท
@@ -700,7 +820,7 @@ export default function TabDashboardScreen() {
                       textAlign: "right",
                     }}
                   >
-                    36,488,960
+                    {box?.box4?.total_pay_amount || 0}
                   </Text>
                   <Text style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}>
                     บาท
@@ -807,7 +927,7 @@ export default function TabDashboardScreen() {
                           </Text>
                         </View>
                       ))}
-                      <View style={{ flexGrow: 1 }}>
+                      {/* <View style={{ flexGrow: 1 }}>
                         <Text
                           style={{
                             ...TEXT.label3Thin,
@@ -817,7 +937,7 @@ export default function TabDashboardScreen() {
                         >
                           ปี 2565
                         </Text>
-                      </View>
+                      </View> */}
                     </View>
                     <View
                       style={{
@@ -1001,7 +1121,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          682
+                          {box?.box2?.Pass || 0}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1026,7 +1146,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          46
+                          {box?.box2?.Failed || 0}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1051,7 +1171,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          225
+                          {box?.box2?.Wait || 0}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1127,7 +1247,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          512
+                          {box?.box3?.in_time || 0}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1151,7 +1271,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          119
+                          {box?.box3?.out_time || 0}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1206,7 +1326,7 @@ export default function TabDashboardScreen() {
                       color: COLOR.WHITE,
                     }}
                   >
-                    278
+                    {box?.box1?.total_productivity || 0}
                   </Text>
                   <Text style={{ ...TEXT.label2Thin, color: COLOR.WHITE }}>
                     ผลผลิต
@@ -1234,7 +1354,7 @@ export default function TabDashboardScreen() {
                     PUBLICATION
                   </Text>
                   <Text style={{ ...TEXT.header2BOLD, color: COLOR.LIGHTGRAY }}>
-                    203
+                    {box?.box6?.publication || 0}
                   </Text>
                 </View>
               </View>
@@ -1260,7 +1380,7 @@ export default function TabDashboardScreen() {
                     IP
                   </Text>
                   <Text style={{ ...TEXT.header2BOLD, color: COLOR.LIGHTGRAY }}>
-                    75
+                    {box?.box6?.ip || 0}
                   </Text>
                 </View>
               </View>
@@ -1293,7 +1413,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {"230"}
+                  {box?.box5?.contract_no || 0}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   สัญญา
@@ -1318,7 +1438,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {"15,000,000"}
+                  {box?.box5?.contract_budget_amount || 0}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   บาท
@@ -1343,7 +1463,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {"824"}
+                  {box?.box5?.research_fund || 0}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   สัญญา
@@ -1368,7 +1488,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {"25,000,000"}
+                  {box?.box5?.research_fund_amount || 0}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   บาท

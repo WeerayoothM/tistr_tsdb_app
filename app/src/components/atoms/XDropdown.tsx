@@ -29,6 +29,7 @@ const XDropdown = (props) => {
     dropDownContainerStyle = {},
     zIndex = 999,
     listMode = "MODAL",
+    dependencyValue = "CONTSTANT",
   } = props;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | Option>(defaultValue);
@@ -39,11 +40,20 @@ const XDropdown = (props) => {
     }
   }, [value]);
 
+  useEffect(() => {
+    if (value && dependencyValue == "") {
+      setValue("");
+    }
+  }, [dependencyValue]);
+
   return (
     <View style={[containerStyle, { zIndex: open ? zIndex : 0 }]}>
       {labelText ? (
         <Text
-          style={[{ ...TEXT.label3Thin, color: COLOR.DARKGRAY }, labelStyle]}
+          style={[
+            { ...TEXT.label3Thin, color: COLOR.DARKGRAY, marginBottom: 5 },
+            labelStyle,
+          ]}
         >
           {labelText}
         </Text>

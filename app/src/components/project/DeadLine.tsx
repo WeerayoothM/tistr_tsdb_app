@@ -3,9 +3,14 @@ import React from "react";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { AntDesign } from "@expo/vector-icons";
-import { formatDateToThaiDate } from "@/utils/format";
+import { dateDiff, formatDateToThaiDate } from "@/utils/format";
+import { ProjectData } from "@/context/ProjectContext";
 
-const DeadLine = ({ end_date = "" }) => {
+const DeadLine = ({ project }: { project: ProjectData }) => {
+  const isComplete = project.project_status.includes("เสร็จสิ้น");
+  const endDateDiff = dateDiff(project.end_date, new Date(), false);
+  const isExceed = endDateDiff < 0;
+
   return (
     <View
       style={{
@@ -24,13 +29,26 @@ const DeadLine = ({ end_date = "" }) => {
       >
         <View style={{ flexGrow: 1 }}>
           <Text style={{ ...TEXT.caption2 }}>วันสิ้นสุดโครงการ</Text>
-          <Text style={{ ...TEXT.body2, color: COLOR.DARKGRAY }}>
-            {formatDateToThaiDate(end_date, false, false, true)}
+          <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
+            {formatDateToThaiDate(project.end_date, false, false, true)}
           </Text>
         </View>
 
-        <Text style={{ ...TEXT.header1, color: COLOR.DARKGREEN2 }}>
-          อีก 25 วัน
+        <Text
+          style={{
+            ...TEXT.body1,
+            color: isComplete
+              ? COLOR.ORANGE
+              : isExceed
+              ? COLOR.PINK
+              : COLOR.DARKGREEN2,
+          }}
+        >
+          {isComplete
+            ? "เสร็จสิ้น"
+            : isExceed
+            ? `เกิน ${Math.abs(endDateDiff)} วัน`
+            : `อีก ${Math.abs(endDateDiff)} วัน`}
         </Text>
       </View>
     </View>

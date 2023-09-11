@@ -15,7 +15,11 @@ import Header from "@/components/layout/Header";
 import Status from "@/components/project/Status";
 import DeadLine from "@/components/project/DeadLine";
 import CardLayoutThick from "@/components/layout/CardLayoutThick";
-import { formatDateToThaiDate, numberWithCommas } from "@/utils/format";
+import {
+  formatDateToThaiDate,
+  getString,
+  numberWithCommas,
+} from "@/utils/format";
 import XSlideDown from "@/components/atoms/XSlideDown";
 import Infomation from "@/components/project/Infomation";
 import Contract from "@/components/project/Contract";
@@ -34,7 +38,6 @@ const Project = () => {
   const router = useRouter();
   const fetchProject = async () => {
     const resp = await getProjectById(project_id);
-    console.log(resp);
     setProject(resp.data);
   };
 
@@ -115,6 +118,7 @@ const Project = () => {
           </View>
           <View style={{ paddingHorizontal: 20, gap: 20, marginTop: 20 }}>
             <Status
+              project_status={project.project_status}
               percent={
                 project.project_eva_percentage
                   ? Number(project.project_eva_percentage)
@@ -122,7 +126,7 @@ const Project = () => {
               }
               end_date={project.end_date}
             />
-            <DeadLine end_date={project.end_date} />
+            <DeadLine project={project} />
             <CardLayoutThick
               leftHeader={"ผลการประเมินโครงการ"}
               rightHeader={""}
@@ -237,7 +241,7 @@ const Project = () => {
                     วัตถุประสงค์โครงการ
                   </Text>
                   <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    {project.project_objective}
+                    {getString(project.project_objective)}
                   </Text>
                 </View>
                 <View
@@ -257,7 +261,7 @@ const Project = () => {
                     ตัวชี้วัดโครงการ
                   </Text>
                   <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    {project.project_indicator}
+                    {getString(project.project_indicator)}
                   </Text>
                 </View>
               </XSlideDown>

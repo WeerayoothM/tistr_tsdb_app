@@ -9,14 +9,16 @@ import { ProjectContext } from "@/context/ProjectContext";
 import XButton from "@/components/atoms/XButton";
 import { useNavigation, useRouter } from "expo-router";
 import XDropdown from "@/components/atoms/XDropdown";
-import {
-  projectBudgetOptions,
-  projectGroupOptions,
-  projectStatusOptions,
-} from "@/constants/project";
+import { projectBudgetOptions } from "@/constants/project";
 import { DateData } from "react-native-calendars";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import XCalendar from "@/components/atoms/XCalendar";
+import {
+  getListGroup,
+  getListResponsible,
+  getListStatus,
+  getListSubDivision,
+} from "./apis";
 
 const inProject = () => {
   const {
@@ -26,36 +28,79 @@ const inProject = () => {
     resetProjectSearchState,
   } = useContext(ProjectContext);
   const [calendarStartDateOpen, setCalendarStartDateOpen] = useState(false);
-  const [calendarEndDateOpen, setCalendarEndDateOpen] = useState(false);
+  const [listStatusOptions, setListStatusOptions] = useState([]);
+  const [listResponsibleOptions, setListResponsibleOptions] = useState([]);
+  const [listGroupOptions, setListGroupOptions] = useState([]);
+  const [listSubDivisionOptions, setListSubDivisionOptions] = useState([]);
   const router = useRouter();
   const navigation = useNavigation();
 
   const groupedData = require("../../../assets/data/thailand_region_data.json");
-  // console.log(groupedData);
 
   const handleSubmit = async () => {
-    // console.log(projectSearchState);
-
-    // const payload = {
-    //   offset: 0,
-    //   limit: 100,
-    //   source: "IN",
-    //   emp_id: 0,
-    //   data: projectSearchState,
-    // };
-
-    // const resp = await getSearchProject(payload);
-    // console.log(resp);
-    // setProjectListState(resp.data);
-
     router.push({
       pathname: "/search/result",
       params: { type: "inProject" },
     });
   };
 
+  const prepareListGroup = async () => {
+    const response = await getListGroup();
+    const _listGroup = response.data.map(({ Group }) => ({
+      label: Group,
+      value: Group === "-" ? "" : Group,
+    }));
+
+    setListGroupOptions(() => _listGroup);
+  };
+
+  const prepareListSubDivision = async () => {
+    const response = await getListSubDivision();
+    const _listSub = response.data.map(({ SubDivision }) => ({
+      label: SubDivision,
+      value: SubDivision === "-" ? "" : SubDivision,
+    }));
+    setListSubDivisionOptions(() => _listSub);
+  };
+
+  const prepareListStatus = async () => {
+    const response = await getListStatus();
+    const _listSub = [
+      {
+        label: "- เลือกสถานะโครงการ -",
+        value: "",
+      },
+    ].concat(
+      response.data.map(({ project_status }) => ({
+        label: project_status,
+        value: project_status === "-" ? "" : project_status,
+      }))
+    );
+    setListStatusOptions(() => _listSub);
+  };
+
+  const prepareListResponsible = async () => {
+    const response = await getListResponsible();
+    const _listSub = [
+      {
+        label: "- เลือกผู้รับผิดชอบ -",
+        value: "",
+      },
+    ].concat(
+      response.data.map(({ project_responsible }) => ({
+        label: project_responsible,
+        value: project_responsible === "-" ? "" : project_responsible,
+      }))
+    );
+    setListResponsibleOptions(() => _listSub);
+  };
+
   useEffect(() => {
     resetProjectSearchState();
+    prepareListStatus();
+    prepareListGroup();
+    prepareListSubDivision();
+    prepareListResponsible();
   }, []);
 
   useEffect(() => {
@@ -180,7 +225,8 @@ const inProject = () => {
                   project_status: value,
                 }));
               }}
-              options={projectStatusOptions}
+              options={listStatusOptions}
+              dependencyValue={projectSearchState.project_status}
             />
             <XDropdown
               labelText="หน่วยงานเจ้าของโครงการ"
@@ -191,18 +237,20 @@ const inProject = () => {
                   project_resp_dept: value,
                 }));
               }}
-              options={projectStatusOptions}
+              options={listGroupOptions}
+              dependencyValue={projectSearchState.project_resp_dept}
             />
             <XDropdown
-              labelText="หน่วยย่อย"
-              placeHolder="หน่วยย่อย"
+              labelText="หน่วยงานย่อย"
+              placeHolder="หน่วยงานย่อย"
               onValueChange={(value) => {
                 setProjectSearchState((prevState) => ({
                   ...prevState,
                   project_sub_dept: value,
                 }));
               }}
-              options={projectStatusOptions}
+              options={listSubDivisionOptions}
+              dependencyValue={projectSearchState.project_sub_dept}
             />
             <View
               style={{
@@ -224,6 +272,7 @@ const inProject = () => {
                 containerStyle={{ flex: 1 }}
                 zIndex={2000}
                 listMode="MODAL"
+                dependencyValue={projectSearchState.location_region}
               />
               <View
                 style={{
@@ -243,6 +292,7 @@ const inProject = () => {
                 options={provinces}
                 containerStyle={{ flex: 1 }}
                 listMode="MODAL"
+                dependencyValue={projectSearchState.location_province}
               />
             </View>
 
@@ -265,6 +315,7 @@ const inProject = () => {
                 options={amphurs}
                 containerStyle={{ flex: 1 }}
                 listMode="MODAL"
+                dependencyValue={projectSearchState.location_amphur}
               />
               <View
                 style={{
@@ -283,10 +334,15 @@ const inProject = () => {
                 options={tambons}
                 containerStyle={{ flex: 1 }}
                 listMode="MODAL"
+                dependencyValue={projectSearchState.location_district}
               />
             </View>
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
               <XInput
                 labelText="วันที่เริ่มโตรงการ"
@@ -340,7 +396,50 @@ const inProject = () => {
                   width: 10,
                 }}
               />
-              <XInput
+              <XDropdown
+                labelText="ปีงบ"
+                placeHolder="ปีงบ"
+                onValueChange={(value) => {
+                  setProjectSearchState((prevState) => ({
+                    ...prevState,
+                    budget_year: value,
+                  }));
+                }}
+                options={[
+                  {
+                    label: "- เลือกปีงบ -",
+                    value: "",
+                  },
+                  {
+                    label: "พ.ศ. 2566",
+                    value: "2566",
+                  },
+                  {
+                    label: "พ.ศ. 2565",
+                    value: "2565",
+                  },
+                  {
+                    label: "พ.ศ. 2564",
+                    value: "2564",
+                  },
+                  {
+                    label: "พ.ศ. 2563",
+                    value: "2563",
+                  },
+                  {
+                    label: "พ.ศ. 2562",
+                    value: "2562",
+                  },
+                  {
+                    label: "พ.ศ. 2561",
+                    value: "2561",
+                  },
+                ]}
+                containerStyle={{ flex: 1 }}
+                listMode="MODAL"
+                dependencyValue={projectSearchState.budget_year}
+              />
+              {/* <XInput
                 labelText={"วันสิ้นสุดโครงการ"}
                 textProps={{
                   value: projectSearchState.end_date,
@@ -359,8 +458,8 @@ const inProject = () => {
                 rightIconName={"calendar-check"}
                 rightIconType="FontAwesome5"
                 rightIconColor={COLOR.DARKGRAY}
-              />
-              <XCalendar
+              /> 
+                <XCalendar
                 calendarOpen={calendarEndDateOpen}
                 onClose={() => {
                   setCalendarEndDateOpen(false);
@@ -384,9 +483,9 @@ const inProject = () => {
                     });
                   }
                 }}
-              />
+              /> */}
             </View>
-            <XInput
+            {/* <XInput
               labelText={"ผู้รับผิดชอบโครงการ"}
               textProps={{
                 value: projectSearchState.project_responsible,
@@ -399,6 +498,18 @@ const inProject = () => {
                 placeholder: "ผู้รับผิดชอบโครงการ...",
               }}
               containerStyle={{ flex: 1 }}
+            /> */}
+            <XDropdown
+              labelText="ผู้รับผิดชอบโครงการ"
+              placeHolder="ผู้รับผิดชอบโครงการ..."
+              onValueChange={(value) => {
+                setProjectSearchState((prevState) => ({
+                  ...prevState,
+                  project_responsible: value,
+                }));
+              }}
+              options={listResponsibleOptions}
+              dependencyValue={projectSearchState.project_responsible}
             />
             <XInput
               labelText={"พื้นที่เป้าหมาย"}
@@ -452,6 +563,7 @@ const inProject = () => {
                 }));
               }}
               options={projectBudgetOptions}
+              dependencyValue={projectSearchState.budget_amount}
             />
             <XInput
               labelText={"เลขที่สัญญาโครงการ"}
@@ -490,7 +602,8 @@ const inProject = () => {
                   project_status: value,
                 }));
               }}
-              options={projectBudgetOptions}
+              options={listStatusOptions}
+              dependencyValue={projectSearchState.project_status}
             />
             <XButton
               title="ค้นหา"

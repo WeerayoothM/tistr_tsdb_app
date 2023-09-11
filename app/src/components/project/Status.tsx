@@ -4,22 +4,25 @@ import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { AntDesign } from "@expo/vector-icons";
 import { SCREEN_WIDTH } from "@/styles/COMMON";
+import { dateDiff } from "@/utils/format";
 
-const Status = ({ percent = 0, end_date = null }) => {
-  const _percent = 75;
+const Status = ({ project_status = "", percent = 0, end_date = null }) => {
+  const isComplete = project_status.includes("เสร็จสิ้น");
+  const endDateDiff = dateDiff(end_date, new Date(), false);
+  const isExceed = endDateDiff < 0;
+  const _percent = percent ? percent : isComplete ? 100 : 75;
   const positionMarker = {
     top: -18,
     // left: "100%",
     left: ((SCREEN_WIDTH - 60) * _percent) / 100 - 13, // - 0.12 * _percent,
     // left: `${-1.75 + percent}%`,
   };
-  const isPassed = new Date(end_date).getTime() > new Date().getTime();
 
-  const mainColor = isPassed
-    ? COLOR.PINK
-    : percent === 100
+  const mainColor = isComplete
     ? COLOR.ORANGE
-    : COLOR.DARKGRAY2;
+    : isExceed
+    ? COLOR.PINK
+    : COLOR.DARKGREEN2;
   return (
     <View
       style={{
@@ -41,7 +44,7 @@ const Status = ({ percent = 0, end_date = null }) => {
           }}
         />
         <Text style={{ ...TEXT.caption2, color: mainColor }}>
-          {percent === 100 ? "เสร็จสิ้น" : "กำลังดำเนินการ"}
+          {isComplete ? "เสร็จสิ้น" : isExceed ? "เกินเวลา" : "กำลังดำเนินการ"}
         </Text>
       </View>
       <View

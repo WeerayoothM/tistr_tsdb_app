@@ -79,3 +79,34 @@ export function getMonthString(monthNum, lang) {
   }
   return month[Number(monthNum) - 1];
 }
+
+export function getString(
+  input: any,
+  defaultValue: string = "-",
+  isNumber = false
+) {
+  if (
+    input === null ||
+    input === undefined ||
+    input === "" ||
+    (isNumber && isNaN(input))
+  ) {
+    return defaultValue;
+  }
+  return input;
+}
+
+export function dateDiff(_date1, _date2, isAbs = true) {
+  const date1 = new Date(_date1);
+  const date2 = _date2 ? new Date(_date2) : new Date();
+  // The number of milliseconds in one day
+  const ONE_DAY = 1000 * 60 * 60 * 24;
+
+  // Calculate the difference in milliseconds
+  const differenceMs = isAbs
+    ? Math.abs(date1.getTime() - date2.getTime())
+    : date1.getTime() - date2.getTime();
+
+  // Convert back to days and return
+  return Math.round(differenceMs / ONE_DAY);
+}

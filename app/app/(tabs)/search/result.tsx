@@ -15,8 +15,9 @@ import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { Ionicons } from "@expo/vector-icons";
 import XButton from "@/components/atoms/XButton";
-import { getAllProject, getSearchProject } from "./apis";
+import { getSearchProject } from "./apis";
 import CommonFooter from "@/components/layout/CommonFooter";
+import { useAuth } from "@/context/AuthProvider";
 
 const result = () => {
   const {
@@ -28,18 +29,18 @@ const result = () => {
   const router = useRouter();
   const { type = "outProject" } = useSearchParams();
   const isOutProject = type === "outProject";
+  const { user } = useAuth();
 
   const handleSubmit = async () => {
-    console.log(type);
-    console.log(isOutProject);
-
     const payload = {
       offset: 0,
-      limit: 100,
+      limit: 1000,
       source: isOutProject ? "OUT" : "IN",
-      emp_id: 0,
+      emp_id: user ? user.EmpId : 0,
       data: projectSearchState,
     };
+    console.log(payload);
+
     const resp = await getSearchProject(payload);
     setProjectListState(() => resp.data.item);
   };

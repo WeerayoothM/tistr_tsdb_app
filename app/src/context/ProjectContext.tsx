@@ -18,6 +18,7 @@ const initialProjectState = {
   contract_no: "",
   budget_amount: "",
   research_fund: "",
+  budget_year: "",
 };
 
 // types.d.ts
@@ -38,6 +39,7 @@ export interface ProjectSearchData {
   contract_no: string;
   budget_amount: string;
   research_fund: string;
+  budget_year: string;
 }
 
 export interface ProjectData {
@@ -83,6 +85,13 @@ export interface ProjectData {
   ip1: string;
   ip2: string;
   project_resp_emp_id: string | null;
+}
+
+export interface ProjectRespone {
+  offset: number;
+  limit: number;
+  total: number;
+  item: ProjectData[];
 }
 
 // Create the context

@@ -9,6 +9,7 @@ import { useState } from "react";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { API_URL } from "@env";
 
 const image = require("../../assets/images/login_bg.png");
 
@@ -39,10 +40,7 @@ export default function Login() {
       //   password: "St4Ea0Sc",
       // };
 
-      const resp = await axios.post(
-        "https://tsdb.duckdns.org:3022/login",
-        payload
-      );
+      const resp = await axios.post(`${API_URL}/login`, payload);
 
       const data = resp.data;
 
