@@ -217,7 +217,7 @@ const result = () => {
               }}
             >
               <Text style={{ ...TEXT.body2BOLD, color: COLOR.WHITE }}>
-                {isOutProject ? "โครงการนอกงบประมาณ" : "โครงการนอกในประมาณ"}
+                {isOutProject ? "โครงการนอกงบประมาณ" : "โครงการในงบประมาณ"}
               </Text>
               <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                 {isOutProject

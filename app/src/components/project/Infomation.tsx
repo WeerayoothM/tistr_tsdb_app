@@ -33,7 +33,7 @@ const Infomation = ({ project }: { project: ProjectData }) => {
             borderBottomWidth: 1,
           }}
         />
-        <Info label={"หน่วยงาน"} info={project.project_responsible} />
+        <Info label={"หน่วยงาน"} info={project.project_resp_dept} />
         <View
           style={{
             borderBottomColor: COLOR.LIGHTGRAY2,

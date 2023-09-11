@@ -87,6 +87,7 @@ const CardLayoutThick = ({
             alignItems: "center",
             justifyContent: "space-between",
             paddingHorizontal: 10,
+            gap: 10,
             ...headerLabelStyle,
           }}
         >

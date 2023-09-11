@@ -125,10 +125,22 @@ const Project = () => {
             <DeadLine end_date={project.end_date} />
             <CardLayoutThick
               leftHeader={"ผลการประเมินโครงการ"}
-              rightHeader={project.project_eva_result}
+              rightHeader={""}
               themeColor={COLOR.ORANGE}
-              onlyHeader={true}
-            />
+              isCollapsible={false}
+            >
+              <View style={{ padding: 20 }}>
+                <Text
+                  style={{
+                    ...TEXT.caption2,
+                    color: COLOR.DARKGRAY,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {project.project_eva_result}
+                </Text>
+              </View>
+            </CardLayoutThick>
 
             <CardLayoutThick
               leftHeader={"สถานะการเบิกจ่าย"}
@@ -225,13 +237,7 @@ const Project = () => {
                     วัตถุประสงค์โครงการ
                   </Text>
                   <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    วัตถุประสงค์ (1)
-                  </Text>
-                  <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    วัตถุประสงค์ (2)
-                  </Text>
-                  <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    วัตถุประสงค์ (3)
+                    {project.project_objective}
                   </Text>
                 </View>
                 <View
@@ -251,13 +257,7 @@ const Project = () => {
                     ตัวชี้วัดโครงการ
                   </Text>
                   <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    ตัวชี้วัด (1)
-                  </Text>
-                  <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    ตัวชี้วัด (2)
-                  </Text>
-                  <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
-                    ตัวชี้วัด (3)
+                    {project.project_indicator}
                   </Text>
                 </View>
               </XSlideDown>

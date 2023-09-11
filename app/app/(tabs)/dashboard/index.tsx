@@ -85,7 +85,9 @@ const mockChart2 = {
 };
 
 export default function TabDashboardScreen() {
-  const [selectYear, setSelectYear] = useState("2566");
+  const [selectYear, setSelectYear] = useState(
+    `${Number(new Date().getFullYear()) + 543}`
+  );
   const [selectBudget, setSelectBudget] = useState("");
   const [endAngle, setEndAngle] = useState(0);
   const [width, setWidth] = useState(null);
@@ -234,8 +236,7 @@ export default function TabDashboardScreen() {
             >
               <XDropdown
                 labelText=""
-                // defaultValue={`${Number(new Date().getFullYear()) + 543}`}
-                defaultValue={`2561`}
+                defaultValue={`${Number(new Date().getFullYear()) + 543}`}
                 onValueChange={(value) => {
                   setSelectYear(value);
                 }}
@@ -325,7 +326,7 @@ export default function TabDashboardScreen() {
                         โครงการทั้งหมด
                       </Text>
                       <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
-                        ปี {"2565"}
+                        ปี {selectYear}
                       </Text>
                     </View>
                     <View
@@ -647,7 +648,7 @@ export default function TabDashboardScreen() {
 
               <CardLayoutThick
                 leftHeader={"การเบิกจ่ายงบประมาณรวมทั้งหมด"}
-                rightHeader={"ปี 2565"}
+                rightHeader={`ปี ${selectYear}`}
                 themeColor={COLOR.DARKORANGE}
                 onlyHeader={false}
                 headerHeight={50}

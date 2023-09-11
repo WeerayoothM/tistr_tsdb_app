@@ -8,7 +8,9 @@ const Info = ({ label, info = null }) => {
     <View style={{ paddingHorizontal: 20, paddingVertical: 16 }}>
       <Text style={{ ...TEXT.label2Thin, color: COLOR.DARKGRAY }}>{label}</Text>
       <Text style={{ ...TEXT.body2, color: COLOR.BLUE, lineHeight: 30 }}>
-        {info !== null ? info.toString().trim() : "-"}
+        {info !== null && info.toString().trim() !== ""
+          ? info.toString().trim()
+          : "-"}
       </Text>
     </View>
   );
