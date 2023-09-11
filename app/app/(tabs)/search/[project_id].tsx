@@ -7,8 +7,20 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { getProjectById } from "./apis";
-import { ProjectData } from "@/context/ProjectContext";
+import {
+  getProjectActByCode,
+  getProjectById,
+  getProjectDisbByCode,
+  getProjectEvaByCode,
+  getProjectPlanByCode,
+} from "./apis";
+import {
+  ProjectActData,
+  ProjectData,
+  ProjectDisbData,
+  ProjectEvaData,
+  ProjectPlanData,
+} from "@/context/ProjectContext";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import Header from "@/components/layout/Header";
@@ -31,6 +43,12 @@ import Result from "@/components/project/Result";
 const Project = () => {
   const { project_id } = useLocalSearchParams<{ project_id: string }>();
   const [project, setProject] = useState<ProjectData>(null);
+  const [projectAct, setProjectAct] = useState<ProjectActData>(null);
+  const [projectEva, setProjectEva] = useState<ProjectEvaData>(
+    {} as ProjectEvaData
+  );
+  const [projectDisb, setProjectDisb] = useState<ProjectDisbData>(null);
+  const [projectPlan, setProjectPlan] = useState<ProjectPlanData[]>([]);
   const [showFundStatus, setShowFundStatus] = useState<boolean>(true);
   const [showProjectDetail, setShowProjectDetail] = useState<boolean>(true);
   const [showFinancialReport, setShowFinancialReport] = useState<boolean>(true);
@@ -39,11 +57,38 @@ const Project = () => {
   const fetchProject = async () => {
     const resp = await getProjectById(project_id);
     setProject(resp.data);
+    console.log(resp.data);
+    return resp.data.project_code;
+  };
+  const fetchProjectAct = async (project_code) => {
+    const resp = await getProjectActByCode(project_code);
+    setProjectAct(resp.data);
+  };
+  const fetchProjectEva = async (project_code) => {
+    const resp = await getProjectEvaByCode(project_code);
+    setProjectEva(resp.data.length > 0 ? resp.data[0] : ({} as ProjectEvaData));
+  };
+  const fetchProjectDisb = async (project_code) => {
+    const resp = await getProjectDisbByCode(project_code);
+
+    setProjectDisb(resp.data);
+  };
+  const fetchProjectPlan = async (project_code) => {
+    const resp = await getProjectPlanByCode(project_code);
+
+    setProjectPlan(resp.data);
   };
 
   useEffect(() => {
     (async () => {
-      await fetchProject();
+      const project_code = await fetchProject();
+
+      await Promise.all([
+        fetchProjectAct(project_code),
+        fetchProjectEva(project_code),
+        fetchProjectDisb(project_code),
+        fetchProjectPlan(project_code),
+      ]);
     })();
   }, []);
 
@@ -267,6 +312,7 @@ const Project = () => {
               </XSlideDown>
             </CardLayoutThick>
             <Timeline
+              projectPlan={projectPlan}
               data={[
                 {
                   description: "Event One Description",
@@ -451,7 +497,7 @@ const Project = () => {
               onlyHeader={true}
             />
 
-            <Estimate />
+            <Estimate projectEva={projectEva} />
 
             <CardLayoutThick
               leftHeader={"ผลลัพธ์ / ผลผลิตโครงการ"}

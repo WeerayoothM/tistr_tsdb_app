@@ -1,10 +1,16 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { VictoryPie } from "victory-native";
+import { ProjectEvaData } from "@/context/ProjectContext";
 
-const Estimate = ({ end_date = "" }) => {
+const Estimate = ({
+  projectEva = {} as ProjectEvaData,
+}: {
+  projectEva?: ProjectEvaData;
+}) => {
+  const percentage = projectEva?.percentage || 0;
   return (
     <View
       style={{
@@ -15,8 +21,6 @@ const Estimate = ({ end_date = "" }) => {
         borderRadius: 10,
       }}
     >
-      {/* <svg width={300} height={300}> */}
-      {/* <circle cx={150} cy={150} r={50} fill="#c43a31" /> */}
       <View
         style={{
           width: 180,
@@ -27,8 +31,8 @@ const Estimate = ({ end_date = "" }) => {
       >
         <VictoryPie
           data={[
-            { x: "Dogs", y: 85 },
-            { x: "Birds", y: 15 },
+            { x: "Dogs", y: percentage },
+            { x: "Birds", y: 100 - percentage },
           ]}
           style={{
             border: { borderWidth: 1 },
@@ -53,10 +57,10 @@ const Estimate = ({ end_date = "" }) => {
             justifyContent: "center",
           }}
         >
-          <Text style={{ ...TEXT.header2 }}>85</Text>
-          <Text style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}>
+          <Text style={{ ...TEXT.header2 }}>{percentage}</Text>
+          {/* <Text style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}>
             ดีเยี่ยม
-          </Text>
+          </Text> */}
         </View>
       </View>
       {/* </svg> */}
@@ -74,9 +78,9 @@ const Estimate = ({ end_date = "" }) => {
           </Text>
         </View>
         <View style={{ flexGrow: 1, alignItems: "center" }}>
-          <Text style={{ ...TEXT.header5, color: COLOR.DARKGREEN2 }}>
+          {/* <Text style={{ ...TEXT.header5, color: COLOR.DARKGREEN2 }}>
             ผ่านเกณฑ์
-          </Text>
+          </Text> */}
         </View>
       </View>
       <View
@@ -96,7 +100,10 @@ const Estimate = ({ end_date = "" }) => {
           paddingHorizontal: 20,
         }}
       >
-        <View style={{ flexBasis: "50%", gap: 8 }}>
+        <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
+          {projectEva?.eva_criteria || "-"}
+        </Text>
+        {/* <View style={{ flexBasis: "50%", gap: 8 }}>
           <Text style={{ ...TEXT.caption1, color: COLOR.DARKGRAY }}>
             เกณฑ์การประเมิน (1)
           </Text>
@@ -118,7 +125,7 @@ const Estimate = ({ end_date = "" }) => {
           >
             98
           </Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

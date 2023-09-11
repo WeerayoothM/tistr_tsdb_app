@@ -87,6 +87,64 @@ export interface ProjectData {
   project_resp_emp_id: string | null;
 }
 
+export interface ProjectActData {
+  activity_id: string;
+  project_code: string;
+  activity_no: number;
+  activity_name: string;
+  start_date: string;
+  end_date: string;
+  budget_amount: number;
+  actual_amount: number;
+  activity_status: string;
+  paid_period: string;
+}
+export interface ProjectEvaData {
+  eva_id: string;
+  project_code: string;
+  eva_no: number;
+  eva_criteria: string;
+  percentage: number;
+}
+export interface ProjectDisbData {
+  disbursement_id: string;
+  project_code: string;
+  period_no: number;
+  withdraw_date: string;
+  withdraw_amount: number;
+  pay_date: string;
+  pay_amount: number;
+  pay_status: string;
+}
+export interface ProjectEvaData {
+  eva_id: string;
+  project_code: string;
+  eva_no: number;
+  eva_criteria: string;
+  percentage: number;
+}
+export interface ProjectPlanData {
+  plan_id: string;
+  project_code: string;
+  plan_no: number;
+  plan_name: string;
+  start_date: string;
+  end_date: string;
+  plan_status: string;
+  m1: string;
+  m2: string;
+  m3: string;
+  m4: string;
+  m5: string;
+  m6: string;
+  m7: string;
+  m8: string;
+  m9: string;
+  m10: string;
+  m11: string;
+  m12: string;
+}
+
 export interface ProjectRespone {
   offset: number;
   limit: number;

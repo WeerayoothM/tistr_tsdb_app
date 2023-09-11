@@ -12,7 +12,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { COLOR } from "@/styles/COLOR";
 import { TEXT } from "@/styles/TEXT";
 import { FontAwesome } from "@expo/vector-icons";
-import { formatDateToThaiDate, getString } from "@/utils/format";
+import {
+  formatDateToThaiDate,
+  getString,
+  numberWithCommas,
+} from "@/utils/format";
 import XDropdown from "@/components/atoms/XDropdown";
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
@@ -153,9 +157,9 @@ export default function TabDashboardScreen() {
     };
     const [box1, box1Out, box1In, box2, box3, box4, box5, box6] =
       await Promise.all([
-        getBox1(payloadYear),
-        getBox1({ ...payloadYear, source: "OUT" }),
+        getBox1({ ...payloadYear, source: "" }),
         getBox1({ ...payloadYear, source: "IN" }),
+        getBox1({ ...payloadYear, source: "OUT" }),
         getBox2(payloadYear),
         getBox3(payloadYear),
         getBox4(payloadYear),
@@ -325,10 +329,13 @@ export default function TabDashboardScreen() {
                 zIndex: 0,
               }}
             >
-              <View
+              <TouchableOpacity
                 style={{
                   marginTop: 20,
                   alignItems: "center",
+                }}
+                onPress={() => {
+                  setSelectSource("");
                 }}
               >
                 <ImageBackground
@@ -409,15 +416,15 @@ export default function TabDashboardScreen() {
                     </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
 
-              <View style={{ flexDirection: "row", gap: 13, marginTop: 14 }}>
+              <View style={{ flexDirection: "row", gap: 12, marginTop: 14 }}>
                 <TouchableOpacity
                   style={{ flex: 1, borderRadius: 10 }}
                   onPress={() => {
                     setSelectSource((prev) => {
-                      if (prev === "OUT") return "";
-                      else return "OUT";
+                      if (prev === "IN") return "";
+                      else return "IN";
                     });
                   }}
                 >
@@ -429,14 +436,14 @@ export default function TabDashboardScreen() {
                     <ImageBackground
                       source={require("../../../assets/images/dashboard_count_blue_bg.png")}
                       style={{
-                        width: "100%",
-                        height: "100%",
                         paddingHorizontal: 17,
                         paddingVertical: isSelectOut ? 17 : 11,
                         borderRadius: 10,
                       }}
                       imageStyle={{
                         borderRadius: 10,
+                        // width: "100%",
+                        // height: "100%",
                         opacity: isSelectOut ? 1 : 0,
                       }}
                       resizeMode="cover"
@@ -488,8 +495,8 @@ export default function TabDashboardScreen() {
                   style={{ flex: 1 }}
                   onPress={() => {
                     setSelectSource((prev) => {
-                      if (prev === "IN") return "";
-                      else return "IN";
+                      if (prev === "OUT") return "";
+                      else return "OUT";
                     });
                   }}
                 >
@@ -501,13 +508,13 @@ export default function TabDashboardScreen() {
                     <ImageBackground
                       source={require("../../../assets/images/dashboard_count_purple_bg.png")}
                       style={{
-                        width: "100%",
-                        height: "100%",
                         paddingHorizontal: 17,
                         paddingVertical: isSelectIn ? 17 : 11,
                         borderRadius: 10,
                       }}
                       imageStyle={{
+                        // width: "100%",
+                        // height: "100%",
                         borderRadius: 10,
                         opacity: isSelectIn ? 1 : 0,
                       }}
@@ -788,14 +795,14 @@ export default function TabDashboardScreen() {
                   </Text>
                   <Text
                     style={{
-                      ...TEXT.body2,
+                      ...TEXT.caption1,
                       color: COLOR.DARKORANGE,
                       flexGrow: 1,
                       alignSelf: "flex-end",
                       textAlign: "right",
                     }}
                   >
-                    {box?.box4?.total_budget_amount || 0}
+                    {numberWithCommas(box?.box4?.total_budget_amount || 0, "0")}
                   </Text>
                   <Text style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}>
                     บาท
@@ -813,14 +820,14 @@ export default function TabDashboardScreen() {
                   </Text>
                   <Text
                     style={{
-                      ...TEXT.body2,
+                      ...TEXT.caption1,
                       color: COLOR.ORANGE,
                       flexGrow: 1,
                       alignSelf: "flex-end",
                       textAlign: "right",
                     }}
                   >
-                    {box?.box4?.total_pay_amount || 0}
+                    {numberWithCommas(box?.box4?.total_pay_amount || 0, "0")}
                   </Text>
                   <Text style={{ ...TEXT.caption2, color: COLOR.LIGHTGRAY }}>
                     บาท
@@ -1121,7 +1128,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          {box?.box2?.Pass || 0}
+                          {numberWithCommas(box?.box2?.Pass || 0, "0")}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1146,7 +1153,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          {box?.box2?.Failed || 0}
+                          {numberWithCommas(box?.box2?.Failed || 0, "0")}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1171,7 +1178,7 @@ export default function TabDashboardScreen() {
                             textAlign: "right",
                           }}
                         >
-                          {box?.box2?.Wait || 0}
+                          {numberWithCommas(box?.box2?.Wait || 0, "0")}
                         </Text>
                         <Text style={{ ...TEXT.caption2, color: COLOR.WHITE }}>
                           โครงการ
@@ -1326,7 +1333,7 @@ export default function TabDashboardScreen() {
                       color: COLOR.WHITE,
                     }}
                   >
-                    {box?.box1?.total_productivity || 0}
+                    {numberWithCommas(box?.box1?.total_productivity || 0, "0")}
                   </Text>
                   <Text style={{ ...TEXT.label2Thin, color: COLOR.WHITE }}>
                     ผลผลิต
@@ -1354,7 +1361,7 @@ export default function TabDashboardScreen() {
                     PUBLICATION
                   </Text>
                   <Text style={{ ...TEXT.header2BOLD, color: COLOR.LIGHTGRAY }}>
-                    {box?.box6?.publication || 0}
+                    {numberWithCommas(box?.box6?.publication || 0, "0")}
                   </Text>
                 </View>
               </View>
@@ -1413,7 +1420,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {box?.box5?.contract_no || 0}
+                  {numberWithCommas(box?.box5?.contract_no || 0, "0")}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   สัญญา
@@ -1438,7 +1445,10 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {box?.box5?.contract_budget_amount || 0}
+                  {numberWithCommas(
+                    box?.box5?.contract_budget_amount || 0,
+                    "0"
+                  )}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   บาท
@@ -1463,7 +1473,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {box?.box5?.research_fund || 0}
+                  {numberWithCommas(box?.box5?.research_fund || 0, "0")}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   สัญญา
@@ -1488,7 +1498,7 @@ export default function TabDashboardScreen() {
                     color: COLOR.DARKGREEN2,
                   }}
                 >
-                  {box?.box5?.research_fund_amount || 0}
+                  {numberWithCommas(box?.box5?.research_fund_amount || 0, "0")}
                 </Text>
                 <Text style={{ ...TEXT.label1Thin, color: COLOR.DARKGRAY }}>
                   บาท

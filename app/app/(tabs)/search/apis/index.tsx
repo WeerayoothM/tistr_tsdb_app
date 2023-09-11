@@ -16,6 +16,30 @@ export const getProjectById = async (projectId: string) => {
   const response = await axios.get(`${API_URL}/project/${projectId}`);
   return response;
 };
+export const getProjectActByCode = async (projectId: string) => {
+  const response = await axios.get(
+    `${API_URL}/project/getListProjectActByCode/${projectId}`
+  );
+  return response;
+};
+export const getProjectEvaByCode = async (projectId: string) => {
+  const response = await axios.get(
+    `${API_URL}/project/getListProjectEvaByCode/${projectId}`
+  );
+  return response;
+};
+export const getProjectDisbByCode = async (projectId: string) => {
+  const response = await axios.get(
+    `${API_URL}/project/getListProjectDisbByCode/${projectId}`
+  );
+  return response;
+};
+export const getProjectPlanByCode = async (projectId: string) => {
+  const response = await axios.get(
+    `${API_URL}/project/getListProjectPlanByCode/${projectId}`
+  );
+  return response;
+};
 
 export const getListStatus = async () => {
   const response = await axios.get(`${API_URL}/project/getListStatus`);

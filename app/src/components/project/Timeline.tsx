@@ -8,6 +8,12 @@ import { TEXT } from "@/styles/TEXT";
 import { formatDateToThaiDate } from "@/utils/format";
 
 const EventIcon = ({ event, lineStyle, lastIndex }) => {
+  const isComplete = event.plan_status === "Y";
+  const now = new Date();
+  const start = new Date(event.start_date);
+  const end = new Date(event.end_date);
+  const isCurrent =
+    now.getTime() >= start.getTime() && now.getTime() <= end.getTime();
   return (
     <View
       style={[
@@ -25,21 +31,21 @@ const EventIcon = ({ event, lineStyle, lastIndex }) => {
           width: 20,
           borderRadius: 20,
           borderWidth: 2,
-          borderColor: event.current
+          borderColor: isCurrent
             ? COLOR.BLUE
-            : event?.complete
+            : isComplete
             ? COLOR.BLUE
             : COLOR.LIGHTGRAY,
-          backgroundColor: event.current
+          backgroundColor: isCurrent
             ? COLOR.WHITE
-            : event?.complete
+            : isComplete
             ? COLOR.BLUE
             : COLOR.WHITE,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Ionicons name="checkmark" size={18} color={COLOR.WHITE} />
+        <Ionicons name="checkmark" size={14} color={COLOR.WHITE} />
       </View>
       {lastIndex ? (
         <></>
@@ -49,7 +55,7 @@ const EventIcon = ({ event, lineStyle, lastIndex }) => {
             {
               flex: 1,
               width: 2,
-              backgroundColor: event?.complete ? COLOR.BLUE : COLOR.LIGHTGRAY,
+              backgroundColor: isComplete ? COLOR.BLUE : COLOR.LIGHTGRAY,
               alig: "center",
             },
             lineStyle,
@@ -61,7 +67,7 @@ const EventIcon = ({ event, lineStyle, lastIndex }) => {
 };
 
 const Event = ({ event, style }) => {
-  const { description = "", time = new Date() } = event;
+  const { plan_name = "", end_date } = event;
   return (
     <View
       style={[
@@ -76,10 +82,10 @@ const Event = ({ event, style }) => {
       ]}
     >
       <Text style={{ ...TEXT.caption1, color: COLOR.BLUE }}>
-        {formatDateToThaiDate(time)}
+        {formatDateToThaiDate(new Date(end_date))}
       </Text>
       <Text style={{ ...TEXT.caption1SemiBold, color: COLOR.DARKGRAY }}>
-        {description}
+        {plan_name}
       </Text>
     </View>
   );
@@ -111,6 +117,7 @@ const Row = ({
 };
 
 const Timeline = ({
+  projectPlan = [],
   data = [], // The actual event's array, array of objects, each object represents a single event
   eventStyle = {}, // Each event's whole row's style
   iconContainerStyle = {}, // The style object of the container that holds the icon
@@ -125,12 +132,12 @@ const Timeline = ({
       isCollapsible={false}
     >
       <View style={{ paddingVertical: 20 }}>
-        {data.map((item, idx) => (
+        {projectPlan.map((item, idx) => (
           <Row
             key={idx}
             event={item}
             eventStyle={eventStyle}
-            lastIndex={idx === data.length - 1}
+            lastIndex={idx === projectPlan.length - 1}
             iconContainerStyle={iconContainerStyle}
             lineStyle={lineStyle}
             contentContainerStyle={contentContainerStyle}
