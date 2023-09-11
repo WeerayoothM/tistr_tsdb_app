@@ -8,20 +8,23 @@ import { get, isEmpty, isObject } from "lodash";
 import ProjectCard from "../project/elements/ProjectCard";
 import Charts from "./Chart/Charts";
 import Ticket from "./Ticket";
-import { getDoughnutChart, getMixedChart } from "./APIS";
+import { getBox, getDoughnutChart, getMixedChart } from "./APIS";
 
 const data1 = [
   {
     label: "โครงการรวมทั้งหมด",
     value: "2,370",
+    key: "totalProject",
   },
   {
     label: "สัญญาโครงการรวมทั้งหมด",
     value: "1,373",
+    key: "totalContract",
   },
   {
     label: "ผลผลิตโครงการรวมทั้งหมด",
     value: "278",
+    key: "totalProductivity",
   },
 ];
 
@@ -29,14 +32,17 @@ const data2 = [
   {
     label: "ผ่านเกณฑ์",
     value: "235",
+    key: "pass",
   },
   {
     label: "ไม่ผ่านเกณฑ์",
     value: "6",
+    key: "failed",
   },
   {
     label: "ยังไม่เสร็จสิ้น",
     value: "665",
+    key: "wait",
   },
 ];
 
@@ -44,10 +50,12 @@ const data3 = [
   {
     label: "เสร็จสิ้นตามระยะเวลา",
     value: "241",
+    key: "inTime",
   },
   {
     label: "เกินระยะเวลา",
     value: "13",
+    key: "outTime",
   },
 ];
 
@@ -55,10 +63,12 @@ const data4 = [
   {
     label: "งบประมาณรวม (แผน)",
     value: "40,000,000",
+    key: "totalBudgetAmount",
   },
   {
     label: "ค่าใช้จ่ายรวม (ผล)",
     value: "36,488,960",
+    key: "totalPayAmount",
   },
 ];
 
@@ -68,7 +78,7 @@ const selectTemplate = [
     options: [
       {
         label: "โครงการทั้งหมด",
-        value: "all",
+        value: "",
       },
       {
         label: "โครงการนอกงบประมาณ",
@@ -90,6 +100,22 @@ const selectTemplate = [
       {
         label: "พ.ศ. 2562",
         value: "2019",
+      },
+      {
+        label: "พ.ศ. 2563",
+        value: "2020",
+      },
+      {
+        label: "พ.ศ. 2564",
+        value: "2021",
+      },
+      {
+        label: "พ.ศ. 2565",
+        value: "2022",
+      },
+      {
+        label: "พ.ศ. 2566",
+        value: "2023",
       },
     ],
   },
@@ -121,22 +147,22 @@ const statusTemplate = [
 const contractTemplate = [
   {
     label: "สัญญาบริษัทรวม",
-    key: "",
+    key: "contractNo",
     unit: "สัญญา",
   },
   {
     label: "เงินทุนบริษัทรวม",
-    key: "",
+    key: "contractBudgetAmount",
     unit: "บาท",
   },
   {
     label: "จำนวนทุนรวม",
-    key: "",
+    key: "researchFund",
     unit: "ทุน",
   },
   {
     label: "เงินทุนรวม",
-    key: "",
+    key: "researchFundAmount",
     unit: "บาท",
   },
 ];
@@ -162,17 +188,17 @@ const inContractTemplate = [
 const resultTemplate = [
   {
     label: "publication",
-    key: "",
+    key: "publication",
   },
   {
     label: "IP",
-    key: "",
+    key: "ip",
   },
 ];
 
 const Dashboard = () => {
   const [state, setState] = useState<any>({
-    type: "all",
+    type: "",
     year: "2018",
   });
 
@@ -182,11 +208,17 @@ const Dashboard = () => {
     chart2: {},
     chart3: {},
     chart4: {},
+    box1: {},
+    box2: {},
+    box3: {},
+    box4: {},
+    box5: {},
+    box6: {},
   });
   const [nowDate, setNowDate] = useState("");
 
   const color = useMemo(() => {
-    if (state.type === "all") return "#E76F2D";
+    if (state.type === "") return "#E76F2D";
     if (state.type === "OUT") return "#1265DC";
     return "#5140b0";
   }, [state.type]);
@@ -196,36 +228,40 @@ const Dashboard = () => {
       return {
         ...item,
         color: index === 0 ? color : index === 1 ? "#34786A" : "#EF9B00",
+        value: get(data, `box1.${item.key}`),
       };
     });
-  }, [state.type]);
+  }, [data.box1]);
 
   const evaluationResults = useMemo(() => {
     return (data2 || []).map((item, index) => {
       return {
         ...item,
         color: index === 0 ? "#008F88" : index === 1 ? "#E9748C" : "#ADB5BD",
+        value: get(data, `box2.${item.key}`) || 0,
       };
     });
-  }, [state.type]);
+  }, [data.box2]);
 
   const periodResults = useMemo(() => {
     return (data3 || []).map((item, index) => {
       return {
         ...item,
         color: index === 0 ? "#FFA500" : index === 1 ? "#E9748C" : "#ADB5BD",
+        value: get(data, `box3.${item.key}`) || 0,
       };
     });
-  }, [state.type]);
+  }, [data.box3]);
 
   const budgetDisbursementResults = useMemo(() => {
     return (data4 || []).map((item, index) => {
       return {
         ...item,
         color: index === 0 ? "#FF7A00" : index === 1 ? "#FFB800" : "#ADB5BD",
+        value: get(data, `box4.${item.key}`) || 0,
       };
     });
-  }, [state.type]);
+  }, [data.box4]);
 
   useEffect(() => {
     scrollTop();
@@ -238,29 +274,35 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [chart1, chart2, chart3, chart4] = await Promise.all([
-        getDoughnutChart({
+      const boxRequest = [{}, {}, {}, {}, {}, {}].map((_, index) => {
+        return getBox({
           source: (state.type || "").toUpperCase(),
           year: state.year,
-        }),
-        getMixedChart({
-          // source: (state.type || "").toUpperCase(),
-          year: state.year,
-        }),
-        getMixedChart({
-          // source: (state.type || "").toUpperCase(),
-          year: state.year,
-        }),
-        getMixedChart({
-          // source: (state.type || "").toUpperCase(),
-          year: state.year,
-        }),
-      ]);
+          number: index + 1,
+        });
+      });
+      const [chart1, chart2, resp1, resp2, resp3, resp4, resp5, resp6] =
+        await Promise.all([
+          getDoughnutChart({
+            source: (state.type || "").toUpperCase(),
+            year: state.year,
+          }),
+          getMixedChart({
+            source: (state.type || "").toUpperCase(),
+            year: state.year,
+          }),
+          ...boxRequest,
+        ]);
 
       const doughnutData = get(chart1, "data.data");
       const mixedData = get(chart2, "data.data");
-      const barYData = get(chart3, "data.data");
-      const barXData = get(chart4, "data.data");
+
+      const [box1] = get(resp1, "data");
+      const box2 = get(resp2, "data");
+      const [box3] = get(resp3, "data");
+      const [box4] = get(resp4, "data");
+      const [box5] = get(resp5, "data");
+      const [box6] = get(resp6, "data");
 
       setData({
         ...data,
@@ -332,6 +374,12 @@ const Dashboard = () => {
             },
           ],
         },
+        box1,
+        box2,
+        box3,
+        box4,
+        box5,
+        box6,
       });
     } catch (e) {
     } finally {
@@ -387,7 +435,7 @@ const Dashboard = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: 2 }}
       exit={{ opacity: 0 }}
       className="overflow-y-scroll h-[calc(100%-107px)] px-[50px] py-[30px]"
     >
@@ -466,8 +514,12 @@ const Dashboard = () => {
                     className="flex flex-col items-center"
                     style={{ color: item.color }}
                   >
-                    <div className="font-srb-700 text-[31px]">536</div>
-                    <div className="font-srb-400 text-[15px]">{item.label}</div>
+                    <div className="font-srb-700 text-[31px]">
+                      {get(data, `chart1.datasets[0].data[${index}]`)}
+                    </div>
+                    <div className="font-srb-400 text-[15px] text-center">
+                      {item.label}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -485,7 +537,7 @@ const Dashboard = () => {
                 <div className={`grid grid-cols-3 py-5`}>
                   {evaluationResults.map((item, index) => (
                     <div
-                      key={`card-${index}`}
+                      key={`card1-${index}`}
                       className={`flex text-[#666666] flex-col items-center text-center px-[1.5rem]`}
                       style={{
                         borderRight:
@@ -517,7 +569,7 @@ const Dashboard = () => {
                 <div className={`flex flex-col p-5`}>
                   {periodResults.map((item, index) => (
                     <div
-                      key={`card-${index}`}
+                      key={`card2-${index}`}
                       className={`flex justify-between gap-[10px]`}
                     >
                       <div className="font-srb-500 text-[16px] text-[#666666]">
@@ -547,7 +599,7 @@ const Dashboard = () => {
               <div className={`flex flex-col p-5`}>
                 {budgetDisbursementResults.map((item, index) => (
                   <div
-                    key={`card-${index}`}
+                    key={`card3-${index}`}
                     className={`flex justify-between gap-[10px]`}
                   >
                     <div className="font-srb-500 text-[16px] text-[#666666]">
@@ -607,7 +659,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {state.type === "all" && (
+      {state.type === "" && (
         <div className="grid grid-cols-3 mt-[1rem] gap-[1rem]">
           <div className="col-span-2 grid grid-cols-2 gap-[1rem]">
             {contractTemplate.map((item, index) => (
@@ -619,7 +671,7 @@ const Dashboard = () => {
                 <div className="flex flex-col gap-[5px] p-[1rem] text-[#666666] text-[16px] font-srb-400">
                   <div>{item.label}</div>
                   <div className="text-[#008F88] text-[32px] font-srb-700">
-                    230
+                    {get(data, `box5.${item.key}`, 0)}
                   </div>
                   <div>{item.unit}</div>
                 </div>
@@ -635,7 +687,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between p-[1rem] text-[#ADB5BD] text-[16px] font-srb-400">
                   <div>{item.label}</div>
                   <div className="text-[#ADB5BD] text-[50px] font-srb-700">
-                    230
+                    {get(data, `box6.${item.key}`, 0)}
                   </div>
                 </div>
               </Ticket>
@@ -643,7 +695,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-
       {state.type === "OUT" && (
         <div className="grid grid-cols-3 mt-[1rem] gap-[1rem]">
           <div className="col-span-2 grid grid-cols-2 gap-[1rem]">
@@ -683,7 +734,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between p-[1rem] text-[#ADB5BD] text-[16px] font-srb-400">
                   <div>{item.label}</div>
                   <div className="text-[#ADB5BD] text-[50px] font-srb-700">
-                    230
+                    {get(data, `box6.${item.key}`) || 0}
                   </div>
                 </div>
               </Ticket>
@@ -744,7 +795,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between p-[1rem] text-[#ADB5BD] text-[16px] font-srb-400">
                   <div>{item.label}</div>
                   <div className="text-[#ADB5BD] text-[50px] font-srb-700">
-                    230
+                    {get(data, `box6.${item.key}`) || 0}
                   </div>
                 </div>
               </Ticket>

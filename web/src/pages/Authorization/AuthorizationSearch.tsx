@@ -40,7 +40,7 @@ const AuthorizationSearch = () => {
       );
 
       const newFormTemplate = formTemplate.map((item) => {
-        if (item.name === "group") {
+        if (item.name === "Group") {
           return {
             ...item,
             options: [{ label: "กลุ่มงาน", value: "" }, ...mappedGroup],
@@ -48,6 +48,8 @@ const AuthorizationSearch = () => {
         }
         return item;
       });
+
+      console.log("newFormTemplate", newFormTemplate);
 
       setFormTemplateData(newFormTemplate);
     } catch (e) {

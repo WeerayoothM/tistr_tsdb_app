@@ -96,7 +96,7 @@ const InProjectList = () => {
       title: "สถานะโครงการ",
       dataIndex: "projectStatus",
       render: (text: string, record: any) => {
-        const percent = get(record, "projectEvaPercentage", 0);
+        const percent = get(record, "projectEvaPercentage") || 0;
         const status = colorStatus.find((item) =>
           (text || "").includes(item.key)
         );
@@ -259,8 +259,9 @@ const InProjectList = () => {
             return {
               onClick: (event) => {
                 const projectId = get(record, "projectId");
-                if (!projectId) return;
-                navigate(`/project/inbdg/${projectId}`);
+                const projectCode = get(record, "projectCode");
+                if (!projectId || !projectCode) return;
+                navigate(`/project/inbdg/${projectId}/${projectCode}`);
               }, // click row
             };
           }}

@@ -129,6 +129,57 @@ export const formTemplate = [
   },
 ];
 
+export const yearOptions = [
+  {
+    label: "ตัวเลือก",
+    value: "",
+  },
+  {
+    label: `${new Date().getFullYear() + 543}`,
+    value: `${new Date().getFullYear() + 543}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 1}`,
+    value: `${new Date().getFullYear() + 543 + 1}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 2}`,
+    value: `${new Date().getFullYear() + 543 + 2}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 3}`,
+    value: `${new Date().getFullYear() + 543 + 3}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 4}`,
+    value: `${new Date().getFullYear() + 543 + 4}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 5}`,
+    value: `${new Date().getFullYear() + 543 + 5}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 6}`,
+    value: `${new Date().getFullYear() + 543 + 6}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 7}`,
+    value: `${new Date().getFullYear() + 543 + 7}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 8}`,
+    value: `${new Date().getFullYear() + 543 + 8}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 9}`,
+    value: `${new Date().getFullYear() + 543 + 9}`,
+  },
+  {
+    label: `${new Date().getFullYear() + 543 + 10}`,
+    value: `${new Date().getFullYear() + 543 + 10}`,
+  },
+];
+
 export const formTemplate2 = [
   {
     type: "select",
@@ -147,11 +198,11 @@ export const formTemplate2 = [
     col: "1",
   },
   {
-    type: "date",
-    labal: "วันสิ้นสุดโครงการ",
+    type: "select",
+    labal: "ปีงบประมาณ",
     placeholder: "เลือกวันที่",
-    name: "end_date",
-    options: [],
+    name: "budget_year",
+    options: yearOptions,
     col: "1",
   },
   {

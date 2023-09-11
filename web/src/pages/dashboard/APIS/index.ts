@@ -18,3 +18,11 @@ export const getDoughnutChart = async ({ source = "", year = "" }: any) => {
   });
   return camelcaseKeys(response, { deep: true });
 };
+
+export const getBox = async ({ source = "", year = "", number }: any) => {
+  const response = await axios.post(`${apiEndPoint}/dashboard/box${number}`, {
+    source,
+    year,
+  });
+  return camelcaseKeys(response, { deep: true });
+};

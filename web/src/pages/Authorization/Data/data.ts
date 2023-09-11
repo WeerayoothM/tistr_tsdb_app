@@ -87,7 +87,7 @@ export const formTemplate = [
     type: "select",
     labal: "กลุ่มงาน",
     placeholder: "กลุ่มงาน",
-    name: "group",
+    name: "Group",
     options: [],
     col: "2",
   },

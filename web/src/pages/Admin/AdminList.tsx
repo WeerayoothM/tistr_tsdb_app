@@ -115,7 +115,7 @@ const AdminList = () => {
       align: "center",
     },
     {
-      title: "จัดการ",
+      title: "ลบ",
       dataIndex: "manage",
       render: (text: string, record: any) => {
         return (

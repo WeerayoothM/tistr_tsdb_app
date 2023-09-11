@@ -8,7 +8,12 @@ import "./style/index.css";
 import numeral from "numeral";
 
 import { Table } from "antd";
-import { getProjectDetail } from "./APIS";
+import {
+  getListProjectDisbByCode,
+  getListProjectEvaByCode,
+  getListProjectPlanByCode,
+  getProjectDetail,
+} from "./APIS";
 import ProjectCard from "./elements/ProjectCard";
 import CardWithHeader from "../../components/CardWithHeader";
 import GantChart from "./elements/GantChart";
@@ -22,6 +27,7 @@ import {
   buildStyles,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import styled from "@emotion/styled";
 
 const detailTemplate = [
   {
@@ -95,23 +101,100 @@ const detailTemplate4 = [
 
 const detailTemplate5 = [
   {
-    label: "17 มี.ค. พ.ศ. 2565",
+    label: "-",
     key: "1",
   },
   {
-    label: "25 เม.ษ. พ.ศ. 2565",
+    label: "-",
     key: "2",
   },
   {
     label: "สรุปการเบิกจ่าย",
-    key: "budgetAmount",
+    key: "3",
+  },
+];
+
+const tableTemplate = [
+  {
+    title: "รายการ",
+    key: "planName",
+    // class: "w-[50px]",
+  },
+  {
+    title: "M1",
+    key: "m1",
+    class: "w-[50px]",
+  },
+  {
+    title: "M2",
+    key: "m2",
+    class: "w-[50px]",
+  },
+  {
+    title: "M3",
+    key: "m3",
+    class: "w-[50px]",
+  },
+  {
+    title: "M4",
+    key: "m4",
+    class: "w-[50px]",
+  },
+  {
+    title: "M5",
+    key: "m5",
+    class: "w-[50px]",
+  },
+  {
+    title: "M6",
+    key: "m6",
+    class: "w-[50px]",
+  },
+  {
+    title: "M7",
+    key: "m7",
+    class: "w-[50px]",
+  },
+  {
+    title: "M8",
+    key: "m8",
+    class: "w-[50px]",
+  },
+  {
+    title: "M9",
+    key: "m9",
+    class: "w-[50px]",
+  },
+  {
+    title: "M10",
+    key: "m10",
+    class: "w-[50px]",
+  },
+  {
+    title: "M11",
+    key: "m11",
+    class: "w-[50px]",
+  },
+  {
+    title: "M12",
+    key: "m12",
+    class: "w-[50px]",
   },
 ];
 
 const ProjectList = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, code } = useParams();
   const [projectData, setProjectData] = useState<{ [key: string]: any }>({});
+  const [projectPlanData, setProjectPlanData] = useState<{
+    [key: string]: any;
+  }>({});
+  const [projectDisbData, setProjectDisbData] = useState<{
+    [key: string]: any;
+  }>({});
+  const [projectProjectEvaData, setProjectProjectEvaData] = useState<{
+    [key: string]: any;
+  }>({});
   const [color, setColor] = useState("");
   const [chartData, setChartData] = useState({ chart1: {}, chart2: {} });
 
@@ -122,13 +205,25 @@ const ProjectList = () => {
 
   const getProjectData = async () => {
     try {
-      const resp = await getProjectDetail(id);
+      const [resp1, resp2, resp3, resp4] = await Promise.all([
+        getProjectDetail(id),
+        getListProjectPlanByCode(code),
+        getListProjectDisbByCode(code),
+        getListProjectEvaByCode(code),
+      ]);
 
-      const data = get(resp, "data", []);
-      setProjectData(data);
+      const data1 = get(resp1, "data", []);
+      const data2 = get(resp2, "data", []);
+      const data3 = get(resp3, "data", []);
+      const data4 = get(resp4, "data", []);
+
+      setProjectData(data1);
+      setProjectPlanData(data2);
+      setProjectDisbData(data3);
+      setProjectProjectEvaData(data4);
       setChartData({ ...chartData, chart1: mockChart1 });
       const status = colorStatus.find((item) =>
-        get(data, "projectStatus", "").includes(item.key)
+        get(data1, "projectStatus", "").includes(item.key)
       );
       const color = status ? status.color : "#000";
       setColor(color);
@@ -368,7 +463,83 @@ const ProjectList = () => {
       </div>
 
       <div className="w-full mt-[1rem]">
-        <GantChart projectData={projectData} color={"#1265DC"} />
+        {!isEmpty(projectPlanData) && (
+          <table className="border-collapse w-full ">
+            <thead>
+              <tr>
+                {tableTemplate.map((item, index) => (
+                  <TableHeaderItem key={`table-header-${index}`}>
+                    {item.title}
+                  </TableHeaderItem>
+                ))}
+              </tr>
+            </thead>
+            <TableBody>
+              {projectPlanData.map((planItem: any, planIndex: number) => (
+                <tr key={`plan-item-${planIndex}`}>
+                  {tableTemplate.map((template, templateIndex) => {
+                    const isChecked = get(planItem, "planStatus", "") === "Y";
+                    const isChecked2 = get(planItem, template.key, "") === "Y";
+                    return (
+                      <td
+                        className="border-solid border-[#E8ECFD] text-center "
+                        key={`career-column-${templateIndex}`}
+                        style={{
+                          padding: 0,
+                          backgroundColor:
+                            isChecked2 && templateIndex !== 0 ? "#2F64D4" : "",
+                        }}
+                      >
+                        <div
+                          className={`${
+                            templateIndex === 0 &&
+                            "flex gap-[10px] w-[300px] text-left"
+                          }`}
+                        >
+                          {templateIndex === 0 && (
+                            <div className="min-w-[50px] relative">
+                              <div className="absolute flex items-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
+                                <img
+                                  src={
+                                    isChecked
+                                      ? "/images/outChecked.png"
+                                      : "/images/inNotchecked.png"
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div
+                                className={`h-full ${
+                                  (projectPlanData || []).length === 1 &&
+                                  "hidden"
+                                } ${planIndex === 0 && "h-1/2 bottom-0"} ${
+                                  planIndex !== 0 &&
+                                  planIndex ===
+                                    (projectPlanData || []).length - 1 &&
+                                  "h-1/2 top-0"
+                                } absolute w-[3px] left-1/2 -translate-x-1/2`}
+                                style={{
+                                  backgroundColor: isChecked
+                                    ? "#2F64D4"
+                                    : "#ADB5BD",
+                                }}
+                              />
+                            </div>
+                          )}
+                          <div className="py-[10px]">
+                            {templateIndex === 0 &&
+                              get(planItem, template.key, "")}
+                          </div>
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </TableBody>
+          </table>
+        )}
+        {/* <GantChart projectData={projectData} color={"#5140b0"} /> */}
       </div>
 
       <div className="grid grid-cols-2 gap-[1rem]">
@@ -451,45 +622,49 @@ const ProjectList = () => {
         headerTitle="ผลการประเมินโครงการ"
         headerColor="#E88F34"
       >
-        <div className="grid grid-cols-12 gap-[2rem] px-[2rem] py-[1rem]">
-          <div className="col-span-4 flex justify-center">
-            <div className="w-[200px]">
-              <CircularProgressbarWithChildren
-                value={60}
-                strokeWidth={8}
-                styles={buildStyles({
-                  pathColor: "#008F88",
-                  strokeLinecap: "butt",
-                  pathTransition: "none",
-                })}
-              >
-                <div className="text-[#1A1A1A] text-[60px]">{"60%"}</div>
-                <div className="text-[#ADB5BD] text-[18px]">ดีเยี่ยม</div>
-              </CircularProgressbarWithChildren>
+        {!isEmpty(projectProjectEvaData) ? (
+          <div className="grid grid-cols-12 gap-[2rem] px-[2rem] py-[1rem]">
+            <div className="col-span-4 flex justify-center">
+              <div className="w-[200px]">
+                <CircularProgressbarWithChildren
+                  value={+get(projectProjectEvaData, "percentage", 0)}
+                  strokeWidth={8}
+                  styles={buildStyles({
+                    pathColor: "#008F88",
+                    strokeLinecap: "butt",
+                    pathTransition: "none",
+                  })}
+                >
+                  <div className="text-[#1A1A1A] text-[60px]">{"0%"}</div>
+                  {/* <div className="text-[#ADB5BD] text-[18px]">ดีเยี่ยม</div> */}
+                </CircularProgressbarWithChildren>
+              </div>
+            </div>
+            <div className="col-span-8 text-[#666666] font-srb-400">
+              <div className="flex items-center w-full justify-between font-srb-500">
+                <div>เกณฑ์การประเมิน</div>
+                <div className="text-[#008F88]">ผ่านเกณฑ์</div>
+              </div>
+              <hr className="my-[1.5rem]" />
+              <div className="flex flex-col gap-[20px]">
+                <div className="flex items-center w-full justify-between">
+                  <div>เกณฑ์การประเมิน (1)</div>
+                  <div>0</div>
+                </div>
+                <div className="flex items-center w-full justify-between">
+                  <div>เกณฑ์การประเมิน (2)</div>
+                  <div>0</div>
+                </div>
+                <div className="flex items-center w-full justify-between">
+                  <div>เกณฑ์การประเมิน (3)</div>
+                  <div>0</div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="col-span-8 text-[#666666] font-srb-400">
-            <div className="flex items-center w-full justify-between font-srb-500">
-              <div>เกณฑ์การประเมิน</div>
-              <div className="text-[#008F88]">ผ่านเกณฑ์</div>
-            </div>
-            <hr className="my-[1.5rem]" />
-            <div className="flex flex-col gap-[20px]">
-              <div className="flex items-center w-full justify-between">
-                <div>เกณฑ์การประเมิน (1)</div>
-                <div>80</div>
-              </div>
-              <div className="flex items-center w-full justify-between">
-                <div>เกณฑ์การประเมิน (2)</div>
-                <div>76</div>
-              </div>
-              <div className="flex items-center w-full justify-between">
-                <div>เกณฑ์การประเมิน (3)</div>
-                <div>98</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </ProjectCard>
 
       <ProjectCard
@@ -552,5 +727,12 @@ const ProjectList = () => {
     </motion.div>
   );
 };
+
+const TableHeaderItem = styled.th`
+  border: 1px solid #e8ecfd;
+  padding: 1em;
+`;
+
+const TableBody = styled.tbody``;
 
 export default observer(ProjectList);

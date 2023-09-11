@@ -57,7 +57,7 @@ const AuthorizationList = () => {
     },
     {
       title: "หน่วยงาน",
-      dataIndex: "subDivision",
+      dataIndex: "group",
       align: "center",
       render: (text: string, record: any) => (
         <div className="flex justify-center items-center gap-[10px] text-[#ADB5BD]">

@@ -51,14 +51,17 @@ const RouteConfig: React.FC = () => {
                       element={<InProjectSearch />}
                     />
                     <Route path="/project/list" element={<ProjectList />} />
-                    <Route path="/project/:id" element={<ProjectDetail />} />
+                    <Route
+                      path="/project/:id/:code"
+                      element={<ProjectDetail />}
+                    />
 
                     <Route
                       path="/project/inbdg-list"
                       element={<InProjectList />}
                     />
                     <Route
-                      path="/project/inbdg/:id"
+                      path="/project/inbdg/:id/:code"
                       element={<InProjectDetail />}
                     />
 

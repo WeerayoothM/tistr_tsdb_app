@@ -60,7 +60,10 @@ const Charts: React.FC<DoughnutChartProps> = ({ chartData, type, height }) => {
           </div>
           <div className="flex justify-around text-[11px] mt-[1rem]">
             {getLabelBubbleChart.map((item: any, index: number) => (
-              <div className="flex items-center gap-[10px]">
+              <div
+                className="flex items-center gap-[10px]"
+                key={`bubble-${index}`}
+              >
                 <div
                   className="w-[14px] h-[14px] rounded-full"
                   style={{ backgroundColor: item.backgroundColor }}

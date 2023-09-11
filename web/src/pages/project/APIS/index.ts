@@ -22,3 +22,24 @@ export const getProjectDetail = async (id: any) => {
   const response = await axios.get(`${apiEndPoint}/project/${id}`);
   return camelcaseKeys(response, { deep: true });
 };
+
+export const getListProjectPlanByCode = async (id: any) => {
+  const response = await axios.get(
+    `${apiEndPoint}/project/getListProjectPlanByCode/${id}`
+  );
+  return camelcaseKeys(response, { deep: true });
+};
+
+export const getListProjectDisbByCode = async (id: any) => {
+  const response = await axios.get(
+    `${apiEndPoint}/project/getListProjectDisbByCode/${id}`
+  );
+  return camelcaseKeys(response, { deep: true });
+};
+
+export const getListProjectEvaByCode = async (id: any) => {
+  const response = await axios.get(
+    `${apiEndPoint}/project/getListProjectEvaByCode/${id}`
+  );
+  return camelcaseKeys(response, { deep: true });
+};
