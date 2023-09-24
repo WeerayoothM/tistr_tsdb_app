@@ -1,6 +1,5 @@
 {
   "name": "rplus",
-  "version": "1.0.0",
   "scripts": {
     "start:dev": "NODE_ENV=development expo start --tunnel --clear",
     "start:uat": "NODE_ENV=uat expo start --clear",

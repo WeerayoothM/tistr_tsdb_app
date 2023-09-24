@@ -36,3 +36,13 @@ export const getBox6 = async (payload?: any) => {
   const response = await axios.post(`${API_URL}/dashboard/box6`, payload);
   return response.data;
 };
+
+export const getNoti = async (empId) => {
+  const response = await axios.post(`${API_URL}/notify/list/${empId}`);
+  return response.data;
+};
+
+export const updateReadNoti = async (notifyId) => {
+  const response = await axios.post(`${API_URL}/notify/read/${notifyId}`);
+  return response.data;
+};

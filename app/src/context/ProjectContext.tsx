@@ -152,6 +152,16 @@ export interface ProjectRespone {
   item: ProjectData[];
 }
 
+export interface Notification {
+  notify_id: number;
+  emp_id: number;
+  message: string;
+  status_read: string;
+  create_date: string;
+  update_date: string;
+  link: string;
+}
+
 // Create the context
 const ProjectContext = createContext<{
   projectSearchState: ProjectSearchData;
