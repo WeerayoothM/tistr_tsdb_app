@@ -18,7 +18,7 @@ import {
   numberWithCommas,
 } from "@/utils/format";
 import XDropdown from "@/components/atoms/XDropdown";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
 import {
   BaiJamjureeRegular,
@@ -45,8 +45,15 @@ import {
   getBox6,
   getChart1,
   getChart2,
+  getNoti,
 } from "./apis";
-import { Chart1Data, Chart2, Chart2Data } from "@/context/DashboardContext";
+import {
+  Chart1Data,
+  Chart2,
+  Chart2Data,
+  DashboardContext,
+} from "@/context/DashboardContext";
+import { useAuth } from "@/context/AuthProvider";
 
 const mockChart1 = {
   labels: [
@@ -109,6 +116,9 @@ export default function TabDashboardScreen() {
   const [width, setWidth] = useState(null);
   const [chart1, setChart1] = useState<Chart1Data>(mockChart1);
   const [chart2, setChart2] = useState<Chart2Data>(null);
+  const { notiListState, setNotiListState } = useContext(DashboardContext);
+
+  const { user } = useAuth();
 
   const handleLayout = (event) => {
     const { width } = event.nativeEvent.layout;
@@ -180,18 +190,32 @@ export default function TabDashboardScreen() {
     }));
   };
 
+  const fetchNoti = async () => {
+    try {
+      const resp = await getNoti(user.EmpId);
+
+      setNotiListState(() => resp);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       // await Promise.all([fetchChart1(), fetchChart2()]);
       await fetchChart1();
       await fetchChart2();
       await fetchBox();
+      await fetchNoti();
     })();
   }, [selectYear, selectSource]);
 
   const isSelectOut = selectSource === "OUT";
   const isSelectIn = selectSource === "IN";
-
+  const notiCount = notiListState.reduce(
+    (acc, item) => (item.status_read === "N" ? acc + 1 : acc),
+    0
+  );
   const router = useRouter();
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -246,30 +270,34 @@ export default function TabDashboardScreen() {
               <TouchableOpacity
                 onPress={() => router.push("dashboard/notification")}
               >
-                <View
-                  style={{
-                    position: "absolute",
-                    backgroundColor: COLOR.PINK,
-                    borderRadius: 50,
-                    width: 13,
-                    height: 13,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 3,
-                    right: 0,
-                    top: -5,
-                  }}
-                >
-                  <Text
+                {notiCount > 0 ? (
+                  <View
                     style={{
-                      ...TEXT.badge1,
-                      color: COLOR.WHITE,
-                      fontSize: 8,
+                      position: "absolute",
+                      backgroundColor: COLOR.PINK,
+                      borderRadius: 50,
+                      width: 13,
+                      height: 13,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      zIndex: 3,
+                      right: 0,
+                      top: -5,
                     }}
                   >
-                    2
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        ...TEXT.badge1,
+                        color: COLOR.WHITE,
+                        fontSize: 8,
+                      }}
+                    >
+                      {notiCount}
+                    </Text>
+                  </View>
+                ) : (
+                  <></>
+                )}
                 <FontAwesome name="bell" size={24} color={COLOR.WHITE} />
               </TouchableOpacity>
               {/* </Link> */}

@@ -8,27 +8,15 @@ import CardLayoutThin from "@/components/layout/CardLayoutThin";
 import { FlatList } from "react-native";
 import CommonFooter from "@/components/layout/CommonFooter";
 import { formatDateToThaiDate } from "@/utils/format";
-import { useEffect, useState } from "react";
-import { getNoti, updateReadNoti } from "./apis";
-import { useAuth } from "@/context/AuthProvider";
-import { Notification } from "@/context/ProjectContext";
+import { useContext, useEffect, useState } from "react";
+import { updateReadNoti } from "./apis";
+import { DashboardContext, Notification } from "@/context/DashboardContext";
 
 export default function notification() {
-  const { user } = useAuth();
-  const [notiList, setNotiList] = useState<Notification[]>([]);
-
-  const fetchNoti = async () => {
-    try {
-      const resp = await getNoti(user.EmpId);
-
-      setNotiList(() => resp);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { notiListState, setNotiListState } = useContext(DashboardContext);
 
   const readNoti = async (notifyId: number) => {
-    setNotiList((prev: Notification[]) => {
+    setNotiListState((prev: Notification[]) => {
       const newNotiList = prev.map((item) => {
         if (item.notify_id === notifyId) {
           return { ...item, status_read: "Y" };
@@ -40,10 +28,6 @@ export default function notification() {
 
     await updateReadNoti(notifyId);
   };
-
-  useEffect(() => {
-    fetchNoti();
-  }, []);
 
   const renderItem = ({ item }: { item: any; index: number }) => {
     return (
@@ -113,7 +97,7 @@ export default function notification() {
           }}
         >
           <FlatList
-            data={notiList}
+            data={notiListState}
             keyExtractor={(item) => item.notify_id}
             renderItem={renderItem}
             nestedScrollEnabled={true}

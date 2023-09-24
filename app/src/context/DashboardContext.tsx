@@ -1,4 +1,4 @@
-// import React, { createContext, useState } from "react";
+import { createContext, useState } from "react";
 
 export interface Chart1Dataset {
   type: string;
@@ -28,42 +28,39 @@ export interface Chart2 {
   data: Chart2Data;
 }
 
-// // Create the context
-// const DashboardContext = createContext<{
-//   dashboardSearchState: DashboardSearchData;
-//   setDashboardSearchState: React.Dispatch<
-//     React.SetStateAction<DashboardSearchData>
-//   >;
-//   dashboardListState: DashboardData[];
-//   setDashboardListState: React.Dispatch<React.SetStateAction<DashboardData[]>>;
-// }>({
-//   dashboardSearchState: initialDashboardState,
-//   setDashboardSearchState: () => {},
-//   dashboardListState: null,
-//   setDashboardListState: () => {},
-// });
+export interface Notification {
+  notify_id: number;
+  emp_id: number;
+  message: string;
+  status_read: string;
+  create_date: string;
+  update_date: string;
+  link: string;
+}
 
-// // Create a Provider component to wrap around the parts of the app that need access to the context state
-// const DashboardProvider = ({ children }) => {
-//   const [dashboardSearchState, setDashboardSearchState] = useState(
-//     initialDashboardState
-//   );
-//   const [dashboardListState, setDashboardListState] = useState<DashboardData[]>(
-//     []
-//   );
+// Create the context
+const DashboardContext = createContext<{
+  notiListState: Notification[];
+  setNotiListState: React.Dispatch<React.SetStateAction<Notification[]>>;
+}>({
+  notiListState: [] as Notification[],
+  setNotiListState: () => [],
+});
 
-//   return (
-//     <DashboardContext.Provider
-//       value={{
-//         dashboardSearchState,
-//         setDashboardSearchState,
-//         dashboardListState,
-//         setDashboardListState,
-//       }}
-//     >
-//       {children}
-//     </DashboardContext.Provider>
-//   );
-// };
+// Create a Provider component to wrap around the parts of the app that need access to the context state
+const DashboardProvider = ({ children }) => {
+  const [notiListState, setNotiListState] = useState<Notification[]>([]);
 
-// export { DashboardContext, DashboardProvider };
+  return (
+    <DashboardContext.Provider
+      value={{
+        notiListState,
+        setNotiListState,
+      }}
+    >
+      {children}
+    </DashboardContext.Provider>
+  );
+};
+
+export { DashboardContext, DashboardProvider };
