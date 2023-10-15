@@ -3,7 +3,7 @@
     "name": "R Plus",
     "sdkVersion": "48.0.0",
     "slug": "rplus",
-    "version": "1.0.3",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "scheme": "rplus",
@@ -16,7 +16,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tistr.rplus"
+      "bundleIdentifier": "com.tistr.rplus",
+      "versionCode": 1
     },
     "android": {
       "adaptiveIcon": {
