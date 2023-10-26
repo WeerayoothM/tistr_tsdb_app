@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tistr.rplus",
-      "versionCode": 1
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
