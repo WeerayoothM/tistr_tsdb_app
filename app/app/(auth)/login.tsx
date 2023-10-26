@@ -247,11 +247,11 @@ export default function Login() {
               </TouchableOpacity>
             </View>
 
-            <Image
+            {/* <Image
               source={require("../../assets/images/login_logo_bottom.png")}
               style={{ height: 50, width: 300 }}
               resizeMode="contain"
-            />
+            /> */}
             <View
               style={{
                 height: 30,

@@ -54,6 +54,7 @@ import {
   DashboardContext,
 } from "@/context/DashboardContext";
 import { useAuth } from "@/context/AuthProvider";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const mockChart1 = {
   labels: [
@@ -110,6 +111,7 @@ export default function TabDashboardScreen() {
   );
   const [selectBudget, setSelectBudget] = useState("");
   const [selectSource, setSelectSource] = useState("");
+  const insets = useSafeAreaInsets();
 
   const [box, setBox] = useState({} as any);
   const [endAngle, setEndAngle] = useState(0);
@@ -218,7 +220,12 @@ export default function TabDashboardScreen() {
   );
   const router = useRouter();
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+        paddingTop: insets.top,
+      }}
+    >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ flex: 1, backgroundColor: COLOR.OFFWHITE }}>
           <ImageBackground
@@ -1536,6 +1543,6 @@ export default function TabDashboardScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
