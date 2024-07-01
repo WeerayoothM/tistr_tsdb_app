@@ -483,7 +483,7 @@ const Dashboard = () => {
                   className="text-[64px] font-srb-600"
                   style={{ color: item.color }}
                 >
-                  {item.value}
+                  {item.value ||'0'}
                 </div>
                 <div className="text-[#ADB5BD] text-[16px] font-srb-500">
                   โครงการ
